@@ -17,9 +17,15 @@ script = ExtResource("1_idkgt")
 is_double = true
 camera = NodePath("Camera2D")
 
-[node name="BattleManager" type="Node" parent="." node_paths=PackedStringArray("battle_scene")]
+[node name="BattleManager" type="Control" parent="." node_paths=PackedStringArray("battle_scene", "move_1", "move_5", "fight")]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("2_kinr6")
 battle_scene = NodePath("..")
+flee_chance = 1.0
+move_1 = NodePath("UI/ButtonsHbox/Moves1/Move1")
+move_5 = NodePath("UI/ButtonsHbox/Moves2/Move5")
+fight = NodePath("UI/ButtonsHbox/Options/Fight")
 
 [node name="UI" type="Control" parent="BattleManager"]
 layout_mode = 3
@@ -333,6 +339,7 @@ columns = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 text = "Item
 "
 
@@ -340,6 +347,7 @@ text = "Item
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 text = "Fight
 "
 
@@ -347,6 +355,7 @@ text = "Fight
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 text = "Run
 "
 
@@ -354,6 +363,7 @@ text = "Run
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 text = "Party
 "
 
@@ -367,24 +377,28 @@ columns = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 text = "mon1"
 
 [node name="Move2" type="Button" parent="BattleManager/UI/ButtonsHbox/Moves1"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 text = "mon1"
 
 [node name="Move3" type="Button" parent="BattleManager/UI/ButtonsHbox/Moves1"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 text = "mon1"
 
 [node name="Move4" type="Button" parent="BattleManager/UI/ButtonsHbox/Moves1"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 text = "mon1"
 
 [node name="Moves2" type="GridContainer" parent="BattleManager/UI/ButtonsHbox"]
@@ -397,24 +411,28 @@ columns = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 text = "mon2"
 
 [node name="Move6" type="Button" parent="BattleManager/UI/ButtonsHbox/Moves2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 text = "mon2"
 
 [node name="Move7" type="Button" parent="BattleManager/UI/ButtonsHbox/Moves2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 text = "mon2"
 
 [node name="Move8" type="Button" parent="BattleManager/UI/ButtonsHbox/Moves2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 text = "mon2"
 
 [node name="Dialogue" type="Panel" parent="BattleManager/UI/ButtonsHbox"]
@@ -445,7 +463,6 @@ grow_horizontal = 2
 grow_vertical = 2
 allow_search = false
 item_count = 10
-max_columns = 2
 fixed_column_width = 140
 item_0/text = "item a"
 item_1/text = "item b"

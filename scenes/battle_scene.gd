@@ -9,6 +9,7 @@ func _ready() -> void:
 	setup_battle()
 
 func setup_battle():
+	%Options/Fight.grab_focus()
 	show_ui()
 	
 func end_battle():
