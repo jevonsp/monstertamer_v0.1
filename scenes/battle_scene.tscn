@@ -1,9 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://ndt4j3nllqqc"]
+[gd_scene load_steps=5 format=3 uid="uid://ndt4j3nllqqc"]
 
 [ext_resource type="Script" uid="uid://cc32que4wdhhd" path="res://scenes/battle_scene.gd" id="1_idkgt"]
 
-[node name="BattleScene" type="Node2D"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_idkgt"]
+bg_color = Color(0.912271, 4.71681e-06, 6.73831e-07, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kinr6"]
+bg_color = Color(0.151483, 0.695413, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rca61"]
+bg_color = Color(0, 0, 0, 0.917647)
+
+[node name="BattleScene" type="Node2D" node_paths=PackedStringArray("camera")]
 script = ExtResource("1_idkgt")
+camera = NodePath("Camera2D")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -11,20 +21,29 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Field" type="VBoxContainer" parent="UI"]
+[node name="Field" type="Control" parent="UI"]
 layout_mode = 2
+anchors_preset = 0
 offset_left = -320.0
 offset_top = -180.0
 offset_right = 320.0
 offset_bottom = 56.0
 
-[node name="TopNames" type="HBoxContainer" parent="UI/Field"]
+[node name="TopNames" type="Control" parent="UI/Field"]
+unique_name_in_owner = true
+z_index = 2
 custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
+layout_mode = 3
+anchors_preset = 0
+offset_top = 4.0
+offset_right = 640.0
+offset_bottom = 24.0
 
 [node name="Name1" type="Panel" parent="UI/Field/TopNames"]
 custom_minimum_size = Vector2(225, 25)
 layout_mode = 2
+offset_right = 225.0
+offset_bottom = 25.0
 size_flags_horizontal = 4
 
 [node name="Label" type="Label" parent="UI/Field/TopNames/Name1"]
@@ -44,11 +63,17 @@ text = "name"
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Field/TopNames"]
 layout_mode = 2
+offset_left = 229.0
+offset_right = 411.0
+offset_bottom = 25.0
 size_flags_horizontal = 3
 
 [node name="EnemyName1" type="Panel" parent="UI/Field/TopNames"]
 custom_minimum_size = Vector2(225, 25)
 layout_mode = 2
+offset_left = 415.0
+offset_right = 640.0
+offset_bottom = 25.0
 size_flags_horizontal = 4
 
 [node name="Label" type="Label" parent="UI/Field/TopNames/EnemyName1"]
@@ -66,84 +91,94 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "name"
 
-[node name="TopBars" type="HBoxContainer" parent="UI/Field"]
+[node name="TopBars" type="Control" parent="UI/Field"]
+unique_name_in_owner = true
+z_index = 2
 custom_minimum_size = Vector2(0, 20)
-layout_mode = 2
+layout_mode = 3
+anchors_preset = 0
+offset_top = 31.0
+offset_right = 640.0
+offset_bottom = 51.0
 
 [node name="Bar1" type="ProgressBar" parent="UI/Field/TopBars"]
 custom_minimum_size = Vector2(225, 25)
 layout_mode = 2
+offset_right = 225.0
+offset_bottom = 27.0
 size_flags_horizontal = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_idkgt")
+theme_override_styles/fill = SubResource("StyleBoxFlat_kinr6")
+value = 100.0
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Field/TopBars"]
 layout_mode = 2
+offset_left = 229.0
+offset_right = 411.0
+offset_bottom = 27.0
 size_flags_horizontal = 3
 
 [node name="EnemyBar1" type="ProgressBar" parent="UI/Field/TopBars"]
 custom_minimum_size = Vector2(225, 25)
 layout_mode = 2
+offset_left = 415.0
+offset_right = 640.0
+offset_bottom = 27.0
 size_flags_horizontal = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_idkgt")
 
-[node name="Divider" type="HBoxContainer" parent="UI/Field"]
-custom_minimum_size = Vector2(0, 125)
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Divider" type="Control" parent="UI/Field/Divider"]
-custom_minimum_size = Vector2(225, 0)
-layout_mode = 2
-
-[node name="Divider" type="Panel" parent="UI/Field/Divider/Divider"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Divider2" type="MarginContainer" parent="UI/Field/Divider"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Divider3" type="Control" parent="UI/Field/Divider"]
-custom_minimum_size = Vector2(225, 0)
-layout_mode = 2
-
-[node name="Divider" type="Panel" parent="UI/Field/Divider/Divider3"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="BottomBars" type="HBoxContainer" parent="UI/Field"]
+[node name="BottomBars" type="Control" parent="UI/Field"]
+unique_name_in_owner = true
+z_index = 1
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+anchors_preset = 0
+offset_top = 192.0
+offset_right = 640.0
+offset_bottom = 212.0
 
 [node name="Bar2" type="ProgressBar" parent="UI/Field/BottomBars"]
+z_index = 1
 custom_minimum_size = Vector2(225, 25)
 layout_mode = 2
+offset_right = 225.0
+offset_bottom = 27.0
 size_flags_horizontal = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_idkgt")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Field/BottomBars"]
+z_index = 1
 layout_mode = 2
+offset_left = 229.0
+offset_right = 411.0
+offset_bottom = 27.0
 size_flags_horizontal = 3
 
 [node name="EnemyBar2" type="ProgressBar" parent="UI/Field/BottomBars"]
+z_index = 1
 custom_minimum_size = Vector2(225, 25)
 layout_mode = 2
+offset_left = 415.0
+offset_right = 640.0
+offset_bottom = 27.0
 size_flags_horizontal = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_idkgt")
 
-[node name="BottomNames" type="HBoxContainer" parent="UI/Field"]
+[node name="BottomNames" type="Control" parent="UI/Field"]
+unique_name_in_owner = true
+z_index = 1
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+anchors_preset = 0
+offset_top = 220.0
+offset_right = 640.0
+offset_bottom = 240.0
 
 [node name="Name2" type="Panel" parent="UI/Field/BottomNames"]
 custom_minimum_size = Vector2(225, 25)
 layout_mode = 2
+offset_right = 225.0
+offset_bottom = 25.0
 size_flags_horizontal = 4
 
 [node name="Label" type="Label" parent="UI/Field/BottomNames/Name2"]
@@ -163,11 +198,17 @@ text = "name"
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/Field/BottomNames"]
 layout_mode = 2
+offset_left = 229.0
+offset_right = 411.0
+offset_bottom = 25.0
 size_flags_horizontal = 3
 
 [node name="EnemyName2" type="Panel" parent="UI/Field/BottomNames"]
 custom_minimum_size = Vector2(225, 25)
 layout_mode = 2
+offset_left = 415.0
+offset_right = 640.0
+offset_bottom = 25.0
 size_flags_horizontal = 4
 
 [node name="Label" type="Label" parent="UI/Field/BottomNames/EnemyName2"]
@@ -185,101 +226,225 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "name"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+[node name="SingleBattle" type="Control" parent="UI/Field"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = 320.0
+offset_top = 180.0
+offset_right = 360.0
+offset_bottom = 220.0
+
+[node name="Player" type="ColorRect" parent="UI/Field/SingleBattle"]
+z_index = 2
+custom_minimum_size = Vector2(192, 192)
+layout_mode = 0
+offset_left = -304.0
+offset_top = -180.0
+offset_right = -112.0
+offset_bottom = 12.0
+color = Color(5.19812e-06, 0, 0.921522, 1)
+
+[node name="Enemy" type="ColorRect" parent="UI/Field/SingleBattle"]
+z_index = 2
+custom_minimum_size = Vector2(192, 192)
+layout_mode = 0
+offset_left = 114.0
+offset_top = -180.0
+offset_right = 306.0
+offset_bottom = 12.0
+color = Color(1, 1, 0, 1)
+
+[node name="DoubleBattle" type="Control" parent="UI/Field"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DoubleBattlePlayer" type="Control" parent="UI/Field/DoubleBattle"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Monster1" type="ColorRect" parent="UI/Field/DoubleBattle/DoubleBattlePlayer"]
+z_index = -1
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 43.0
+offset_right = 129.0
+offset_bottom = 171.0
+color = Color(0.111197, 0.111197, 0.111197, 1)
+
+[node name="Monster2" type="ColorRect" parent="UI/Field/DoubleBattle/DoubleBattlePlayer"]
+z_index = -1
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 0
+offset_left = 96.0
+offset_top = 74.0
+offset_right = 224.0
+offset_bottom = 202.0
+
+[node name="DoubleBattleEnemy" type="Control" parent="UI/Field/DoubleBattle"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Monster1" type="ColorRect" parent="UI/Field/DoubleBattle/DoubleBattleEnemy"]
+z_index = -1
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 0
+offset_left = 416.0
+offset_top = 41.0
+offset_right = 544.0
+offset_bottom = 169.0
+color = Color(0.111197, 0.111197, 0.111197, 1)
+
+[node name="Monster2" type="ColorRect" parent="UI/Field/DoubleBattle/DoubleBattleEnemy"]
+z_index = -1
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 0
+offset_left = 511.0
+offset_top = 72.0
+offset_right = 639.0
+offset_bottom = 200.0
+
+[node name="ButtonsHbox" type="HBoxContainer" parent="UI"]
 layout_mode = 2
 offset_left = -320.0
 offset_top = 68.0
 offset_right = 320.0
 offset_bottom = 180.0
 
-[node name="Moves1" type="GridContainer" parent="UI/HBoxContainer"]
+[node name="Options" type="GridContainer" parent="UI/ButtonsHbox"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 columns = 2
 
-[node name="Move1" type="Button" parent="UI/HBoxContainer/Moves1"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Move2" type="Button" parent="UI/HBoxContainer/Moves1"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Move3" type="Button" parent="UI/HBoxContainer/Moves1"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Move4" type="Button" parent="UI/HBoxContainer/Moves1"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Moves2" type="GridContainer" parent="UI/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-columns = 2
-
-[node name="Move1" type="Button" parent="UI/HBoxContainer/Moves2"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Move2" type="Button" parent="UI/HBoxContainer/Moves2"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Move3" type="Button" parent="UI/HBoxContainer/Moves2"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Move4" type="Button" parent="UI/HBoxContainer/Moves2"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Options" type="GridContainer" parent="UI/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
-columns = 2
-
-[node name="Item" type="Button" parent="UI/HBoxContainer/Options"]
+[node name="Item" type="Button" parent="UI/ButtonsHbox/Options"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Item
 "
 
-[node name="Fight" type="Button" parent="UI/HBoxContainer/Options"]
+[node name="Fight" type="Button" parent="UI/ButtonsHbox/Options"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Fight
 "
 
-[node name="Run" type="Button" parent="UI/HBoxContainer/Options"]
+[node name="Run" type="Button" parent="UI/ButtonsHbox/Options"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Run
 "
 
-[node name="Party" type="Button" parent="UI/HBoxContainer/Options"]
+[node name="Party" type="Button" parent="UI/ButtonsHbox/Options"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Party
 "
 
-[node name="Dialogue" type="Panel" parent="UI/HBoxContainer"]
+[node name="Moves1" type="GridContainer" parent="UI/ButtonsHbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
+[node name="Move1" type="Button" parent="UI/ButtonsHbox/Moves1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Move2" type="Button" parent="UI/ButtonsHbox/Moves1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Move3" type="Button" parent="UI/ButtonsHbox/Moves1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Move4" type="Button" parent="UI/ButtonsHbox/Moves1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Moves2" type="GridContainer" parent="UI/ButtonsHbox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
+[node name="Move1" type="Button" parent="UI/ButtonsHbox/Moves2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Move2" type="Button" parent="UI/ButtonsHbox/Moves2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Move3" type="Button" parent="UI/ButtonsHbox/Moves2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Move4" type="Button" parent="UI/ButtonsHbox/Moves2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Dialogue" type="Panel" parent="UI/ButtonsHbox"]
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="Items" type="Panel" parent="UI"]
+unique_name_in_owner = true
+visible = false
+z_index = 2
+custom_minimum_size = Vector2(300, 125)
+layout_mode = 0
+offset_left = -313.0
+offset_top = -116.0
+offset_right = -13.0
+offset_bottom = -76.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_rca61")
+
+[node name="ItemList" type="ItemList" parent="UI/Items"]
+z_index = 2
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+allow_search = false
+item_count = 10
+max_columns = 2
+fixed_column_width = 140
+item_0/text = "item a"
+item_1/text = "item b"
+item_2/text = "item c"
+item_3/text = "item "
+item_4/text = "item "
+item_5/text = "item "
+item_6/text = "item "
+item_7/text = "item "
+item_8/text = "item "
+item_9/text = "item "
+
 [node name="Camera2D" type="Camera2D" parent="."]
+unique_name_in_owner = true
+
+[connection signal="pressed" from="UI/ButtonsHbox/Options/Item" to="." method="_on_item_pressed"]
+[connection signal="pressed" from="UI/ButtonsHbox/Options/Fight" to="." method="_on_fight_pressed"]
