@@ -1,0 +1,285 @@
+[gd_scene load_steps=2 format=3 uid="uid://ndt4j3nllqqc"]
+
+[ext_resource type="Script" uid="uid://cc32que4wdhhd" path="res://scenes/battle_scene.gd" id="1_idkgt"]
+
+[node name="BattleScene" type="Node2D"]
+script = ExtResource("1_idkgt")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Field" type="VBoxContainer" parent="UI"]
+layout_mode = 2
+offset_left = -320.0
+offset_top = -180.0
+offset_right = 320.0
+offset_bottom = 56.0
+
+[node name="TopNames" type="HBoxContainer" parent="UI/Field"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Name1" type="Panel" parent="UI/Field/TopNames"]
+custom_minimum_size = Vector2(225, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="UI/Field/TopNames/Name1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "name"
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Field/TopNames"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EnemyName1" type="Panel" parent="UI/Field/TopNames"]
+custom_minimum_size = Vector2(225, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="UI/Field/TopNames/EnemyName1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "name"
+
+[node name="TopBars" type="HBoxContainer" parent="UI/Field"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Bar1" type="ProgressBar" parent="UI/Field/TopBars"]
+custom_minimum_size = Vector2(225, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Field/TopBars"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EnemyBar1" type="ProgressBar" parent="UI/Field/TopBars"]
+custom_minimum_size = Vector2(225, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Divider" type="HBoxContainer" parent="UI/Field"]
+custom_minimum_size = Vector2(0, 125)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Divider" type="Control" parent="UI/Field/Divider"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+
+[node name="Divider" type="Panel" parent="UI/Field/Divider/Divider"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Divider2" type="MarginContainer" parent="UI/Field/Divider"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Divider3" type="Control" parent="UI/Field/Divider"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+
+[node name="Divider" type="Panel" parent="UI/Field/Divider/Divider3"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BottomBars" type="HBoxContainer" parent="UI/Field"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Bar2" type="ProgressBar" parent="UI/Field/BottomBars"]
+custom_minimum_size = Vector2(225, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Field/BottomBars"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EnemyBar2" type="ProgressBar" parent="UI/Field/BottomBars"]
+custom_minimum_size = Vector2(225, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="BottomNames" type="HBoxContainer" parent="UI/Field"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Name2" type="Panel" parent="UI/Field/BottomNames"]
+custom_minimum_size = Vector2(225, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="UI/Field/BottomNames/Name2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "name"
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/Field/BottomNames"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EnemyName2" type="Panel" parent="UI/Field/BottomNames"]
+custom_minimum_size = Vector2(225, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="UI/Field/BottomNames/EnemyName2"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "name"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+layout_mode = 2
+offset_left = -320.0
+offset_top = 68.0
+offset_right = 320.0
+offset_bottom = 180.0
+
+[node name="Moves1" type="GridContainer" parent="UI/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
+[node name="Move1" type="Button" parent="UI/HBoxContainer/Moves1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Move2" type="Button" parent="UI/HBoxContainer/Moves1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Move3" type="Button" parent="UI/HBoxContainer/Moves1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Move4" type="Button" parent="UI/HBoxContainer/Moves1"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Moves2" type="GridContainer" parent="UI/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
+[node name="Move1" type="Button" parent="UI/HBoxContainer/Moves2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Move2" type="Button" parent="UI/HBoxContainer/Moves2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Move3" type="Button" parent="UI/HBoxContainer/Moves2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Move4" type="Button" parent="UI/HBoxContainer/Moves2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Options" type="GridContainer" parent="UI/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
+[node name="Item" type="Button" parent="UI/HBoxContainer/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Item
+"
+
+[node name="Fight" type="Button" parent="UI/HBoxContainer/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Fight
+"
+
+[node name="Run" type="Button" parent="UI/HBoxContainer/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Run
+"
+
+[node name="Party" type="Button" parent="UI/HBoxContainer/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Party
+"
+
+[node name="Dialogue" type="Panel" parent="UI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Camera2D" type="Camera2D" parent="."]
