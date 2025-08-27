@@ -5,12 +5,6 @@ extends Node2D
 @export var is_double : bool = false
 @export var camera : Camera2D
 
-var items_open : bool = false
-
-func _physics_process(delta: float) -> void:
-	if items_open and Input.is_action_just_pressed("no"):
-		%Items.visible = false
-
 func _ready() -> void:
 	setup_battle()
 
@@ -20,6 +14,7 @@ func setup_battle():
 func end_battle():
 	is_trainer = false
 	is_double  = false
+	hide_ui()
 
 func show_ui():
 	camera.enabled = true
@@ -43,10 +38,3 @@ func hide_ui():
 	self.visible = false
 	camera.enabled = false
 	
-func _on_fight_pressed() -> void:
-	%Options.visible = false
-	%Moves1.visible = true
-
-func _on_item_pressed() -> void:
-	%Items.visible = true
-	items_open = true
