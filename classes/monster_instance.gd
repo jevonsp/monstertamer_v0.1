@@ -17,8 +17,9 @@ func _ready() -> void:
 	calculate_stats()
 	
 func create_monster(data: MonsterData, level: int):
-	data = monster_data
-	calculate_stats()
+	if !monster_data:
+		monster_data = data
+		calculate_stats()
 	
 func calculate_stats():
 	if !preset_stats:
@@ -27,4 +28,3 @@ func calculate_stats():
 		current_attack = monster_data.base_attack
 		current_defense = monster_data.base_defense
 		current_dexterity = monster_data.base_dexterity
-	print(max_hp)

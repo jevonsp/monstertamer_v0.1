@@ -1,5 +1,7 @@
 extends Area2D
 
+signal random_encounter(event : EncounterEvent)
+
 @export_subgroup("Encounters")
 @export var encounter_table : Array[MonsterData]
 @export var encounter_rate : float
@@ -25,15 +27,20 @@ func is_position_in_area(check_position: Vector2) -> bool:
 # Connected via editor signal to player
 func _on_player_moved_to_tile(world_position: Vector2):
 	if is_position_in_area(world_position):
-		print("Player entered wild grass")
-		print(get_random_encounter())
+		var encounter = get_random_encounter()
+		if encounter:
+			random_encounter.emit(encounter)
 
-func get_random_encounter() :
-	if encounter_table.is_empty():
-		return {}
-
-	if randf() > encounter_rate:
-		return {
-		"monster_data": encounter_table[randi() % encounter_table.size()],
-		"level": randi_range(min_level, max_level)
-		}	
+func roll_encounter() -> bool:
+	return encounter_rate > randf()
+	
+func get_random_encounter() -> EncounterEvent:
+	if roll_encounter():
+		return build_encounter()
+	return null
+	
+func build_encounter() -> EncounterEvent:
+	var event = EncounterEvent.new()
+	event.monster_data = encounter_table[randi() % encounter_table.size()]
+	event.level = randi_range(min_level, max_level)
+	return event

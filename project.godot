@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Globals="*res://resource_templates/globals.gd"
+Globals="*res://resource_and_global/globals.gd"
 
 [display]
 
