@@ -32,14 +32,14 @@ func _on_player_moved_to_tile(world_position: Vector2):
 	if is_position_in_area(world_position):
 		if randf() < encounter_rate:
 			if enemy_party:
-				print(constuct_wild_encounter())
+				random_encounter.emit(constuct_wild_encounter())
 
 func constuct_wild_encounter() -> EncounterEvent:
-	var event := EncounterEvent.new()
 	var monster_data = get_monster_in_range()
 	var level = get_level_in_range()
-	print(monster_data)
-	print(level)
+	var event := EncounterEvent.new()
+	event.monster_data = monster_data
+	event.level = level
 	return (event)
 
 func get_monster_in_range():
