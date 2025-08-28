@@ -10,10 +10,11 @@ var player_party : Array[PlayerMonster] = []
 func _ready():
 	pass
 
-func add_monster_to_caught_monsters():
-	#if player_party.size  6:
-		pass
-
+func add_monster_to_caught_monsters(caught):
+	caught_monsters.append(caught)
+	if player_party.size() < 6:
+		player_party.append(caught)
+	
 func save_game():
 	pass
 	

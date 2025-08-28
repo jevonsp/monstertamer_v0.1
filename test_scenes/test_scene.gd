@@ -4,7 +4,7 @@ signal monster_caught(monster)
 
 @export var encounter_zone : Area2D
 @export var enemy_party : Node
-@export var catch_enemy : Button
+@export var storage_manager : Node
 
 
 func _ready() -> void:
@@ -21,3 +21,4 @@ func catch_monster():
 	print("Catching: ", node)
 	var caught = PlayerMonster.create_player_monster(node)
 	monster_caught.emit(caught)
+	storage_manager.add_monster_to_caught_monsters(caught)
