@@ -21,3 +21,7 @@ enum Role {
 @export var base_attack : int = 1
 @export var base_defense : int = 1
 @export var base_dexterity : int = 1
+
+@export_subgroup("Learnset")
+@export var learnable_moves: Array[Move]
+@export var learn_levels: Array[int]

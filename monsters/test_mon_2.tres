@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="MonsterData" load_steps=2 format=3 uid="uid://1n3muq43u5xw"]
 
-[ext_resource type="Script" uid="uid://p7x6o07vrvvf" path="res://resource_and_global/monster_data_resource.gd" id="1_75gh2"]
+[ext_resource type="Script" uid="uid://p7x6o07vrvvf" path="res://components/MonsterInstance/monster_data_resource.gd" id="1_75gh2"]
 
 [resource]
 script = ExtResource("1_75gh2")

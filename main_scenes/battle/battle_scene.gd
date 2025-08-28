@@ -29,7 +29,6 @@ func setup_battle():
 	#setup_enemy_monsters()
 	
 func end_battle():
-	is_trainer = false
 	is_double  = false
 	hide_ui()
 

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Move" load_steps=2 format=3 uid="uid://cmbvjr5f16s3w"]
+
+[ext_resource type="Script" uid="uid://dwht48w3ngyly" path="res://resource_and_global/move_resource.gd" id="1_bihmw"]
+
+[resource]
+script = ExtResource("1_bihmw")
+name = "Fire Swipe"
+damage = 5
+metadata/_custom_type_script = "uid://dwht48w3ngyly"
