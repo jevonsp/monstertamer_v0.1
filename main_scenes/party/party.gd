@@ -1,7 +1,9 @@
 extends Node
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	pass # Replace with function body.
+@export var monster_instance : Node
 
+func _ready():
+	pass
+	
 func add_party_member(encounter: EncounterEvent):
 	pass

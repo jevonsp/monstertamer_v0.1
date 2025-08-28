@@ -7,7 +7,7 @@
 
 [resource]
 script = ExtResource("3_wkq6d")
-name = "Pyro Badger"
+species_name = "Pyro Badger"
 texture = ExtResource("2_pjiid")
 type = 0
 role = 2

@@ -1,6 +1,7 @@
 extends Node
 
 var monster_data_array : Array[MonsterData] = []
+@export var test_scene : Node
 
 func _ready() -> void:
 	pass
@@ -14,5 +15,13 @@ func _on_encounter_zone_random_encounter(event: EncounterEvent) -> void:
 	add_child(monster)
 	monster.debug_print()
 	
+func _on_player_monster_needed(node: MonsterInstance):
+	pass
+	
 func construct_monster_data_array():
 	print(EncounterEvent)
+
+func _on_battle_scene_battle_ended() -> void:
+	for child in get_children():
+		queue_free()
+		print("child deleted: ", child)

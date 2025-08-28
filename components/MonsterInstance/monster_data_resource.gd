@@ -8,7 +8,7 @@ enum Type {
 enum Role {
 	MELEE, RANGE, TANK
 }
-@export var name : String
+@export var species_name : String
 @export var texture : Texture2D
 
 @export_subgroup("Type and Role")

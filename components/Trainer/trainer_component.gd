@@ -1,3 +1,4 @@
+class_name TrainerComponent
 extends Area2D
 
 @export_subgroup("Party")

@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://bfft6btg2h78k"]
+[gd_scene load_steps=2 format=3 uid="uid://bfft6btg2h78k"]
 
-[node name="WildParty" type="Node"]
+[ext_resource type="Script" uid="uid://p02hqmwv3kat" path="res://main_scenes/wild_party/enemy_party.gd" id="1_vf7qy"]
+
+[node name="EnemyParty" type="Node"]
+script = ExtResource("1_vf7qy")

@@ -7,10 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://cwvxpdmi5vk2b" path="res://main_scenes/party/Party.tscn" id="4_im5ls"]
 [ext_resource type="PackedScene" uid="uid://njxdudpywcah" path="res://components/Trainer/trainer_component.tscn" id="4_u5sy4"]
 [ext_resource type="Script" uid="uid://p7x6o07vrvvf" path="res://components/MonsterInstance/monster_data_resource.gd" id="5_gee14"]
-[ext_resource type="Script" uid="uid://p02hqmwv3kat" path="res://main_scenes/wild_party/enemy_party.gd" id="5_gjw5m"]
 [ext_resource type="PackedScene" uid="uid://dqai2b5hdqekg" path="res://levels/level_0.tscn" id="5_p57ef"]
 [ext_resource type="Script" uid="uid://cf7eub3ripssg" path="res://main_scenes/party/party.gd" id="6_m3jfi"]
 [ext_resource type="PackedScene" uid="uid://bfft6btg2h78k" path="res://main_scenes/wild_party/enemy_party.tscn" id="7_0tnpc"]
+[ext_resource type="PackedScene" uid="uid://drha37ou4kgj3" path="res://main_scenes/storage_manager/storage_manager.tscn" id="7_7j0c4"]
 [ext_resource type="Resource" uid="uid://cajcst55ivnkf" path="res://monsters/pistol_shrimp.tres" id="11_mf5kq"]
 [ext_resource type="Resource" uid="uid://mkqktbhjqjxf" path="res://monsters/pyro_badger.tres" id="13_mf5kq"]
 
@@ -23,8 +23,11 @@ size = Vector2(20, 224)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m3jfi"]
 size = Vector2(29, 27)
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("enemy_party", "party", "storage_manager")]
 script = ExtResource("1_6h35g")
+enemy_party = NodePath("EnemyParty")
+party = NodePath("Party")
+storage_manager = NodePath("StorageManager")
 
 [node name="Player" parent="." instance=ExtResource("2_iywne")]
 z_index = 1
@@ -32,10 +35,11 @@ position = Vector2(143, 143)
 
 [node name="EnemyParty" parent="." instance=ExtResource("7_0tnpc")]
 unique_name_in_owner = true
-script = ExtResource("5_gjw5m")
 
 [node name="Party" parent="." instance=ExtResource("4_im5ls")]
 script = ExtResource("6_m3jfi")
+
+[node name="StorageManager" parent="." instance=ExtResource("7_7j0c4")]
 
 [node name="Level0" parent="." instance=ExtResource("5_p57ef")]
 
@@ -66,7 +70,7 @@ position = Vector2(0, 130)
 shape = SubResource("RectangleShape2D_gee14")
 
 [node name="Area2D" type="Area2D" parent="."]
-position = Vector2(44, 176)
+position = Vector2(99, 143)
 
 [node name="ColorRect" type="ColorRect" parent="Area2D"]
 custom_minimum_size = Vector2(32, 32)
@@ -82,5 +86,3 @@ shape = SubResource("RectangleShape2D_m3jfi")
 [connection signal="moved_to_tile" from="Player" to="EncounterZone" method="_on_player_moved_to_tile"]
 [connection signal="moved_to_tile" from="Player" to="TrainerComponent" method="_on_player_moved_to_tile"]
 [connection signal="battle_ended" from="BattleScene" to="EnemyParty" method="_on_battle_scene_battle_ended"]
-[connection signal="random_encounter" from="EncounterZone" to="EnemyParty" method="_on_encounter_zone_random_encounter"]
-[connection signal="body_entered" from="Area2D" to="Party" method="_on_area_2d_body_entered"]

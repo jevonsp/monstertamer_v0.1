@@ -1,6 +1,7 @@
+class_name EncounterZone
 extends Area2D
 
-signal random_encounter(event : EncounterEvent)
+signal need_random_encounter(zone : Node)
 signal battle_needs_focus
 
 @export var enemy_party : Node
@@ -12,7 +13,7 @@ signal battle_needs_focus
 @export var max_level : int
 
 func _ready() -> void:
-	pass
+	add_to_group("encounter_zone")
 
 func is_position_in_area(check_position: Vector2) -> bool:
 	var space_state = get_world_2d().direct_space_state
@@ -24,7 +25,7 @@ func is_position_in_area(check_position: Vector2) -> bool:
 	var results = space_state.intersect_point(query)
 	for result in results:
 		if result.collider == self:
-			return true
+			need_random_encounter.emit(self)
 	return false
 
 # Connected via editor signal to player
@@ -32,7 +33,7 @@ func _on_player_moved_to_tile(world_position: Vector2):
 	if is_position_in_area(world_position):
 		if randf() < encounter_rate:
 			if enemy_party:
-				random_encounter.emit(constuct_wild_encounter())
+				need_random_encounter.emit()
 
 func constuct_wild_encounter() -> EncounterEvent:
 	var monster_data = get_monster_in_range()

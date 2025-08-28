@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://drha37ou4kgj3"]
+
+[ext_resource type="Script" uid="uid://2qro77hgphie" path="res://main_scenes/storage_manager/storage_manager.gd" id="1_dawwh"]
+[ext_resource type="Resource" uid="uid://mkqktbhjqjxf" path="res://monsters/pyro_badger.tres" id="2_m3a3d"]
+[ext_resource type="Script" uid="uid://f2rc0ve2x0ik" path="res://components/MonsterInstance/monster_instance.gd" id="3_iucr7"]
+
+[node name="StorageManager" type="Node"]
+script = ExtResource("1_dawwh")
+
+[node name="MonsterInstance" type="Node" parent="."]
+script = ExtResource("3_iucr7")
+monster_data = ExtResource("2_m3a3d")
+metadata/_custom_type_script = "uid://f2rc0ve2x0ik"
