@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://njxdudpywcah"]
+
+[ext_resource type="Script" uid="uid://ck4nng422wscv" path="res://components/Trainer/trainer_component.gd" id="1_2vdc4"]
+[ext_resource type="Texture2D" uid="uid://dxwdwfkurowml" path="res://assets/player.png" id="2_msp61"]
+
+[node name="TrainerComponent" type="Area2D"]
+script = ExtResource("1_2vdc4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_msp61")

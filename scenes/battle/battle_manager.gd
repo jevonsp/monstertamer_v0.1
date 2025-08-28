@@ -1,19 +1,8 @@
 extends Control
 
-signal move_used(string: String)
-
-@export var battle_scene:  Node
-@export_subgroup("Debug Properties")
-@export_range(0, 1, .01) var flee_chance
-
-@export_subgroup("Buttons")
-@export var move_1 : Button
-@export var move_5 : Button
-@export var fight : Button
-
 #signal move_used(move: Move, user: MonsterInstance, target: MonsterInstance)
-
-var items_open : bool = false
+signal move_used(string: String)
+signal target_requested
 
 enum TurnState {
 	PLAYER,
@@ -21,18 +10,29 @@ enum TurnState {
 	RESOLVING,
 	ENDED
 }
-var turn_state : TurnState = TurnState.PLAYER
-
 enum FightState {
 	DECIDING,
 	CHOOSING_1,
 	CHOOSING_2,
 	RESOLVING
 }
-var fight_state : FightState = FightState.DECIDING
+@export var battle_scene :  Node
+@export_subgroup("Debug Properties")
+@export_range(0, 1, .01) var flee_chance
+@export_subgroup("Nodes")
+@export var ai_manager : Node
+@export_subgroup("Buttons")
+@export var move_1 : Button
+@export var move_5 : Button
+@export var fight : Button
 
 var turn_queue : Array[Node] = []
 var turn_actions: Array[String] = []
+
+var items_open : bool = false
+
+var turn_state : TurnState = TurnState.PLAYER
+var fight_state : FightState = FightState.DECIDING
 
 func _ready() -> void:
 	# This connects the button pushed signal to a turn action tracker
@@ -79,42 +79,40 @@ func show_fight_options() -> void:
 func hide_fight_options() -> void:
 	%Options.visible = false
 
-func _on_move_1_pressed() -> void:
-	if !battle_scene.is_double and FightState.CHOOSING_1:
-		move_used.emit("move_1")
-		get_ai_move()
+# Need to know how to confine focus to the targets
+func get_target():
+	# could use flags or something on move resources to say if they *do* need to target in single
+	if !battle_scene.is_double:
+		print("no target needed")
 	else:
-		# Targeting would go here
-		move_used.emit("move_1")
-		show_second_moves()
-		%Moves2/Move5.grab_focus()
+		target_requested.emit()
+		print("need to grab focus")
+
+func _on_move_1_pressed() -> void:
+	if !battle_scene.is_double:
+		if fight_state == FightState.CHOOSING_1:
+			move_used.emit("move_1")
+			fight_state == FightState.RESOLVING
+			get_ai_move()
+	else:
+		if fight_state == FightState.CHOOSING_1:
+			# Targeting would go here
+			get_target()
+			move_used.emit("move_1")
+			show_second_moves()
+			%Moves2/Move5.grab_focus()
+		elif fight_state == FightState.CHOOSING_2:
+			move_used.emit("move_1")
+			get_ai_move() 
 		
 func _on_move_2_pressed() -> void:
-	if !battle_scene.is_double and FightState.CHOOSING_1:
-		move_used.emit("move_2")
-		get_ai_move()
-	else:
-		move_used.emit("move_2")
-		show_second_moves()
-		%Moves2/Move5.grab_focus()
+	pass
 
 func _on_move_3_pressed() -> void:
-	if !battle_scene.is_double and FightState.CHOOSING_1:
-		move_used.emit("move_3")
-		get_ai_move()
-	else:
-		move_used.emit("move_3")
-		show_second_moves()
-		%Moves2/Move5.grab_focus()
+	pass
 
 func _on_move_4_pressed() -> void:
-	if !battle_scene.is_double and FightState.CHOOSING_1:
-		move_used.emit("move_4")
-		get_ai_move()
-	else:
-		move_used.emit("move_4")
-		show_second_moves()
-		%Moves2/Move5.grab_focus()
+	pass
 	
 func show_first_moves() -> void:
 	fight_state = FightState.CHOOSING_1
@@ -124,36 +122,35 @@ func show_first_moves() -> void:
 	
 func show_second_moves() -> void:
 	fight_state = FightState.CHOOSING_2
+	print(fight_state )
 	%Moves1.visible = false
 	%Moves2.visible = true
-
+	
+func get_ai_move():
+	print(turn_state)
+	print("get ai move")
+	ai_manager.get_ai_moves()
+	turn_actions.clear()
+	show_fight_options()
+	
 func _on_move_5_pressed() -> void:
-	# Targeting would go here
+	get_target()
 	move_used.emit("move_5")
 	fight_state = FightState.RESOLVING
 	get_ai_move()
+	turn_state = TurnState.ENEMY
 	 
 func _on_move_6_pressed() -> void:
-	move_used.emit("move_6")
-	fight_state = FightState.RESOLVING
-	get_ai_move()
+	pass
 
 func _on_move_7_pressed() -> void:
-	move_used.emit("move_7")
-	fight_state = FightState.RESOLVING
-	get_ai_move()
+	pass
 
 func _on_move_8_pressed() -> void:
-	move_used.emit("move_8")
-	fight_state = FightState.RESOLVING
-	get_ai_move()
+	pass
 
-func get_ai_move():
-	turn_state = TurnState.ENEMY
-	print(turn_state)
-	print("get ai move")
-	turn_actions.clear()
-	show_fight_options()
+func execute_turn_queue():
+	pass
 
 func _on_party_pressed() -> void:
 	pass

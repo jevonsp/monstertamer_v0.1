@@ -1,0 +1,50 @@
+[gd_scene load_steps=11 format=3 uid="uid://bq063dfhf6obm"]
+
+[ext_resource type="PackedScene" uid="uid://ndt4j3nllqqc" path="res://scenes/battle/battle_scene.tscn" id="1_lbhrr"]
+[ext_resource type="PackedScene" uid="uid://bmfphnhglhc3" path="res://scenes/player/player.tscn" id="2_iywne"]
+[ext_resource type="PackedScene" uid="uid://dslyemb151w4k" path="res://components/EncounterZone/encounter_zone.tscn" id="3_p57ef"]
+[ext_resource type="PackedScene" uid="uid://njxdudpywcah" path="res://components/Trainer/trainer_component.tscn" id="4_u5sy4"]
+[ext_resource type="Script" uid="uid://p7x6o07vrvvf" path="res://resource_templates/monster_data_resource.gd" id="5_gee14"]
+[ext_resource type="PackedScene" uid="uid://dqai2b5hdqekg" path="res://levels/level_0.tscn" id="5_p57ef"]
+[ext_resource type="Resource" uid="uid://1n3muq43u5xw" path="res://monsters/test_mon_2.tres" id="6_0tnpc"]
+[ext_resource type="PackedScene" uid="uid://bfft6btg2h78k" path="res://components/WildParty/wild_party.tscn" id="7_0tnpc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lbhrr"]
+size = Vector2(91, 219)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gee14"]
+size = Vector2(20, 224)
+
+[node name="Game" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("2_iywne")]
+z_index = 1
+position = Vector2(143, 143)
+
+[node name="BattleScene" parent="." instance=ExtResource("1_lbhrr")]
+visible = false
+
+[node name="WildParty" parent="." instance=ExtResource("7_0tnpc")]
+unique_name_in_owner = true
+
+[node name="Level0" parent="." instance=ExtResource("5_p57ef")]
+
+[node name="EncounterZone" parent="." instance=ExtResource("3_p57ef")]
+position = Vector2(300, 109)
+encounter_table = Array[ExtResource("5_gee14")]([ExtResource("6_0tnpc")])
+encounter_rate = 0.5
+min_level = 1
+max_level = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EncounterZone"]
+position = Vector2(3.5, 98.5)
+shape = SubResource("RectangleShape2D_lbhrr")
+
+[node name="TrainerComponent" parent="." instance=ExtResource("4_u5sy4")]
+position = Vector2(464, 76)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TrainerComponent"]
+position = Vector2(0, 130)
+shape = SubResource("RectangleShape2D_gee14")
+
+[connection signal="moved_to_tile" from="Player" to="EncounterZone" method="_on_player_moved_to_tile"]

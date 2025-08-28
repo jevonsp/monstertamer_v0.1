@@ -1,7 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://ndt4j3nllqqc"]
+[gd_scene load_steps=9 format=3 uid="uid://ndt4j3nllqqc"]
 
-[ext_resource type="Script" uid="uid://cc32que4wdhhd" path="res://scenes/battle_scene.gd" id="1_idkgt"]
-[ext_resource type="Script" uid="uid://cvqnem8u5ofqf" path="res://scenes/battle_manager.gd" id="2_kinr6"]
+[ext_resource type="Script" uid="uid://cc32que4wdhhd" path="res://scenes/battle/battle_scene.gd" id="1_idkgt"]
+[ext_resource type="Script" uid="uid://cvqnem8u5ofqf" path="res://scenes/battle/battle_manager.gd" id="2_kinr6"]
+[ext_resource type="Texture2D" uid="uid://c4h5pnag3nuuj" path="res://assets/cursor_possibility2.png" id="3_8qdv8"]
+[ext_resource type="Texture2D" uid="uid://5q7mnw2daf0f" path="res://assets/cursor_possibility3.png" id="4_pxwbd"]
+[ext_resource type="Script" uid="uid://nvc0prbgjvq0" path="res://scenes/battle/ai_manager.gd" id="5_pxwbd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_idkgt"]
 bg_color = Color(0.912271, 4.71681e-06, 6.73831e-07, 1)
@@ -14,18 +17,22 @@ bg_color = Color(0, 0, 0, 0.917647)
 
 [node name="BattleScene" type="Node2D" node_paths=PackedStringArray("camera")]
 script = ExtResource("1_idkgt")
-is_double = true
 camera = NodePath("Camera2D")
 
-[node name="BattleManager" type="Control" parent="." node_paths=PackedStringArray("battle_scene", "move_1", "move_5", "fight")]
+[node name="BattleManager" type="Control" parent="." node_paths=PackedStringArray("battle_scene", "ai_manager", "move_1", "move_5", "fight")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("2_kinr6")
 battle_scene = NodePath("..")
 flee_chance = 1.0
+ai_manager = NodePath("AIManager")
 move_1 = NodePath("UI/ButtonsHbox/Moves1/Move1")
 move_5 = NodePath("UI/ButtonsHbox/Moves2/Move5")
 fight = NodePath("UI/ButtonsHbox/Options/Fight")
+
+[node name="AIManager" type="Node" parent="BattleManager" node_paths=PackedStringArray("battle_scene")]
+script = ExtResource("5_pxwbd")
+battle_scene = NodePath("../..")
 
 [node name="UI" type="Control" parent="BattleManager"]
 layout_mode = 3
@@ -40,6 +47,14 @@ offset_left = -320.0
 offset_top = -180.0
 offset_right = 320.0
 offset_bottom = 56.0
+
+[node name="HBoxContainer" type="Control" parent="BattleManager/UI/Field"]
+z_index = 4
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 51.0
+offset_right = 641.0
+offset_bottom = 198.0
 
 [node name="TopNames" type="Control" parent="BattleManager/UI/Field"]
 unique_name_in_owner = true
@@ -240,6 +255,7 @@ text = "name"
 
 [node name="SingleBattle" type="Control" parent="BattleManager/UI/Field"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 320.0
@@ -269,7 +285,6 @@ color = Color(1, 1, 0, 1)
 
 [node name="DoubleBattle" type="Control" parent="BattleManager/UI/Field"]
 unique_name_in_owner = true
-visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -321,6 +336,94 @@ offset_left = 511.0
 offset_top = 72.0
 offset_right = 639.0
 offset_bottom = 200.0
+
+[node name="Targets" type="Control" parent="BattleManager/UI/Field"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Target1" type="TextureButton" parent="BattleManager/UI/Field/Targets" groups=["target"]]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = 32.0
+offset_right = 100.0
+offset_bottom = 142.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+mouse_filter = 2
+texture_pressed = ExtResource("3_8qdv8")
+texture_hover = ExtResource("4_pxwbd")
+texture_focused = ExtResource("4_pxwbd")
+stretch_mode = 0
+
+[node name="Target2" type="TextureButton" parent="BattleManager/UI/Field/Targets" groups=["target"]]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+offset_left = 106.0
+offset_top = 80.0
+offset_right = 216.0
+offset_bottom = 190.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+mouse_filter = 2
+texture_pressed = ExtResource("3_8qdv8")
+texture_hover = ExtResource("4_pxwbd")
+texture_focused = ExtResource("4_pxwbd")
+stretch_mode = 0
+
+[node name="Target3" type="TextureButton" parent="BattleManager/UI/Field/Targets" groups=["target"]]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+offset_left = 424.0
+offset_top = 54.0
+offset_right = 534.0
+offset_bottom = 164.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+mouse_filter = 2
+texture_pressed = ExtResource("3_8qdv8")
+texture_hover = ExtResource("4_pxwbd")
+texture_focused = ExtResource("4_pxwbd")
+stretch_mode = 0
+
+[node name="Target4" type="TextureButton" parent="BattleManager/UI/Field/Targets" groups=["target"]]
+unique_name_in_owner = true
+z_index = 1
+custom_minimum_size = Vector2(110, 110)
+layout_mode = 2
+offset_left = 521.0
+offset_top = 77.0
+offset_right = 631.0
+offset_bottom = 187.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+mouse_filter = 2
+texture_pressed = ExtResource("3_8qdv8")
+texture_hover = ExtResource("4_pxwbd")
+texture_focused = ExtResource("4_pxwbd")
+stretch_mode = 0
 
 [node name="ButtonsHbox" type="HBoxContainer" parent="BattleManager/UI"]
 layout_mode = 2
@@ -478,6 +581,7 @@ item_9/text = "item "
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
 
+[connection signal="target_requested" from="BattleManager" to="." method="get_target"]
 [connection signal="pressed" from="BattleManager/UI/ButtonsHbox/Options/Item" to="BattleManager" method="_on_item_pressed"]
 [connection signal="pressed" from="BattleManager/UI/ButtonsHbox/Options/Fight" to="BattleManager" method="_on_fight_pressed"]
 [connection signal="pressed" from="BattleManager/UI/ButtonsHbox/Options/Run" to="BattleManager" method="_on_run_pressed"]

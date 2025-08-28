@@ -11,8 +11,13 @@ config_version=5
 [application]
 
 config/name="MonsterTamer_v0.1"
+run/main_scene="uid://bq063dfhf6obm"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Globals="*res://resource_templates/globals.gd"
 
 [display]
 
