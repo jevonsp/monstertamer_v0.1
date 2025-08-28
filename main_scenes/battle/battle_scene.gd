@@ -4,7 +4,7 @@ signal battle_ended
 # later use signal from encounter zone to flip these, clean them up at the end
 @export var is_double : bool = false
 @export var camera : Camera2D
-
+@export var enemy_party : Node
 
 var allowed_to_target : bool = false
 # Encounter zone will emit signal to party which then in turn makes an array and emits it to battle scene
@@ -12,15 +12,12 @@ var party : Array[MonsterInstance] = []
 
 var is_wild : bool = false
 
-@onready var enemy_party := %EnemyParty
-
 func _ready() -> void:
 	for node in get_tree().get_nodes_in_group("target"):
 		node.disabled
 
 func _on_enemy_party_enemy_party_ready() -> void:
 	pass # Replace with function body.
-
 
 func setup_battle():
 	%Options/Fight.grab_focus()

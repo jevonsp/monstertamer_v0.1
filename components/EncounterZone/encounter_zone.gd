@@ -1,6 +1,9 @@
 extends Area2D
 
 signal random_encounter(event : EncounterEvent)
+signal battle_needs_focus
+
+@export var enemy_party : Node
 
 @export_subgroup("Encounters")
 @export var encounter_table : Array[MonsterData]
@@ -27,20 +30,22 @@ func is_position_in_area(check_position: Vector2) -> bool:
 # Connected via editor signal to player
 func _on_player_moved_to_tile(world_position: Vector2):
 	if is_position_in_area(world_position):
-		var encounter = get_random_encounter()
-		if encounter:
-			random_encounter.emit(encounter)
+		if randf() < encounter_rate:
+			if enemy_party:
+				print(constuct_wild_encounter())
 
-func roll_encounter() -> bool:
-	return encounter_rate > randf()
+func constuct_wild_encounter() -> EncounterEvent:
+	var event := EncounterEvent.new()
+	var monster_data = get_monster_in_range()
+	var level = get_level_in_range()
+	print(monster_data)
+	print(level)
+	return (event)
+
+func get_monster_in_range():
+	var monster_data = encounter_table.pick_random()
+	return monster_data
 	
-func get_random_encounter() -> EncounterEvent:
-	if roll_encounter():
-		return build_encounter()
-	return null
-	
-func build_encounter() -> EncounterEvent:
-	var event = EncounterEvent.new()
-	event.monster_data = encounter_table[randi() % encounter_table.size()]
-	event.level = randi_range(min_level, max_level)
-	return event
+func get_level_in_range():
+	var level = range(min_level, max_level + 1).pick_random()
+	return level
