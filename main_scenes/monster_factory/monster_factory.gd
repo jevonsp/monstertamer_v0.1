@@ -8,6 +8,10 @@ func create_from_player_data(pm: PlayerMonster) -> MonsterInstance:
 	monster.stats_component = StatsComponent.new()
 	monster.stats_component.base_hp = pm.current_hp
 	
+	monster.health_component = HealthComponent.new()
+	monster.health_component.max_hp = monster.stats_component.base_hp
+	monster.health_component.current_hp = pm.current_hp
+	
 	monster.moves_component = MovesComponent.new()
 	monster.known_moves = pm.moves.duplicate()
 

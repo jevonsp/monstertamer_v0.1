@@ -7,7 +7,7 @@
 
 [resource]
 script = ExtResource("3_sbbqm")
-species_name = ""
+species_name = "Pistol Shrimp"
 texture = ExtResource("2_s5lxg")
 type = 1
 role = 1

@@ -10,19 +10,16 @@ var health_component : HealthComponent
 var moves_component : MovesComponent
 var known_moves : Array[Move]
 
-var monster_data_interal : MonsterData
-
 func _ready():
 	pass
 
 func set_monster_data(data : MonsterData, level : int) -> void:
-	monster_data_interal = data
+	monster_data = data
 	monster_name = data.species_name
 	current_level = level
 
 func create_monster(event : EncounterEvent = null):
-	pass
-	#debug_print()
+	debug_print()
 		
 func debug_print():
 	# Print all stats

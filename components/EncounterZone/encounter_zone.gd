@@ -46,7 +46,11 @@ func constuct_wild_encounter() -> EncounterEvent:
 func get_monster_in_range():
 	return encounter_table.pick_random()
 	
-	
 func get_level_in_range():
 	var level = range(min_level, max_level + 1).pick_random()
 	return level
+
+func _on_create_encounter_pressed() -> void:
+	var event := constuct_wild_encounter()
+	need_random_encounter.emit(event)
+	print(event)

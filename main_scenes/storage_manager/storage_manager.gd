@@ -1,5 +1,9 @@
 extends Node
 
+signal need_instance
+signal monster_added(monster : PlayerMonster)
+signal monster_removed(monster : MonsterInstance)
+
 @export var player : CharacterBody2D
 
 var caught_monsters : Array[PlayerMonster] = []
@@ -12,6 +16,13 @@ func add_monster_to_caught_monsters(caught):
 	caught_monsters.append(caught)
 	if player_party.size() < 6:
 		player_party.append(caught)
+		get_instance(caught)
+		monster_added.emit(player_party[-1])
+	print(caught_monsters)
+	print(player_party)
+		
+func get_instance(pm):
+	need_instance.emit(pm)
 	
 func save_game():
 	var saved_game:SavedGame = SavedGame.new()
@@ -32,7 +43,6 @@ func load_game():
 
 func _on_save_test_pressed() -> void:
 	save_game()
-
 
 func _on_load_test_pressed() -> void:
 	load_game()

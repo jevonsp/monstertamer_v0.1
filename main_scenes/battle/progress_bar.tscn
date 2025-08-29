@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://olv62gpso550"]
+
+[ext_resource type="Script" uid="uid://dyhhwkvr7u33k" path="res://main_scenes/battle/progress_bar.gd" id="1_qfv4j"]
+
+[node name="ProgressBar" type="ProgressBar"]
+custom_minimum_size = Vector2(100, 0)
+offset_left = 164.0
+offset_top = 182.0
+offset_right = 264.0
+offset_bottom = 209.0
+value = 50.0
+script = ExtResource("1_qfv4j")
