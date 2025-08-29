@@ -1,9 +1,6 @@
 extends Node
 
 @export var player : CharacterBody2D
-@export var test_monster_data : MonsterData
-@export var test_monster_instance : MonsterInstance
-
 
 var caught_monsters : Array[PlayerMonster] = []
 var player_party : Array[PlayerMonster] = []

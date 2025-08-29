@@ -1,8 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://ve5q7w7kbn38"]
+[gd_scene load_steps=2 format=3 uid="uid://ve5q7w7kbn38"]
 
 [ext_resource type="Script" uid="uid://f2rc0ve2x0ik" path="res://components/MonsterInstance/monster_instance.gd" id="1_gk3m8"]
-[ext_resource type="Resource" uid="uid://cajcst55ivnkf" path="res://monsters/pistol_shrimp.tres" id="2_2fq5y"]
 
 [node name="MonsterInstance" type="Node"]
 script = ExtResource("1_gk3m8")
-monster_data = ExtResource("2_2fq5y")

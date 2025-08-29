@@ -4,14 +4,13 @@ extends Node2D
 @export var enemy_party : Node
 @export var party : Node
 @export var storage_manager : Node
+@export var monster_factory : Node
+
 
 func _ready() -> void:
 	for zone in get_tree().get_nodes_in_group("encounter_zone"):
-		if zone.has_signal("need_random_encounter"):
-			zone.need_random_encounter.connect(_on_encounter_needed)
+		zone.need_random_encounter.connect(_on_encounter_needed)
 
-func _on_encounter_needed(zone: Node):
-	print("Encounter needed!")
-	var encounter_event = zone.constuct_wild_encounter()
-	print(encounter_event)
-	enemy_party._on_encounter_zone_random_encounter(encounter_event)
+func _on_encounter_needed(event: EncounterEvent) -> void:
+	var monster = monster_factory.create_from_encounter(event)
+	enemy_party.add_child(monster)

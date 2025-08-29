@@ -66,6 +66,7 @@ offset_bottom = 198.0
 
 [node name="TopNames" type="Control" parent="BattleManager/UI/Field"]
 unique_name_in_owner = true
+visible = false
 z_index = 2
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 3
@@ -128,6 +129,7 @@ text = "name"
 
 [node name="TopBars" type="Control" parent="BattleManager/UI/Field"]
 unique_name_in_owner = true
+visible = false
 z_index = 2
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 3
@@ -263,7 +265,6 @@ text = "name"
 
 [node name="SingleBattle" type="Control" parent="BattleManager/UI/Field"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 320.0
@@ -293,6 +294,7 @@ color = Color(1, 1, 0, 1)
 
 [node name="DoubleBattle" type="Control" parent="BattleManager/UI/Field"]
 unique_name_in_owner = true
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0

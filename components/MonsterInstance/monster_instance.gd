@@ -1,29 +1,28 @@
 class_name MonsterInstance
 extends Node
 
-@export var monster_data : MonsterData
 var monster_name : String
 var stats_component : StatsComponent
 var current_level : int
+var health_component : HealthComponent
 var moves_component : MovesComponent
 var known_moves : Array[Move]
 
-func _ready() -> void:
-	create_monster()
+var monster_data_interal : MonsterData
+
+func _init():
+	print("MonsterInstance created: ", self, " stack: ", get_stack())
+
+func _ready():
+	pass
+
+func set_monster_data(data : MonsterData, level : int) -> void:
+	monster_data_interal = data
+	monster_name = data.species_name
+	current_level = level
 
 func create_monster(event : EncounterEvent = null):
-	if event:
-		monster_data = event.monster_data
-		current_level = event.level
-	if monster_data:
-		monster_name = monster_data.species_name
-		stats_component = StatsComponent.new()
-		moves_component = MovesComponent.new()
-		
-		var encounter = EncounterEvent.new(monster_data, 1)
-		stats_component.setup_monster_from_data(encounter)
-		moves_component.setup_moves_from_data(encounter.monster_data)
-		known_moves = moves_component.moveset.duplicate()
+	debug_print()
 		
 func debug_print():
 	# Print all stats
