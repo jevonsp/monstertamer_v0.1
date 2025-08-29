@@ -33,20 +33,21 @@ storage_manager = NodePath("StorageManager")
 z_index = 1
 position = Vector2(143, 143)
 
+[node name="BattleScene" parent="." node_paths=PackedStringArray("enemy_party") instance=ExtResource("1_lbhrr")]
+visible = false
+position = Vector2(319, 179)
+enemy_party = NodePath("../EnemyParty")
+
 [node name="EnemyParty" parent="." instance=ExtResource("7_0tnpc")]
 unique_name_in_owner = true
 
 [node name="Party" parent="." instance=ExtResource("4_im5ls")]
 script = ExtResource("6_m3jfi")
 
-[node name="StorageManager" parent="." instance=ExtResource("7_7j0c4")]
+[node name="StorageManager" parent="." node_paths=PackedStringArray("player") instance=ExtResource("7_7j0c4")]
+player = NodePath("../Player")
 
-[node name="Level0" parent="." instance=ExtResource("5_p57ef")]
-
-[node name="BattleScene" parent="." node_paths=PackedStringArray("enemy_party") instance=ExtResource("1_lbhrr")]
-visible = false
-position = Vector2(319, 179)
-enemy_party = NodePath("../EnemyParty")
+[node name="Level0" parent="." groups=["level"] instance=ExtResource("5_p57ef")]
 
 [node name="EncounterZone" parent="." node_paths=PackedStringArray("enemy_party") instance=ExtResource("3_p57ef")]
 position = Vector2(300, 109)
@@ -86,3 +87,5 @@ shape = SubResource("RectangleShape2D_m3jfi")
 [connection signal="moved_to_tile" from="Player" to="EncounterZone" method="_on_player_moved_to_tile"]
 [connection signal="moved_to_tile" from="Player" to="TrainerComponent" method="_on_player_moved_to_tile"]
 [connection signal="battle_ended" from="BattleScene" to="EnemyParty" method="_on_battle_scene_battle_ended"]
+[connection signal="enemy_party_ready" from="EnemyParty" to="Player" method="_on_enemy_party_ready"]
+[connection signal="enemy_party_ready" from="EnemyParty" to="BattleScene" method="_on_enemy_party_ready"]

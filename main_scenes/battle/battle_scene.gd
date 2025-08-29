@@ -1,4 +1,5 @@
 extends Node2D
+
 signal battle_ended
 
 # later use signal from encounter zone to flip these, clean them up at the end
@@ -16,9 +17,9 @@ func _ready() -> void:
 	for node in get_tree().get_nodes_in_group("target"):
 		node.disabled
 
-func _on_enemy_party_enemy_party_ready() -> void:
-	pass # Replace with function body.
-
+func _on_enemy_party_ready() -> void:
+	setup_battle()
+	
 func setup_battle():
 	%Options/Fight.grab_focus()
 	show_ui()
@@ -44,7 +45,7 @@ func get_target():
 	%Targets/Target3.grab_focus()
 
 func show_ui():
-	camera.enabled = true
+	camera.make_current()
 	self.visible = true
 	%Moves1.visible = false
 	%Moves2.visible = false

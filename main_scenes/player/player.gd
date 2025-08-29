@@ -11,6 +11,7 @@ var state : State = State.IDLE
 
 func _ready() -> void:
 	add_to_group("player")
+	add_to_group("player_elements")
 	
 func _physics_process(delta: float) -> void:
 	if state != State.IDLE:
@@ -45,3 +46,6 @@ func _execute_tween(direction : Vector2) -> void:
 	await tween.finished
 	state = State.IDLE
 	moved_to_tile.emit(global_position)
+
+func _on_enemy_party_ready() -> void:
+	process_mode = PROCESS_MODE_DISABLED

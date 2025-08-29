@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bmfphnhglhc3"]
+[gd_scene load_steps=5 format=3 uid="uid://bmfphnhglhc3"]
 
 [ext_resource type="Script" uid="uid://d3vdly7f2bt4p" path="res://main_scenes/player/player.gd" id="1_8afob"]
 [ext_resource type="Texture2D" uid="uid://dxwdwfkurowml" path="res://assets/player.png" id="2_dovo2"]
+[ext_resource type="Script" uid="uid://dadxpmyy76xxx" path="res://main_scenes/player/camera_2d.gd" id="3_k78ss"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u8vuu"]
 
@@ -15,4 +16,6 @@ shape = SubResource("RectangleShape2D_u8vuu")
 texture = ExtResource("2_dovo2")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+process_mode = 1
 position_smoothing_enabled = true
+script = ExtResource("3_k78ss")
