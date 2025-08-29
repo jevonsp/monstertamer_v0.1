@@ -12,9 +12,6 @@ var known_moves : Array[Move]
 
 var monster_data_interal : MonsterData
 
-func _init():
-	print("MonsterInstance created: ", self, " stack: ", get_stack())
-
 func _ready():
 	pass
 

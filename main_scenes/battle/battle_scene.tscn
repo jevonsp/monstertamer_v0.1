@@ -26,10 +26,11 @@ offset_top = -201.0
 offset_right = 336.0
 offset_bottom = 194.0
 
-[node name="BattleManager" type="Control" parent="."]
+[node name="BattleManager" type="Control" parent="." node_paths=PackedStringArray("node")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("2_kinr6")
+node = NodePath("")
 
 [node name="AIManager" type="Node" parent="BattleManager" node_paths=PackedStringArray("battle_scene")]
 script = ExtResource("5_pxwbd")

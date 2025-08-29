@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://dx4r4o2chumem"]
+
+[ext_resource type="PackedScene" uid="uid://cjtia66k50wk0" path="res://main_scenes/monster_factory/monster_factory.tscn" id="1_2ngvh"]
+[ext_resource type="PackedScene" uid="uid://bfft6btg2h78k" path="res://main_scenes/wild_party/enemy_party.tscn" id="2_k0vh6"]
+[ext_resource type="PackedScene" uid="uid://cwvxpdmi5vk2b" path="res://main_scenes/party/Party.tscn" id="3_hjw5i"]
+[ext_resource type="PackedScene" uid="uid://dslyemb151w4k" path="res://components/EncounterZone/encounter_zone.tscn" id="4_v3c74"]
+
+[node name="Test" type="Node"]
+
+[node name="MonsterFactory" parent="." instance=ExtResource("1_2ngvh")]
+
+[node name="EnemyParty" parent="." instance=ExtResource("2_k0vh6")]
+
+[node name="Party" parent="." instance=ExtResource("3_hjw5i")]
+
+[node name="EncounterZone" parent="." instance=ExtResource("4_v3c74")]

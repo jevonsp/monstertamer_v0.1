@@ -43,8 +43,7 @@ unique_name_in_owner = true
 script = ExtResource("6_m3jfi")
 
 [node name="MonsterInstance" parent="Party" instance=ExtResource("7_noxtv")]
-
-[node name="MonsterInstance2" parent="Party" instance=ExtResource("7_noxtv")]
+monster_data = ExtResource("13_mf5kq")
 
 [node name="StorageManager" parent="." node_paths=PackedStringArray("player") instance=ExtResource("7_7j0c4")]
 player = NodePath("../Player")
