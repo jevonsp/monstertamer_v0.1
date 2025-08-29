@@ -15,11 +15,9 @@ bg_color = Color(0.151483, 0.695413, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rca61"]
 bg_color = Color(0, 0, 0, 0.917647)
 
-[node name="BattleScene" type="Node2D" node_paths=PackedStringArray("camera", "battle_manager")]
+[node name="BattleScene" type="Node2D"]
 z_index = 3
 script = ExtResource("1_idkgt")
-camera = NodePath("Camera2D")
-battle_manager = NodePath("BattleManager")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -1
@@ -28,16 +26,10 @@ offset_top = -201.0
 offset_right = 336.0
 offset_bottom = 194.0
 
-[node name="BattleManager" type="Control" parent="." node_paths=PackedStringArray("battle_scene", "ai_manager", "move_1", "move_5", "fight")]
+[node name="BattleManager" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("2_kinr6")
-battle_scene = NodePath("..")
-flee_chance = 1.0
-ai_manager = NodePath("AIManager")
-move_1 = NodePath("UI/ButtonsHbox/Moves1/Move1")
-move_5 = NodePath("UI/ButtonsHbox/Moves2/Move5")
-fight = NodePath("UI/ButtonsHbox/Options/Fight")
 
 [node name="AIManager" type="Node" parent="BattleManager" node_paths=PackedStringArray("battle_scene")]
 script = ExtResource("5_pxwbd")
@@ -592,7 +584,6 @@ item_9/text = "item "
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
 
-[connection signal="target_requested" from="BattleManager" to="." method="get_target"]
 [connection signal="pressed" from="BattleManager/UI/ButtonsHbox/Options/Item" to="BattleManager" method="_on_item_pressed"]
 [connection signal="pressed" from="BattleManager/UI/ButtonsHbox/Options/Fight" to="BattleManager" method="_on_fight_pressed"]
 [connection signal="pressed" from="BattleManager/UI/ButtonsHbox/Options/Run" to="BattleManager" method="_on_run_pressed"]

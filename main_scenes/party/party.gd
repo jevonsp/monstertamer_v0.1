@@ -1,10 +1,11 @@
 extends Node
 
-signal monster_for_queue(node: MonsterInstance)
+@onready var battle_manager = get_node("/root/Game/BattleScene/BattleManager")
 
 func add_party_member(encounter: EncounterEvent):
 	pass
 
-func send_to_turn_queue():
+func send_to_turn_queue(manager):
 	for node in get_children():
-		monster_for_queue.emit(node)
+		if node is MonsterInstance:
+			battle_manager.add_to_turn_queue(node)

@@ -25,16 +25,23 @@ size = Vector2(20, 224)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m3jfi"]
 size = Vector2(29, 27)
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("enemy_party", "player", "party", "storage_manager", "monster_factory", "battle_scene")]
 script = ExtResource("1_6h35g")
+enemy_party = NodePath("EnemyParty")
+player = NodePath("Player")
+party = NodePath("Party")
+storage_manager = NodePath("StorageManager")
+monster_factory = NodePath("MonsterFactory")
+battle_scene = NodePath("BattleScene")
 
 [node name="Player" parent="." instance=ExtResource("2_iywne")]
 z_index = 1
 position = Vector2(143, 143)
 
-[node name="BattleScene" parent="." instance=ExtResource("1_lbhrr")]
+[node name="BattleScene" parent="." node_paths=PackedStringArray("enemy_party") instance=ExtResource("1_lbhrr")]
 visible = false
 position = Vector2(319, 179)
+enemy_party = NodePath("../EnemyParty")
 
 [node name="EnemyParty" parent="." instance=ExtResource("7_0tnpc")]
 unique_name_in_owner = true
@@ -89,5 +96,8 @@ offset_bottom = 17.0
 position = Vector2(3.5, 0.5)
 shape = SubResource("RectangleShape2D_m3jfi")
 
+[connection signal="battle_ready" from="." to="BattleScene" method="_on_game_battle_ready"]
 [connection signal="moved_to_tile" from="Player" to="EncounterZone" method="_on_player_moved_to_tile"]
 [connection signal="moved_to_tile" from="Player" to="TrainerComponent" method="_on_player_moved_to_tile"]
+[connection signal="battle_ended" from="BattleScene" to="." method="_on_battle_scene_battle_ended"]
+[connection signal="battle_ended" from="BattleScene" to="EnemyParty" method="_on_battle_scene_battle_ended"]
