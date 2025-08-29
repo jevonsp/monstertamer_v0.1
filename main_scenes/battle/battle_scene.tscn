@@ -15,10 +15,11 @@ bg_color = Color(0.151483, 0.695413, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rca61"]
 bg_color = Color(0, 0, 0, 0.917647)
 
-[node name="BattleScene" type="Node2D" node_paths=PackedStringArray("camera")]
+[node name="BattleScene" type="Node2D" node_paths=PackedStringArray("camera", "battle_manager")]
 z_index = 3
 script = ExtResource("1_idkgt")
 camera = NodePath("Camera2D")
+battle_manager = NodePath("BattleManager")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -1

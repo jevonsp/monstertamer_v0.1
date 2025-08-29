@@ -1,6 +1,8 @@
 class_name MonsterInstance
 extends Node
 
+@export var monster_data : MonsterData
+
 var monster_name : String
 var stats_component : StatsComponent
 var current_level : int

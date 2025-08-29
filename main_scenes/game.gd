@@ -1,10 +1,12 @@
 extends Node2D
+signal battle_ready
 
 @export_subgroup("Nodes")
 @export var enemy_party : Node
 @export var party : Node
 @export var storage_manager : Node
 @export var monster_factory : Node
+@export var battle_scene : Node
 
 
 func _ready() -> void:
@@ -14,3 +16,4 @@ func _ready() -> void:
 func _on_encounter_needed(event: EncounterEvent) -> void:
 	var monster = monster_factory.create_from_encounter(event)
 	enemy_party.add_child(monster)
+	battle_scene.setup_battle()

@@ -1,9 +1,10 @@
 extends Node
 
-@export var monster_instance : Node
+signal monster_for_queue(node: MonsterInstance)
 
-func _ready():
-	pass
-	
 func add_party_member(encounter: EncounterEvent):
 	pass
+
+func send_to_turn_queue():
+	for node in get_children():
+		monster_for_queue.emit(node)
