@@ -10,6 +10,11 @@ signal stat_changed(stat_name: String, new_value: int)
 @export var base_defense : int
 @export var base_dexterity : int
 
+var current_speed : int
+var current_attack : int
+var current_defense : int
+var current_dexterity : int
+
 # Called when a monster is made
 func setup_monster_from_data(event : EncounterEvent):
 	if !event or !event.monster_data:
@@ -20,6 +25,10 @@ func setup_monster_from_data(event : EncounterEvent):
 	base_attack = event.monster_data.base_attack
 	base_defense = event.monster_data.base_defense
 	base_dexterity = event.monster_data.base_dexterity
+	current_speed = base_speed
+	current_attack = base_attack
+	current_defense = base_defense
+	current_dexterity = base_dexterity
 	
 # These types in battle
 func get_effective_attack():

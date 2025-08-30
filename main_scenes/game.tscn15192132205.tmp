@@ -8,7 +8,7 @@
 [ext_resource type="Script" uid="uid://p7x6o07vrvvf" path="res://components/MonsterInstance/monster_data_resource.gd" id="5_gee14"]
 [ext_resource type="PackedScene" uid="uid://dqai2b5hdqekg" path="res://levels/level_0.tscn" id="5_p57ef"]
 [ext_resource type="Script" uid="uid://cf7eub3ripssg" path="res://main_scenes/party/party.gd" id="6_m3jfi"]
-[ext_resource type="PackedScene" uid="uid://bfft6btg2h78k" path="res://main_scenes/enemy_party/enemy_party.tscn" id="7_0tnpc"]
+[ext_resource type="PackedScene" uid="uid://bfft6btg2h78k" path="res://main_scenes/wild_party/enemy_party.tscn" id="7_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://drha37ou4kgj3" path="res://main_scenes/storage_manager/storage_manager.tscn" id="7_7j0c4"]
 [ext_resource type="PackedScene" uid="uid://cjtia66k50wk0" path="res://main_scenes/monster_factory/monster_factory.tscn" id="8_7j0c4"]
 [ext_resource type="PackedScene" uid="uid://btka8kpgy1kc5" path="res://main_scenes/capture_manager/capture_manager.tscn" id="10_7i1yy"]
@@ -34,18 +34,18 @@ script = ExtResource("1_6h35g")
 z_index = 1
 position = Vector2(143, 143)
 
-[node name="BattleScene2" parent="." node_paths=PackedStringArray("party", "enemy_party", "player") instance=ExtResource("15_noxtv")]
+[node name="BattleScene2" parent="." node_paths=PackedStringArray("enemy_party", "player") instance=ExtResource("15_noxtv")]
+visible = false
 z_index = 1
-party = NodePath("../Party")
 enemy_party = NodePath("../EnemyParty")
 player = NodePath("../Player")
-
-[node name="Party" parent="." instance=ExtResource("4_im5ls")]
-script = ExtResource("6_m3jfi")
 
 [node name="EnemyParty" parent="." node_paths=PackedStringArray("monster_factory") instance=ExtResource("7_0tnpc")]
 unique_name_in_owner = true
 monster_factory = NodePath("../MonsterFactory")
+
+[node name="Party" parent="." instance=ExtResource("4_im5ls")]
+script = ExtResource("6_m3jfi")
 
 [node name="StorageManager" parent="." node_paths=PackedStringArray("player") instance=ExtResource("7_7j0c4")]
 player = NodePath("../Player")

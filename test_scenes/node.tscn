@@ -1,36 +1,37 @@
-[gd_scene load_steps=14 format=3 uid="uid://dx4r4o2chumem"]
+[gd_scene load_steps=13 format=3 uid="uid://dx4r4o2chumem"]
 
 [ext_resource type="PackedScene" uid="uid://cjtia66k50wk0" path="res://main_scenes/monster_factory/monster_factory.tscn" id="1_2ngvh"]
 [ext_resource type="Script" uid="uid://n6bqdpd8hu8q" path="res://test_scenes/node.gd" id="1_k0vh6"]
-[ext_resource type="PackedScene" uid="uid://bfft6btg2h78k" path="res://main_scenes/wild_party/enemy_party.tscn" id="2_k0vh6"]
+[ext_resource type="PackedScene" uid="uid://bfft6btg2h78k" path="res://main_scenes/enemy_party/enemy_party.tscn" id="2_k0vh6"]
 [ext_resource type="PackedScene" uid="uid://cwvxpdmi5vk2b" path="res://main_scenes/party/Party.tscn" id="3_hjw5i"]
 [ext_resource type="PackedScene" uid="uid://dslyemb151w4k" path="res://components/EncounterZone/encounter_zone.tscn" id="4_v3c74"]
 [ext_resource type="Script" uid="uid://cf7eub3ripssg" path="res://main_scenes/party/party.gd" id="5_qakb5"]
 [ext_resource type="Script" uid="uid://p7x6o07vrvvf" path="res://components/MonsterInstance/monster_data_resource.gd" id="6_v3c74"]
 [ext_resource type="Resource" uid="uid://cajcst55ivnkf" path="res://monsters/pistol_shrimp.tres" id="7_qakb5"]
 [ext_resource type="PackedScene" uid="uid://btka8kpgy1kc5" path="res://main_scenes/capture_manager/capture_manager.tscn" id="8_iyc8i"]
-[ext_resource type="Script" uid="uid://dccsgy7eu61j4" path="res://main_scenes/capture_manager/capture_manager.gd" id="9_tj5l7"]
 [ext_resource type="PackedScene" uid="uid://drha37ou4kgj3" path="res://main_scenes/storage_manager/storage_manager.tscn" id="11_87q04"]
-[ext_resource type="PackedScene" uid="uid://cakq5tm0syrx5" path="res://test_scenes/new_battle_scene.tscn" id="12_iyc8i"]
-[ext_resource type="Script" uid="uid://cxemo50l3arie" path="res://test_scenes/new_battle_scene.gd" id="13_tj5l7"]
+[ext_resource type="Script" uid="uid://bm2ef4enwf0dr" path="res://test_scenes/new_battle_scene.gd" id="13_tj5l7"]
 
-[node name="Test" type="Node" node_paths=PackedStringArray("monster_factory", "battle_scene", "enemy_party", "party", "capture_manager", "storage_manager")]
+[sub_resource type="GDScript" id="GDScript_87q04"]
+script/source = "extends Node
+
+@export var enemy_party : Node
+@export var storage_manager : Node
+
+func capture_monster():
+	var node = enemy_party.get_child(0)
+	var pm = PlayerMonster.create_player_monster(node)
+	storage_manager.add_monster_to_caught_monsters(pm)
+	node.queue_free()
+"
+
+[node name="Test" type="Node" node_paths=PackedStringArray("enemy_party", "party")]
 script = ExtResource("1_k0vh6")
-monster_factory = NodePath("MonsterFactory")
-battle_scene = NodePath("NewBattleScene")
 enemy_party = NodePath("EnemyParty")
 party = NodePath("Party")
-capture_manager = NodePath("CaptureManager")
-storage_manager = NodePath("StorageManager")
 
-[node name="NewBattleScene" parent="." node_paths=PackedStringArray("texture1", "texture2", "party", "enemy_party", "label", "label2") instance=ExtResource("12_iyc8i")]
+[node name="NewBattleScene" type="Node2D" parent="."]
 script = ExtResource("13_tj5l7")
-texture1 = NodePath("../PlayerMonster/Sprite2D")
-texture2 = NodePath("../EnemyMonster/Sprite2D2")
-party = NodePath("../Party")
-enemy_party = NodePath("../EnemyParty")
-label = NodePath("../PlayerMonster/Label")
-label2 = NodePath("../EnemyMonster/Label2")
 
 [node name="MonsterFactory" parent="." instance=ExtResource("1_2ngvh")]
 
@@ -41,7 +42,7 @@ monster_factory = NodePath("../MonsterFactory")
 [node name="EnemyParty" parent="." instance=ExtResource("2_k0vh6")]
 
 [node name="CaptureManager" parent="." node_paths=PackedStringArray("enemy_party", "storage_manager") instance=ExtResource("8_iyc8i")]
-script = ExtResource("9_tj5l7")
+script = SubResource("GDScript_87q04")
 enemy_party = NodePath("../EnemyParty")
 storage_manager = NodePath("../StorageManager")
 
@@ -134,7 +135,3 @@ text = "25"
 [connection signal="need_random_encounter" from="EncounterZone" to="." method="_on_encounter_zone_need_random_encounter"]
 [connection signal="pressed" from="CreateEncounter" to="EncounterZone" method="_on_create_encounter_pressed"]
 [connection signal="pressed" from="CreatePartyMonster" to="." method="_on_create_party_monster_pressed"]
-[connection signal="pressed" from="GridContainer/Button" to="NewBattleScene" method="_on_button_pressed"]
-[connection signal="pressed" from="GridContainer/Button2" to="NewBattleScene" method="_on_button_2_pressed"]
-[connection signal="pressed" from="GridContainer/Button3" to="NewBattleScene" method="_on_button_3_pressed"]
-[connection signal="pressed" from="GridContainer/Button4" to="NewBattleScene" method="_on_button_4_pressed"]

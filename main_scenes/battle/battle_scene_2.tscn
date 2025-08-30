@@ -1,0 +1,81 @@
+[gd_scene load_steps=2 format=3 uid="uid://yat5a0u3snmk"]
+
+[ext_resource type="Script" uid="uid://b34681mkkvs1k" path="res://main_scenes/battle/battle_scene_2.gd" id="1_e6f4j"]
+
+[node name="BattleScene2" type="Node2D" node_paths=PackedStringArray("canvas_layer", "camera", "pm1", "em1", "move_buttons", "sprite1", "label1", "sprite2", "label2")]
+visible = false
+script = ExtResource("1_e6f4j")
+canvas_layer = NodePath("CanvasLayer")
+camera = NodePath("Camera2D")
+pm1 = NodePath("CanvasLayer/PM1")
+em1 = NodePath("CanvasLayer/EM1")
+move_buttons = NodePath("CanvasLayer/GridContainer")
+sprite1 = NodePath("CanvasLayer/PM1/Sprite2D")
+label1 = NodePath("CanvasLayer/PM1/Label")
+sprite2 = NodePath("CanvasLayer/EM1/Sprite2D2")
+label2 = NodePath("CanvasLayer/EM1/Label")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -8.0
+offset_top = -6.0
+offset_right = 650.0
+offset_bottom = 365.0
+metadata/_edit_use_anchors_ = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="PM1" type="VBoxContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+offset_left = 27.0
+offset_top = 167.0
+offset_right = 177.0
+offset_bottom = 207.0
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/PM1"]
+position = Vector2(74, -84)
+
+[node name="Label" type="Label" parent="CanvasLayer/PM1"]
+layout_mode = 2
+
+[node name="EM1" type="VBoxContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+offset_left = 438.0
+offset_top = 151.0
+offset_right = 588.0
+offset_bottom = 191.0
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer/EM1"]
+position = Vector2(69, -67)
+
+[node name="Label" type="Label" parent="CanvasLayer/EM1"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer"]
+offset_left = 6.0
+offset_top = 251.0
+offset_right = 210.0
+offset_bottom = 355.0
+columns = 2
+
+[node name="Move1" type="Button" parent="CanvasLayer/GridContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="Move2" type="Button" parent="CanvasLayer/GridContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="Move3" type="Button" parent="CanvasLayer/GridContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="Move4" type="Button" parent="CanvasLayer/GridContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(320, 180)

@@ -27,8 +27,8 @@ func test_battle_ready() -> void:
 	
 	# Set textures for enemy party
 	for node in enemy_party.get_children():
-		enemy_monster = node
 		if node is MonsterInstance and node.monster_data != null:
+			enemy_monster = node
 			texture2.texture = node.monster_data.texture
 			label2.text = node.monster_data.species_name
 		else:

@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 signal moved_to_tile(world_position: Vector2)
 
+@export var camera : Camera2D
+
 enum State {IDLE, MOVING, DISABLED}
 
 const TILE_SIZE :Vector2 = Vector2(32, 32)
@@ -46,10 +48,3 @@ func _execute_tween(direction : Vector2) -> void:
 	await tween.finished
 	state = State.IDLE
 	moved_to_tile.emit(global_position)
-
-func _on_enemy_party_ready() -> void:
-	process_mode = PROCESS_MODE_DISABLED
-
-
-func _on_battle_scene_battle_ended() -> void:
-	pass # Replace with function body.

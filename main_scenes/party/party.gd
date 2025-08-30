@@ -15,4 +15,3 @@ func _on_storage_manager_monster_added(monster : PlayerMonster) -> void:
 			pass
 		else:
 			monster_factory.create_from_player_data(monster)
-			
