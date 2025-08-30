@@ -1,6 +1,7 @@
 extends Node2D
 
 signal monsters_setup
+signal main_monster_changed
 
 enum TurnState {PLAYER, ENEMY, ENDING}
 
@@ -46,6 +47,7 @@ func start_battle():
 	self.visible = true
 	canvas_layer.visible = true
 	setup_monsters()
+	setup_moves()
 	sort_turn_queue()
 	for m in turn_queue:
 		print(m.name, m.stats_component.current_speed)
@@ -89,7 +91,12 @@ func setup_bars():
 				node.set_meta("HPBar", bar)
 		else:
 			print("Enemy node missing health_component or wrong type: ", node.name)
-	
+
+func setup_moves():
+	var known_moves = party.get_child(0).known_moves
+	var buttons = move_buttons.get_children()
+	for i in range(min(buttons.size(), known_moves.size())):
+		buttons[i].text = known_moves[i].name
 
 func _monster_speed_less(a: MonsterInstance, b: MonsterInstance) -> bool:
 	return a.stats_component.current_speed < b.stats_component.current_speed
@@ -113,6 +120,11 @@ func enemy_take_turn(monster: MonsterInstance):
 	var move = monster.known_moves.pick_random()
 	var target = pick_enemy_target(monster)
 	calc_damage(monster, target, move)
+	var timer = Timer.new()
+	timer.wait_time = .5
+	add_child(timer)
+	timer.start()
+	await timer.timeout
 	advance_turn()
 	
 func pick_enemy_target(monster: MonsterInstance):
@@ -143,6 +155,11 @@ func _on_move_pressed(move_index: int):
 	if player_monster and player_monster.known_moves.size() > move_index:
 		var move = player_monster.known_moves[move_index]
 		calc_damage(player_monster, enemy_monster, move)
+		var timer = Timer.new()
+		timer.wait_time = .5
+		add_child(timer)
+		timer.start()
+		await timer.timeout
 		advance_turn()
 
 func calc_damage(user, target, move):
