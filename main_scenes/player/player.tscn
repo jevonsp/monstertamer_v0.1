@@ -6,9 +6,10 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u8vuu"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("camera", "ray2d")]
 script = ExtResource("1_8afob")
 camera = NodePath("Camera2D")
+ray2d = NodePath("RayCast2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_u8vuu")
@@ -20,3 +21,10 @@ texture = ExtResource("2_dovo2")
 process_mode = 1
 position_smoothing_enabled = true
 script = ExtResource("3_k78ss")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+target_position = Vector2(0, 48)
+collide_with_areas = true
+
+[node name="Line2D" type="Line2D" parent="RayCast2D"]

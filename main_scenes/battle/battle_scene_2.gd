@@ -2,6 +2,7 @@ extends Node2D
 
 signal monsters_setup
 signal main_monster_changed
+signal attempt_capture
 
 enum TurnState {PLAYER, ENEMY, ENDING}
 
@@ -14,6 +15,7 @@ enum TurnState {PLAYER, ENEMY, ENDING}
 @export var pm1 : VBoxContainer
 @export var em1 : VBoxContainer
 @export var move_buttons : GridContainer
+@export var capture_manager : Node
 @export_subgroup("Sub Nodes")
 @export var sprite1 : Sprite2D
 @export var label1 : Label
@@ -167,7 +169,14 @@ func calc_damage(user, target, move):
 	apply_move(user, target, move.damage)
 func apply_move(user: MonsterInstance, target : MonsterInstance, damage: int):
 	target.health_component.take_damage(damage)
-	
+
+func capture_pressed():
+	attempt_capture.emit()
+func _on_capture_manager_monster_captured() -> void:
+	capture_succeeded()
+func capture_succeeded():
+	end_battle()
+
 func end_battle():
 	clean_up_bars()
 	for enemy in enemy_party.get_children():

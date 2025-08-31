@@ -1,11 +1,11 @@
-[gd_scene load_steps=22 format=3 uid="uid://bq063dfhf6obm"]
+[gd_scene load_steps=20 format=3 uid="uid://bq063dfhf6obm"]
 
 [ext_resource type="Script" uid="uid://b0bf3hk6wxjyr" path="res://main_scenes/game.gd" id="1_6h35g"]
 [ext_resource type="PackedScene" uid="uid://bmfphnhglhc3" path="res://main_scenes/player/player.tscn" id="2_iywne"]
-[ext_resource type="PackedScene" uid="uid://dslyemb151w4k" path="res://components/encounter_zone/encounter_zone.tscn" id="3_p57ef"]
+[ext_resource type="PackedScene" uid="uid://dslyemb151w4k" path="res://components/EncounterZone/encounter_zone.tscn" id="3_p57ef"]
 [ext_resource type="PackedScene" uid="uid://cwvxpdmi5vk2b" path="res://main_scenes/party/Party.tscn" id="4_im5ls"]
-[ext_resource type="PackedScene" uid="uid://njxdudpywcah" path="res://components/trainer/trainer_component.tscn" id="4_u5sy4"]
-[ext_resource type="Script" uid="uid://p7x6o07vrvvf" path="res://components/monster_instance/monster_data_resource.gd" id="5_gee14"]
+[ext_resource type="PackedScene" uid="uid://njxdudpywcah" path="res://components/Trainer/trainer_component.tscn" id="4_u5sy4"]
+[ext_resource type="Script" uid="uid://p7x6o07vrvvf" path="res://components/MonsterInstance/monster_data_resource.gd" id="5_gee14"]
 [ext_resource type="PackedScene" uid="uid://dqai2b5hdqekg" path="res://levels/level_0.tscn" id="5_p57ef"]
 [ext_resource type="Script" uid="uid://cf7eub3ripssg" path="res://main_scenes/party/party.gd" id="6_m3jfi"]
 [ext_resource type="PackedScene" uid="uid://bfft6btg2h78k" path="res://main_scenes/enemy_party/enemy_party.tscn" id="7_0tnpc"]
@@ -16,7 +16,6 @@
 [ext_resource type="Resource" uid="uid://mkqktbhjqjxf" path="res://monsters/pyro_badger.tres" id="13_mf5kq"]
 [ext_resource type="PackedScene" uid="uid://yat5a0u3snmk" path="res://main_scenes/battle/battle_scene_2.tscn" id="15_noxtv"]
 [ext_resource type="Script" uid="uid://3y2odgqmtkte" path="res://main_scenes/monster_adder.gd" id="17_7i1yy"]
-[ext_resource type="PackedScene" uid="uid://0353uec73bnc" path="res://components/healing_component/healing_component.tscn" id="17_mvuii"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lbhrr"]
 size = Vector2(91, 219)
@@ -27,9 +26,6 @@ size = Vector2(20, 224)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m3jfi"]
 size = Vector2(29, 27)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_02fbf"]
-size = Vector2(27, 28)
-
 [node name="Game" type="Node2D"]
 script = ExtResource("1_6h35g")
 
@@ -37,15 +33,15 @@ script = ExtResource("1_6h35g")
 z_index = 1
 position = Vector2(143, 143)
 
-[node name="BattleScene2" parent="." node_paths=PackedStringArray("party", "enemy_party", "player", "capture_manager") instance=ExtResource("15_noxtv")]
+[node name="BattleScene2" parent="." node_paths=PackedStringArray("party", "enemy_party", "player") instance=ExtResource("15_noxtv")]
 z_index = 1
 party = NodePath("../Party")
 enemy_party = NodePath("../EnemyParty")
 player = NodePath("../Player")
-capture_manager = NodePath("../CaptureManager")
 
 [node name="Party" parent="." instance=ExtResource("4_im5ls")]
 script = ExtResource("6_m3jfi")
+party_monster = null
 
 [node name="EnemyParty" parent="." node_paths=PackedStringArray("monster_factory") instance=ExtResource("7_0tnpc")]
 unique_name_in_owner = true
@@ -105,17 +101,7 @@ offset_bottom = 17.0
 position = Vector2(3.5, 0.5)
 shape = SubResource("RectangleShape2D_m3jfi")
 
-[node name="HealingComponent" parent="." instance=ExtResource("17_mvuii")]
-position = Vector2(304, 48)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HealingComponent"]
-position = Vector2(-0.5, 0)
-shape = SubResource("RectangleShape2D_02fbf")
-
-[connection signal="can_heal" from="Player" to="HealingComponent" method="_on_player_can_heal"]
 [connection signal="moved_to_tile" from="Player" to="EncounterZone" method="_on_player_moved_to_tile"]
 [connection signal="moved_to_tile" from="Player" to="TrainerComponent" method="_on_player_moved_to_tile"]
-[connection signal="attempt_capture" from="BattleScene2" to="CaptureManager" method="capture_monster"]
 [connection signal="battle_started" from="EnemyParty" to="BattleScene2" method="start_battle"]
-[connection signal="monster_captured" from="CaptureManager" to="BattleScene2" method="_on_capture_manager_monster_captured"]
 [connection signal="body_entered" from="MonsterAdder" to="MonsterAdder" method="_on_body_entered"]

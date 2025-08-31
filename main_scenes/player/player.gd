@@ -1,8 +1,10 @@
 extends CharacterBody2D
 
 signal moved_to_tile(world_position: Vector2)
+signal can_heal
 
 @export var camera : Camera2D
+@export var ray2d : RayCast2D
 
 enum State {IDLE, MOVING, DISABLED}
 
@@ -14,25 +16,37 @@ var state : State = State.IDLE
 func _ready() -> void:
 	add_to_group("player")
 	add_to_group("player_elements")
+	_rotate_look_direction(Vector2.DOWN)
 	
 func _physics_process(delta: float) -> void:
 	if state != State.IDLE:
 		return
+	
 	if Input.is_action_pressed("up"):
 		_move(Vector2.UP)
+		_rotate_look_direction(Vector2.UP)
 	if Input.is_action_pressed("down"):
 		_move(Vector2.DOWN)
+		_rotate_look_direction(Vector2.DOWN)
 	if Input.is_action_pressed("left"):
 		_move(Vector2.LEFT)
+		_rotate_look_direction(Vector2.LEFT)
 	if Input.is_action_pressed("right"):
 		_move(Vector2.RIGHT)
+		_rotate_look_direction(Vector2.RIGHT)
+		
+	_check_ray2d_collision()
 
 func _move(direction : Vector2) -> void:
 	if state != State.IDLE:
 		return
 	if _is_valid_move(direction):
 		_execute_tween(direction)
-	
+
+func _rotate_look_direction(direction: Vector2):
+	ray2d.target_position = Vector2(32, 0)
+	ray2d.rotation = direction.angle()
+
 func _is_valid_move(direction : Vector2) -> bool:
 	var space_state = get_world_2d().direct_space_state
 	var query = PhysicsPointQueryParameters2D.new()
@@ -48,3 +62,9 @@ func _execute_tween(direction : Vector2) -> void:
 	await tween.finished
 	state = State.IDLE
 	moved_to_tile.emit(global_position)
+	
+func _check_ray2d_collision():
+	if ray2d.is_colliding():
+		var collider = ray2d.get_collider()
+		if collider.is_in_group("healing"):
+			can_heal.emit()

@@ -12,12 +12,16 @@ var player_party : Array[PlayerMonster] = []
 func _ready():
 	pass
 
+# Connected from Capture Manager
 func add_monster_to_caught_monsters(caught):
+	print(player_party.size)
 	caught_monsters.append(caught)
+	print(caught)
 	if player_party.size() < 6:
 		player_party.append(caught)
 		get_instance(caught)
 		monster_added.emit(player_party[-1])
+		print(monster_added)
 	print(caught_monsters)
 	print(player_party)
 		

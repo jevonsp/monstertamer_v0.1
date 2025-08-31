@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dslyemb151w4k"]
 
-[ext_resource type="Script" uid="uid://bht3qilxph3p0" path="res://components/EncounterZone/encounter_zone.gd" id="1_kht4h"]
+[ext_resource type="Script" uid="uid://bht3qilxph3p0" path="res://components/encounter_zone/encounter_zone.gd" id="1_kht4h"]
 
 [node name="EncounterZone" type="Area2D"]
 script = ExtResource("1_kht4h")

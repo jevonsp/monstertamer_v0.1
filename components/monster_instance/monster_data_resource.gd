@@ -4,7 +4,6 @@ extends Resource
 enum Type {
 	FIRE, WATER, GRASS
 }
-
 enum Role {
 	MELEE, RANGE, TANK
 }
@@ -23,5 +22,5 @@ enum Role {
 @export var base_dexterity : int = 1
 
 @export_subgroup("Learnset")
-@export var learnable_moves: Array[Move]
-@export var learn_levels: Array[int]
+@export var learnable_moves: Array[Move] = []
+@export var learn_levels: Array[int] = []

@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://btka8kpgy1kc5"]
+[gd_scene load_steps=2 format=3 uid="uid://btka8kpgy1kc5"]
+
+[ext_resource type="Script" uid="uid://bu4kpa51ixghp" path="res://main_scenes/capture_manager/capture_manager.gd" id="1_pmfxy"]
 
 [node name="CaptureManager" type="Node"]
+script = ExtResource("1_pmfxy")

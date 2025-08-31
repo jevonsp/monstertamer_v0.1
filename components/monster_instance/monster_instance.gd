@@ -4,11 +4,16 @@ extends Node
 @export var monster_data : MonsterData
 
 var monster_name : String
+var nick_name : String
 var stats_component : StatsComponent
 var current_level : int
 var health_component : HealthComponent
+var current_hp : int
 var moves_component : MovesComponent
+var moves : Array[Move] = []
 var known_moves : Array[Move]
+var experience : int = 0
+var level : int = 1
 
 func _ready():
 	pass

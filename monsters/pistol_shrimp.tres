@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dwht48w3ngyly" path="res://resource_and_global/move_resource.gd" id="1_5xacu"]
 [ext_resource type="Resource" uid="uid://dlq35rn1nd8br" path="res://moves/water_pistol.tres" id="2_p7eir"]
 [ext_resource type="Texture2D" uid="uid://cb5sewlmkate3" path="res://assets/pistol_shrimp.png" id="2_s5lxg"]
-[ext_resource type="Script" uid="uid://p7x6o07vrvvf" path="res://components/MonsterInstance/monster_data_resource.gd" id="3_sbbqm"]
+[ext_resource type="Script" uid="uid://p7x6o07vrvvf" path="res://components/monster_instance/monster_data_resource.gd" id="3_sbbqm"]
 
 [resource]
 script = ExtResource("3_sbbqm")
