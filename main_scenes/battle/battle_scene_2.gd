@@ -2,7 +2,6 @@ extends Node2D
 
 signal monsters_setup
 signal main_monster_changed
-signal attempt_capture
 
 enum TurnState {PLAYER, ENEMY, ENDING}
 
@@ -135,6 +134,8 @@ func pick_player_target(monster: MonsterInstance):
 	return enemy_monster
 	
 func advance_turn():
+	if turn_queue.size() == 1:
+		end_battle()
 	for monster in turn_queue.duplicate():
 		if monster.health_component.current_hp <= 0:
 			handle_monster_death(monster)
@@ -169,13 +170,12 @@ func calc_damage(user, target, move):
 	apply_move(user, target, move.damage)
 func apply_move(user: MonsterInstance, target : MonsterInstance, damage: int):
 	target.health_component.take_damage(damage)
-
+	
 func capture_pressed():
-	attempt_capture.emit()
-func _on_capture_manager_monster_captured() -> void:
-	capture_succeeded()
+	capture_manager.attempt_capture(enemy_monster)
 func capture_succeeded():
-	end_battle()
+	if enemy_party.get_child_count() == 0:
+		end_battle()
 
 func end_battle():
 	clean_up_bars()

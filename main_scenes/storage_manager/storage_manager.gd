@@ -1,8 +1,7 @@
 extends Node
 
 signal need_instance
-signal monster_added(monster : PlayerMonster)
-signal monster_removed(monster : MonsterInstance)
+signal make_party_instance
 
 @export var player : CharacterBody2D
 
@@ -12,19 +11,16 @@ var player_party : Array[PlayerMonster] = []
 func _ready():
 	pass
 
-# Connected from Capture Manager
-func add_monster_to_caught_monsters(caught):
+func add_monster_to_caught_monsters(caught : PlayerMonster):
 	print(player_party.size)
 	caught_monsters.append(caught)
 	print(caught)
 	if player_party.size() < 6:
 		player_party.append(caught)
-		get_instance(caught)
-		monster_added.emit(player_party[-1])
-		print(monster_added)
+		# emit that you *can* add instance
 	print(caught_monsters)
 	print(player_party)
-		
+
 func get_instance(pm):
 	need_instance.emit(pm)
 	

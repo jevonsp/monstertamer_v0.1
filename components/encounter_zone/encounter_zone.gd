@@ -3,9 +3,9 @@ extends Area2D
 
 signal need_random_encounter(event: EncounterEvent)
 signal battle_needs_focus
+signal current_wild_monster(event: EncounterEvent) # can make array of events for targeting later
 
 @export var enemy_party : Node
-
 
 @export_subgroup("Encounters")
 @export var encounter_table : Array[MonsterData]
@@ -28,9 +28,7 @@ func is_position_in_area(check_position: Vector2) -> bool:
 	var results = space_state.intersect_point(query)
 	for result in results:
 		if result.collider == self:
-			print("true")
 			return true
-	print("false")
 	return false
 
 # Connected via editor signal to player
@@ -38,6 +36,8 @@ func _on_player_moved_to_tile(world_position: Vector2):
 	if is_position_in_area(world_position) and randf() < encounter_rate:
 		var event := constuct_wild_encounter()
 		need_random_encounter.emit(event)
+		#current_wild_monster.emit(event)
+		print("sent encounter zone")
 		# emits to enemy party
 		print("asked for random encounter")
 
@@ -55,10 +55,3 @@ func constuct_wild_encounter() -> EncounterEvent:
 	event.monster_data = monster_data
 	event.level = level
 	return event
-
-
-
-func _on_create_encounter_pressed() -> void:
-	var event := constuct_wild_encounter()
-	need_random_encounter.emit(event)
-	print(event)

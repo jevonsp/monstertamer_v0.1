@@ -22,7 +22,7 @@ func set_monster_data(data : MonsterData, level : int) -> void:
 	monster_data = data
 	monster_name = data.species_name
 	current_level = level
-
+	
 func create_monster(event : EncounterEvent = null):
 	debug_print()
 		
@@ -31,6 +31,7 @@ func debug_print():
 	print("=== MONSTER STATS ===")
 	print("Level: ", stats_component.level)
 	print("HP: ", stats_component.base_hp)
+	print("Current HP: ", health_component.current_hp)
 	print("Speed: ", stats_component.base_speed)
 	print("Attack: ", stats_component.base_attack)
 	print("Defense: ", stats_component.base_defense)

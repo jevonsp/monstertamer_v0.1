@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 signal moved_to_tile(world_position: Vector2)
-signal can_heal
+signal ask_for_healing
 
 @export var camera : Camera2D
 @export var ray2d : RayCast2D
@@ -12,6 +12,9 @@ const TILE_SIZE :Vector2 = Vector2(32, 32)
 const MOVE_SPEED: float = 200.0
 
 var state : State = State.IDLE
+
+var can_heal : bool = false
+var healing_target : Area2D = null
 
 func _ready() -> void:
 	add_to_group("player")
@@ -34,8 +37,13 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("right"):
 		_move(Vector2.RIGHT)
 		_rotate_look_direction(Vector2.RIGHT)
-		
+	
 	_check_ray2d_collision()
+	
+	if Input.is_action_pressed("yes") and can_heal:
+		print("want to heal")
+		ask_for_healing.emit()
+	
 
 func _move(direction : Vector2) -> void:
 	if state != State.IDLE:
@@ -66,5 +74,6 @@ func _execute_tween(direction : Vector2) -> void:
 func _check_ray2d_collision():
 	if ray2d.is_colliding():
 		var collider = ray2d.get_collider()
-		if collider.is_in_group("healing"):
-			can_heal.emit()
+		can_heal = collider != null and collider.is_in_group("healing")
+	else:
+		can_heal = false
