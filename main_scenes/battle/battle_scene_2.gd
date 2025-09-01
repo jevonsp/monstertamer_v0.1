@@ -15,6 +15,7 @@ enum TurnState {PLAYER, ENEMY, ENDING}
 @export var em1 : VBoxContainer
 @export var move_buttons : GridContainer
 @export var capture_manager : Node
+@export var storage_manager : Node
 @export_subgroup("Sub Nodes")
 @export var sprite1 : Sprite2D
 @export var label1 : Label
@@ -41,20 +42,59 @@ func _process(delta: float) -> void:
 		end_battle()
 
 func start_battle():
-	print("got signal")
-	player.set_physics_process(false)
-	camera.make_current()
-	in_battle = true
-	self.visible = true
-	canvas_layer.visible = true
+	turn_queue.clear()
 	setup_monsters()
 	setup_moves()
-	sort_turn_queue()
-	for m in turn_queue:
-		print(m.name, m.stats_component.current_speed)
+	in_battle = true
+	player.set_physics_process(false)
+	camera.make_current()
+	canvas_layer.visible = true
+	await get_tree().process_frame
 	next_turn()
-	
+
+#func setup_monsters():
+	#turn_queue.clear()
+	#for slot in storage_manager.player_party:
+		#var pm = slot.pm
+		#var node = slot.node
+		#
+		#label1.text = node.monster_data.species_name
+		#sprite1.texture = node.monster_data.texture
+		#turn_queue.append(node)
+		#
+		#if node.health_component:
+			#if not node.has_meta("HPBar"):
+				#var bar = hp_bar_scene.instantiate()
+				#pm1.add_child(bar)
+				#bar.bind_to_monster(node)
+				#node.set_meta("HPBar", bar)
+				#
+	#for node in enemy_party.get_children():
+		#if node is MonsterInstance and node.monster_data != null:
+			#enemy_monster = node 
+			#label2.text = node.monster_data.species_name
+			#sprite2.texture = node.monster_data.texture
+			#turn_queue.append(node)
+		#if node.health_component:
+			#if not node.has_meta("HPBar"):
+				#var bar = hp_bar_scene.instantiate()
+				#em1.add_child(bar)
+				#bar.bind_to_monster(node)
+				#bar.name = "HPBar"
+				#node.set_meta("HPBar", bar)
+	#setup_moves()
+	#sort_turn_queue()
+
 func setup_monsters():
+	turn_queue.clear()
+
+	#for slot in storage_manager.player_party:
+		#var pm = slot.pm
+		#var node = slot.node
+		#
+		#label1.text = node.monster_data.species_name
+		#sprite1.texture = node.monster_data.texture
+		#node.call_deferred("add_to_turn_queue")
 	for node in party.get_children():
 		if node is MonsterInstance and node.monster_data != null:
 			player_monster = node

@@ -37,22 +37,27 @@ script = ExtResource("1_6h35g")
 z_index = 1
 position = Vector2(143, 143)
 
-[node name="BattleScene2" parent="." node_paths=PackedStringArray("party", "enemy_party", "player", "capture_manager") instance=ExtResource("15_noxtv")]
+[node name="BattleScene2" parent="." node_paths=PackedStringArray("party", "enemy_party", "player", "capture_manager", "storage_manager") instance=ExtResource("15_noxtv")]
 z_index = 1
 party = NodePath("../Party")
 enemy_party = NodePath("../EnemyParty")
 player = NodePath("../Player")
 capture_manager = NodePath("../CaptureManager")
+storage_manager = NodePath("../StorageManager")
 
-[node name="Party" parent="." instance=ExtResource("4_im5ls")]
+[node name="Party" parent="." node_paths=PackedStringArray("monster_factory", "battle_scene") instance=ExtResource("4_im5ls")]
 script = ExtResource("6_m3jfi")
+monster_factory = NodePath("../MonsterFactory")
+battle_scene = NodePath("../BattleScene2")
 
 [node name="EnemyParty" parent="." node_paths=PackedStringArray("monster_factory") instance=ExtResource("7_0tnpc")]
 unique_name_in_owner = true
 monster_factory = NodePath("../MonsterFactory")
 
-[node name="StorageManager" parent="." node_paths=PackedStringArray("player") instance=ExtResource("7_7j0c4")]
+[node name="StorageManager" parent="." node_paths=PackedStringArray("player", "capture_manager", "party") instance=ExtResource("7_7j0c4")]
 player = NodePath("../Player")
+capture_manager = NodePath("../CaptureManager")
+party = NodePath("../Party")
 
 [node name="CaptureManager" parent="." node_paths=PackedStringArray("party", "enemy_party", "storage_manager", "monster_adder", "monster_factory", "battle_scene") instance=ExtResource("10_7i1yy")]
 party = NodePath("../Party")

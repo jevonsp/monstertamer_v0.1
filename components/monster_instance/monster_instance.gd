@@ -12,6 +12,7 @@ var current_hp : int
 var moves_component : MovesComponent
 var moves : Array[Move] = []
 var known_moves : Array[Move]
+var battle_scene : Node
 var experience : int = 0
 var level : int = 1
 
@@ -22,10 +23,20 @@ func set_monster_data(data : MonsterData, level : int) -> void:
 	monster_data = data
 	monster_name = data.species_name
 	current_level = level
-	
+
 func create_monster(event : EncounterEvent = null):
 	debug_print()
-		
+
+func add_to_turn_queue():
+	if health_component == null:
+		push_error("Monster missing health_component: %s" % name)
+		return
+	# Setup HP bar if missing
+	if not has_meta("HPBar"):
+		push_error("no meta!")
+	
+	battle_scene.turn_queue.append(self)
+
 func debug_print():
 	# Print all stats
 	print("=== MONSTER STATS ===")
