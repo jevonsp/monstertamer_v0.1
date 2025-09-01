@@ -190,8 +190,8 @@ func end_battle():
 		player.camera.make_current()
 func clean_up_bars():
 	for bar in pm1.get_children():
-		if bar.name == "HPBar":
-			pm1.remove_child(bar)
+		if bar is ProgressBar:
+			bar.queue_free()
 	for bar in em1.get_children():
-		if bar.name == "HPBar":
-			em1.remove_child(bar)
+		if bar is ProgressBar:
+			bar.queue_free()
