@@ -24,15 +24,6 @@ func attempt_capture(mi: MonsterInstance):
 func capture_monster(mi : MonsterInstance):
 	var pm = PlayerMonster.create_player_monster(mi)
 	monster_captured.emit(pm)
-	if party.get_child_count() < 6:
-		var new_instance = monster_factory.create_from_pm(pm)
-		new_instance.set_meta("player_monster", pm) # link resource ↔ node
-		party.add_child(new_instance)
-		
-		var slot = PartySlot.new()
-		slot.pm = pm
-		slot.node = new_instance
-		storage_manager.player_party.append(slot)
 	enemy_party.remove_child(mi)
 	mi.queue_free()
 	if enemy_party.get_child_count() == 0:

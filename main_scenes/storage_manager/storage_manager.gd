@@ -9,12 +9,17 @@ signal make_party_instance
 @export var party : Node
 
 var caught_monsters : Array[PlayerMonster] = []
-var player_party : Array[PartySlot] = []
+var player_party : Array[PlayerMonster] = []
 
 func _ready():
 	pass
 
+func get_starter(pm : PlayerMonster):
+	print("monster get")
+	add_monster_to_caught_monsters(pm)
+
 func add_monster_to_caught_monsters(caught : PlayerMonster):
+	print("added to pm")
 	caught_monsters.append(caught)
 	if player_party.size() < 6:
 		var slot = PartySlot.new()
