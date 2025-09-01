@@ -42,59 +42,21 @@ func _process(delta: float) -> void:
 		end_battle()
 
 func start_battle():
-	turn_queue.clear()
-	setup_monsters()
-	setup_moves()
-	in_battle = true
+	print("got signal")
 	player.set_physics_process(false)
 	camera.make_current()
+	in_battle = true
+	self.visible = true
 	canvas_layer.visible = true
-	await get_tree().process_frame
-	next_turn()
-
-#func setup_monsters():
-	#turn_queue.clear()
-	#for slot in storage_manager.player_party:
-		#var pm = slot.pm
-		#var node = slot.node
-		#
-		#label1.text = node.monster_data.species_name
-		#sprite1.texture = node.monster_data.texture
-		#turn_queue.append(node)
-		#
-		#if node.health_component:
-			#if not node.has_meta("HPBar"):
-				#var bar = hp_bar_scene.instantiate()
-				#pm1.add_child(bar)
-				#bar.bind_to_monster(node)
-				#node.set_meta("HPBar", bar)
-				#
-	#for node in enemy_party.get_children():
-		#if node is MonsterInstance and node.monster_data != null:
-			#enemy_monster = node 
-			#label2.text = node.monster_data.species_name
-			#sprite2.texture = node.monster_data.texture
-			#turn_queue.append(node)
-		#if node.health_component:
-			#if not node.has_meta("HPBar"):
-				#var bar = hp_bar_scene.instantiate()
-				#em1.add_child(bar)
-				#bar.bind_to_monster(node)
-				#bar.name = "HPBar"
-				#node.set_meta("HPBar", bar)
-	#setup_moves()
-	#sort_turn_queue()
+	setup_monsters()
+	setup_bars()
+	setup_moves()
+	for m in turn_queue:
+		print(m.name, m.stats_component.current_speed)
+	advance_turn()
 
 func setup_monsters():
-	turn_queue.clear()
-
-	#for slot in storage_manager.player_party:
-		#var pm = slot.pm
-		#var node = slot.node
-		#
-		#label1.text = node.monster_data.species_name
-		#sprite1.texture = node.monster_data.texture
-		#node.call_deferred("add_to_turn_queue")
+	
 	for node in party.get_children():
 		if node is MonsterInstance and node.monster_data != null:
 			player_monster = node
@@ -111,6 +73,7 @@ func setup_monsters():
 			print(turn_queue)
 	setup_bars()
 	sort_turn_queue()
+
 func setup_bars():
 	for node in party.get_children():
 		if node is MonsterInstance and node.health_component:
@@ -153,6 +116,18 @@ func next_turn():
 	else:
 		turn_state = TurnState.ENEMY
 		enemy_take_turn(current)
+	#if turn_queue.size() == 0:
+		#end_battle()
+		#return
+#
+	#var current = turn_queue[0]
+#
+	#if current.get_parent() == party:
+		#turn_state = TurnState.PLAYER
+		## wait for player input
+	#else:
+		#turn_state = TurnState.ENEMY
+		#enemy_take_turn(current)
 		
 func enemy_take_turn(monster: MonsterInstance):
 	if monster.known_moves.size() == 0:
@@ -185,6 +160,28 @@ func advance_turn():
 		return
 	turn_queue.append(turn_queue.pop_front())
 	next_turn()
+	
+	#if turn_queue.size() == 0:
+		#end_battle()
+		#return
+#
+	## Remove dead monsters
+	#for monster in turn_queue.duplicate():
+		#if monster.health_component.current_hp <= 0:
+			#handle_monster_death(monster)
+			#turn_queue.erase(monster)
+#
+	#if turn_queue.size() == 0:
+		#end_battle()
+		#return
+#
+	## rotate the queue
+	#turn_queue.append(turn_queue.pop_front())
+#
+	#if turn_queue[0].get_parent() == enemy_party:
+		## enemy acts after a short delay
+		#await get_tree().process_frame
+		#next_turn()
 	
 func handle_monster_death(monster):
 	if monster == enemy_monster:

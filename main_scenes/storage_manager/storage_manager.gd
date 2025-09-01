@@ -17,6 +17,8 @@ func _ready():
 func add_monster_to_caught_monsters(caught : PlayerMonster):
 	caught_monsters.append(caught)
 	if player_party.size() < 6:
+		var slot = PartySlot.new()
+		slot.pm = caught
 		player_party.append(caught)
 
 func swap_party_slot(i: int, j: int):
