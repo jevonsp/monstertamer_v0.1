@@ -173,7 +173,7 @@ func apply_move(user: MonsterInstance, target : MonsterInstance, damage: int):
 	
 func capture_pressed():
 	capture_manager.attempt_capture(enemy_monster)
-func capture_succeeded():
+func wd():
 	if enemy_party.get_child_count() == 0:
 		end_battle()
 
