@@ -32,3 +32,17 @@ func setup_monster_from_data(event : EncounterEvent):
 
 func change_stats(stat, amount):
 	pass
+
+func apply_level_up(levels):
+	level += levels
+	base_hp += 5 * levels
+	base_speed += 1 * levels
+	base_attack += 1 * levels
+	base_defense += 1 * levels
+	base_dexterity += 1 * levels
+	
+	current_speed = base_speed
+	current_attack = base_attack
+	current_defense = base_defense
+	current_dexterity = base_dexterity
+	

@@ -114,7 +114,6 @@ func _move_back_pressed():
 func flip_physics_process(enable: bool):
 	print("stop/start movement here")
 	player.set_physics_process(enable)
-	player.set_process_input(enable)
 func flip_camera():
 	if camera.is_current():
 		player.camera.make_current()
@@ -305,12 +304,13 @@ func resolve_action(action):
 	var target = action.target
 	var move = action.move
 	if target:
-		var damage = user.get_effective_attack(move)
-		target.health_component.take_damage(damage)
+		var base_damage = user.get_effective_attack(move)
+		var type_multi = TypeChart.get_multi(move.type, target.monster_data.type)
+		var final_dmg = int(base_damage * type_multi)
+		target.health_component.take_damage(final_dmg)
 		print("%s used %s on %s for %d damage" % [
-			user.monster_data.species_name, move.name, target.monster_data.species_name, damage])
+			user.monster_data.species_name, move.name, target.monster_data.species_name, final_dmg])
 		print("%s base stat: %d" % [user.monster_data.species_name, user.stats_component.current_attack])
-
 		if target.health_component.is_dead():
 			print("%s has fainted" % target.monster_data.species_name)
 			remove_from_battle(target)
@@ -323,10 +323,24 @@ func resolve_action(action):
 	timer.queue_free()
 
 func remove_from_battle(target):
-	if target in [enemy_monster1, enemy_monster2]:
-		queue_free()
-		if enemy_party.get_child_count() == 0:
-			end_battle()
+	if target.health_component.is_dead():
+		print("%s has fainted" % target.monster_data.species_name)
+		if target in [enemy_monster1, enemy_monster2]:
+			target.queue_free()
+			if enemy_party.get_child_count() <= 1:
+				end_battle()
+		if target in [player_monster1, player_monster2]:
+			var available = []
+			for slot in party.party_slots:
+				var mon = slot.node
+				if mon != null and !mon.health_component.is_dead():
+					available.append(mon)
+			if available.size() > 0:
+				print("choose a monster")
+				end_battle()
+			else:
+				print("you lost")
+				end_battle()
 
 func start_battle():
 	print("battle ok to start")
@@ -334,6 +348,7 @@ func start_battle():
 func end_battle():
 	self.visible = false
 	flip_physics_process(true)
+	player.set_process_input(true)
 	flip_camera()
 	flip_ui_visibility(false)
 	turn_queue.clear()

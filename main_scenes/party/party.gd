@@ -27,3 +27,7 @@ func make_party_slot(pm, node):
 	slot.pm = pm
 	slot.node = node
 	party_slots.append(slot)
+
+func _on_button_pressed() -> void:
+	for monster in get_children():
+		monster.level_up()

@@ -72,6 +72,13 @@ unique_name_in_owner = true
 
 [node name="Level0" parent="." groups=["level"] instance=ExtResource("5_p57ef")]
 
+[node name="Button" type="Button" parent="."]
+custom_minimum_size = Vector2(30, 30)
+offset_left = 37.0
+offset_top = 37.0
+offset_right = 67.0
+offset_bottom = 67.0
+
 [node name="EncounterZone" parent="." node_paths=PackedStringArray("enemy_party") instance=ExtResource("3_p57ef")]
 position = Vector2(300, 109)
 enemy_party = NodePath("../EnemyParty")
@@ -145,6 +152,7 @@ shape = SubResource("RectangleShape2D_02fbf")
 [connection signal="monsters_ready" from="EnemyParty" to="BattleScene3" method="_on_enemy_party_monsters_ready"]
 [connection signal="monster_captured" from="CaptureManager" to="StorageManager" method="add_monster_to_caught_monsters"]
 [connection signal="ask_party" from="StorageManager" to="Party" method="check_party_slots"]
+[connection signal="pressed" from="Button" to="Party" method="_on_button_pressed"]
 [connection signal="body_entered" from="MonsterAdder" to="MonsterAdder" method="_on_body_entered"]
 [connection signal="monster_get" from="MonsterAdder" to="StorageManager" method="get_starter"]
 [connection signal="body_entered" from="MonsterAdder2" to="MonsterAdder2" method="_on_body_entered"]
