@@ -50,10 +50,11 @@ player = NodePath("../../Player")
 visible = false
 party_list = NodePath("../PartyList")
 
-[node name="PartyList" parent="CanvasLayer/UI" node_paths=PackedStringArray("party", "menu_list") instance=ExtResource("5_7i1yy")]
+[node name="PartyList" parent="CanvasLayer/UI" node_paths=PackedStringArray("party", "menu_list", "player") instance=ExtResource("5_7i1yy")]
 visible = false
 party = NodePath("../../../Party")
 menu_list = NodePath("../MenuList")
+player = NodePath("../../../Player")
 
 [node name="Player" parent="." instance=ExtResource("2_iywne")]
 z_index = 1
@@ -68,8 +69,10 @@ enemy_party = NodePath("../EnemyParty")
 capture_mgr = NodePath("../CaptureManager")
 storage_mgr = NodePath("../StorageManager")
 
-[node name="Party" parent="." node_paths=PackedStringArray("monster_factory") instance=ExtResource("4_im5ls")]
+[node name="Party" parent="." node_paths=PackedStringArray("monster_factory", "battle_scene", "party_list") instance=ExtResource("4_im5ls")]
 monster_factory = NodePath("../MonsterFactory")
+battle_scene = NodePath("../BattleScene3")
+party_list = NodePath("../CanvasLayer/UI/PartyList")
 
 [node name="EnemyParty" parent="." node_paths=PackedStringArray("monster_factory") instance=ExtResource("7_0tnpc")]
 unique_name_in_owner = true
@@ -171,6 +174,7 @@ shape = SubResource("RectangleShape2D_02fbf")
 [connection signal="moved_to_tile" from="Player" to="TrainerComponent" method="_on_player_moved_to_tile"]
 [connection signal="ending_battle" from="BattleScene3" to="CanvasLayer/UI" method="_on_battle_scene_3_ending_battle"]
 [connection signal="now_in_battle" from="BattleScene3" to="CanvasLayer/UI" method="_on_battle_scene_3_now_in_battle"]
+[connection signal="party_slots_updated" from="Party" to="CanvasLayer/UI/PartyList" method="update_slots"]
 [connection signal="is_double" from="EnemyParty" to="BattleScene3" method="_on_enemy_party_is_double"]
 [connection signal="monsters_ready" from="EnemyParty" to="BattleScene3" method="_on_enemy_party_monsters_ready"]
 [connection signal="monster_captured" from="CaptureManager" to="StorageManager" method="add_monster_to_caught_monsters"]

@@ -45,6 +45,7 @@ func get_effective_attack(move: Move) -> int:
 	return main_stat + move.damage
 
 func level_up():
+	stats_component.level += 1
 	stats_component.base_hp += 5
 	stats_component.base_speed += 1
 	stats_component.base_attack += 1

@@ -187,16 +187,16 @@ func display_monsters():
 	if !is_single:
 		if player_monster1:
 			player_texture1.texture = player_monster1.monster_data.texture
-			player_name1.text = player_monster1.monster_data.species_name
+			player_name1.text = player_monster1.monster_name
 		if enemy_monster1:
 			enemy_texture1.texture = enemy_monster1.monster_data.texture
-			enemy_name1.text = enemy_monster1.monster_data.species_name
+			enemy_name1.text = enemy_monster1.monster_name
 		if player_monster2:
 			player_texture2.texture = player_monster2.monster_data.texture
-			player_name2.text = player_monster2.monster_data.species_name
+			player_name2.text = player_monster2.monster_name
 		if enemy_monster2:
 			enemy_texture2.texture = enemy_monster2.monster_data.texture
-			enemy_name2.text = enemy_monster2.monster_data.species_name
+			enemy_name2.text = enemy_monster2.monster_name
 	else:
 		if player_monster1:
 			player_texture1.texture = player_monster1.monster_data.texture
@@ -373,6 +373,7 @@ func start_battle():
 	print("battle ok to start")
 
 func end_battle():
+	party.update_party_slots()
 	ending_battle.emit()
 	self.visible = false
 	hide_health_bars()

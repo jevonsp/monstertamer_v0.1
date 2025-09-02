@@ -1,5 +1,10 @@
 extends Node2D
 
+signal party_selected
+signal invent_selected
+signal save_selected
+signal closed
+
 enum Slot {PARTY, INVENT, SAVE}
 var selected_slot = Slot.PARTY
 
@@ -13,7 +18,6 @@ var selected_slot = Slot.PARTY
 
 func _ready() -> void:
 	set_active_slot()
-	set_process_input(false)
 
 func unset_active_slot():
 	slot[selected_slot].frame = 0
@@ -34,19 +38,17 @@ func _input(event: InputEvent) -> void:
 		else:
 			selected_slot -= 1
 			set_active_slot()
-	if event.is_action_pressed("yes"):
-		if selected_slot == Slot.PARTY:
-			print("open party")
-			open_party()
-		elif selected_slot == Slot.INVENT:
-			print("no invent yet")
-		elif selected_slot == Slot.SAVE:
-			print("save game")
-	if event.is_action_pressed("no"):
-		self.visible = false
-
-func open_party():
-	set_process_input(false)
-	party_list.visible = true
-	party_list.set_process_input(true)
-	
+	elif event.is_action_pressed("yes"):
+		match selected_slot:
+			Slot.PARTY:
+				print("open party")
+				party_selected.emit()
+			Slot.INVENT:
+				print("no invent yet")
+				invent_selected.emit()
+			Slot.SAVE:
+				print("save game")
+				save_selected.emit()
+	elif event.is_action_pressed("no") or event.is_action_pressed("menu"):
+		print("closed menu")
+		closed.emit()
