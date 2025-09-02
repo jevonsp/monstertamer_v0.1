@@ -25,7 +25,8 @@ func set_monster_data(data : MonsterData, level : int) -> void:
 	current_level = level
 
 func create_monster(event : EncounterEvent = null):
-	debug_print()
+	pass
+	#debug_print()
 
 func add_to_turn_queue():
 	if health_component == null:

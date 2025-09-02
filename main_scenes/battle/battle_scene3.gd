@@ -1,197 +1,177 @@
 extends Node2D
 
-signal monsters_setup
-signal main_monster_changed
-
-enum TurnState {PLAYER, ENEMY, ENDING}
-
 @export_subgroup("Nodes")
+@export var player : CharacterBody2D
 @export var party : Node
 @export var enemy_party : Node
-@export var canvas_layer : CanvasLayer
-@export var player : CharacterBody2D
+@export var capture_mgr : Node
+@export var storage_mgr : Node
+@export var txt_pnl : Node
 @export var camera : Camera2D
-@export var pm1 : VBoxContainer
-@export var em1 : VBoxContainer
-@export var move_buttons : GridContainer
-@export var capture_manager : Node
-@export var storage_manager : Node
-@export var monster_factory : Node
-@export_subgroup("Sub Nodes")
-@export var sprite1 : Sprite2D
-@export var label1 : Label
-@export var sprite2 : Sprite2D
-@export var label2 : Label
+@export_subgroup("Node Arrays")
+@export var singles_ui : Array[Node]
+@export var doubles_ui : Array[Node]
+@export var constant_ui : Array[Node]
+@export_subgroup("VBoxes")
+@export var player_box1 : VBoxContainer
+@export var player_box2 : VBoxContainer
+@export var enemy_box1 : VBoxContainer
+@export var enemy_box2 : VBoxContainer
+@export_subgroup("HBoxes")
+@export var player_container : HBoxContainer
+@export var enemy_container : HBoxContainer
+@export_subgroup("Monster Texture")
+@export var player_texture1 : TextureRect
+@export var player_texture2 : TextureRect
+@export var enemy_texture1 : TextureRect
+@export var enemy_texture2 : TextureRect
+@export_subgroup("Monster Names")
+@export var player_name1 : Label
+@export var player_name2 : Label
+@export var enemy_name1 : Label
+@export var enemy_name2 : Label
 
-var player_bars : Array = []
-var enemy_bars : Array = []
-
-var player_monster : Node
-var enemy_monster : Node
-
-var turn_queue : Array[MonsterInstance] = []
-var turn_state = TurnState.PLAYER
-
-var in_battle : bool = false
+var turn_queue : Array[Node] = []
 var is_single : bool = true
+# These are Turn Queue Entries
+var player_monster1 : Node
+var player_monster2 : Node
+var enemy_monster1 : Node
+var enemy_monster2 : Node
+
 var hp_bar_scene = preload("res://main_scenes/battle/progress_bar.tscn")
 
-func _ready():
-	for button in move_buttons.get_children():
-		button.pressed.connect(_on_move_pressed.bind(button.get_index()))
-func _process(delta: float) -> void:
-	if in_battle and Input.is_action_just_pressed("ui_cancel"):
-		end_battle()
+func _ready() -> void:
+	pass
 
-func start_battle():
-	print("got signal")
-	spawn_player_monsters()
-	player.set_physics_process(false)
-	camera.make_current()
-	in_battle = true
+func _on_enemy_party_monsters_ready() -> void:
+	enter_battle()
+	setup_battle()
+	start_battle()
+
+func enter_battle():
 	self.visible = true
-	canvas_layer.visible = true
-	setup_monsters()
-	setup_bars()
-	setup_moves()
-	for m in turn_queue:
-		print(m.name, m.stats_component.current_speed)
-	advance_turn()
+	flip_physics_process(false)
+	flip_camera()
 
-func spawn_player_monsters():
-	for i in range(storage_manager.player_party.size()):
-		var pm = storage_manager.player_party[i]
-		var node = monster_factory.create_from_pm(pm)
-		party.add_child(node)
-
-func setup_monsters():
-	for node in party.get_children():
-		if node is MonsterInstance and node.monster_data != null:
-			player_monster = node
-			label1.text = node.monster_data.species_name
-			sprite1.texture = node.monster_data.texture
-			turn_queue.append(node)
-			print(turn_queue)
-	for node in enemy_party.get_children():
-		if node is MonsterInstance and node.monster_data != null:
-			enemy_monster = node
-			label2.text = node.monster_data.species_name
-			sprite2.texture = node.monster_data.texture
-			turn_queue.append(node)
-			print(turn_queue)
-	setup_bars()
+func setup_battle():
+	make_turn_queue()
 	sort_turn_queue()
+	display_monsters()
+	show_health_bars()
+	setup_moves()
+	flip_ui_visibility(true)
+	
+func flip_physics_process(enable: bool):
+	print("stop movement here")
+	player.set_physics_process(enable)
+func flip_camera():
+	if camera.is_current():
+		player.camera.make_current()
+	else:
+		camera.make_current()
+func flip_ui_visibility(enable: bool):
+	set_ui_visible(constant_ui, enable)
+	if !is_single:
+		set_ui_visible(doubles_ui, enable)
+	else:
+		set_ui_visible(singles_ui, enable)
+func set_ui_visible(ui_group: Array[Node], show: bool):
+	for element in ui_group:
+		element.visible = show
 
-func setup_bars():
+func make_turn_queue():
+	if is_single:
+		make_singles_queue()
+	else:
+		make_doubles_queue()
+func make_singles_queue():
+	player_monster1 = party.party_slots[0].node
+	player_monster1.set_meta("ui_box", player_box1)
+	player_monster1.set_meta("texture_rect", player_texture1)
+	player_monster1.set_meta("name_label", player_name1)
+	turn_queue.append(player_monster1)
+	
+	enemy_monster1 = enemy_party.get_child(0)
+	enemy_monster1.set_meta("ui_box", enemy_box1)
+	enemy_monster1.set_meta("texture_rect", enemy_texture1)
+	enemy_monster1.set_meta("name_label", enemy_name1)
+	turn_queue.append(enemy_monster1)
+func make_doubles_queue():
+	player_monster1 = party.party_slots[0].node
+	player_monster1.set_meta("ui_box", player_box1)
+	player_monster1.set_meta("texture_rect", player_texture1)
+	player_monster1.set_meta("name_label", player_name1)
+	turn_queue.append(player_monster1)
+	
+	enemy_monster1 = enemy_party.get_child(0)
+	enemy_monster1.set_meta("ui_box", enemy_box1)
+	enemy_monster1.set_meta("texture_rect", enemy_texture1)
+	enemy_monster1.set_meta("name_label", enemy_name1)
+	turn_queue.append(enemy_monster1)
+	
+	player_monster2 = party.party_slots[1].node
+	player_monster2.set_meta("ui_box", player_box2)
+	player_monster2.set_meta("texture_rect", player_texture2)
+	player_monster2.set_meta("name_label", player_name2)
+	turn_queue.append(player_monster2)
+	
+	enemy_monster2 = enemy_party.get_child(1)
+	enemy_monster2.set_meta("ui_box", enemy_box2)
+	enemy_monster2.set_meta("texture_rect", enemy_texture2)
+	enemy_monster2.set_meta("name_label", enemy_name2)
+	turn_queue.append(enemy_monster2)
+func sort_turn_queue():
+	turn_queue.sort_custom(
+		func(a ,b): return a.stats_component.current_speed > b.stats_component.current_speed)
+
+func display_monsters():
 	for node in turn_queue:
-		if node is MonsterInstance and node.health_component:
-			if not node.has_meta("HPBar"):
-				var bar = hp_bar_scene.instantiate()
-				pm1.add_child(bar)
-				bar.bind_to_monster(node)
-				node.set_meta("HPBar", bar)
-		else:
-			print("Party node missing health_component or wrong type: ", node.name)
+		pass
+	
+	if !is_single:
+		if player_monster1:
+			player_texture1.texture = player_monster1.monster_data.texture
+			player_name1.text = player_monster1.monster_data.species_name
+		if enemy_monster1:
+			enemy_texture1.texture = enemy_monster1.monster_data.texture
+			enemy_name1.text = enemy_monster1.monster_data.species_name
+		if player_monster2:
+			player_texture2.texture = player_monster2.monster_data.texture
+			player_name2.text = player_monster2.monster_data.species_name
+		if enemy_monster2:
+			enemy_texture2.texture = enemy_monster2.monster_data.texture
+			enemy_name2.text = enemy_monster2.monster_data.species_name
+	else:
+		if player_monster1:
+			player_texture1.texture = player_monster1.monster_data.texture
+			player_name1.text = player_monster1.monster_data.species_name
+		if enemy_monster1:
+			enemy_texture1.texture = enemy_monster1.monster_data.texture
+			enemy_name1.text = enemy_monster1.monster_data.species_name
+func show_health_bars():
+	for node in turn_queue:
+		if not node.has_meta("HPBar"):
+			var bar = hp_bar_scene.instantiate()
+			if node == player_monster1:
+				player_box1.add_child(bar)
+			elif node == player_monster2:
+				player_box2.add_child(bar)
+			elif node == enemy_monster1:
+				enemy_box1.add_child(bar)
+			elif node == enemy_monster2:
+				enemy_box2.add_child(bar)
+			
+			bar.bind_to_monster(node)
+			node.set_meta("HPBar", bar)
 
 func setup_moves():
-	var known_moves = party.get_child(0).known_moves
-	var buttons = move_buttons.get_children()
-	for i in range(min(buttons.size(), known_moves.size())):
-		buttons[i].text = known_moves[i].name
+	pass
 
-func _monster_speed_less(a: MonsterInstance, b: MonsterInstance) -> bool:
-	return a.stats_component.current_speed < b.stats_component.current_speed
+func start_battle():
+	print("battle ok to start")
 
-func sort_turn_queue():
-	turn_queue.sort_custom(_monster_speed_less)
-	print(turn_queue)
-	
-func next_turn():
-	var current = turn_queue[0]
-	if current.get_parent() == party:
-		turn_state = TurnState.PLAYER
-	else:
-		turn_state = TurnState.ENEMY
-		enemy_take_turn(current)
-		
-func enemy_take_turn(monster: MonsterInstance):
-	if monster.known_moves.size() == 0:
-		advance_turn()
-		return
-	var move = monster.known_moves.pick_random()
-	var target = pick_enemy_target(monster)
-	calc_damage(monster, target, move)
-	var timer = Timer.new()
-	timer.wait_time = .5
-	add_child(timer)
-	timer.start()
-	await timer.timeout
-	advance_turn()
-	
-func pick_enemy_target(monster: MonsterInstance):
-	return player_monster
-func pick_player_target(monster: MonsterInstance):
-	return enemy_monster
-	
-func advance_turn():
-	if turn_queue.size() == 1:
-		end_battle()
-	for monster in turn_queue.duplicate():
-		if monster.health_component.current_hp <= 0:
-			handle_monster_death(monster)
-			turn_queue.erase(monster)
-	if turn_queue.is_empty():
-		end_battle()
-		return
-	turn_queue.append(turn_queue.pop_front())
-	next_turn()
-	
-func handle_monster_death(monster):
-	if monster == enemy_monster:
-		print("you win!")
-		end_battle()
-	else:
-		print("you lose :(")
-		end_battle()
-		
-func _on_move_pressed(move_index: int):
-	if player_monster and player_monster.known_moves.size() > move_index:
-		var move = player_monster.known_moves[move_index]
-		calc_damage(player_monster, enemy_monster, move)
-		var timer = Timer.new()
-		timer.wait_time = .5
-		add_child(timer)
-		timer.start()
-		await timer.timeout
-		advance_turn()
-
-func calc_damage(user, target, move):
-	# can replace move.damage with some calculation using move.damage here later
-	apply_move(user, target, move.damage)
-func apply_move(user: MonsterInstance, target : MonsterInstance, damage: int):
-	target.health_component.take_damage(damage)
-	
-func capture_pressed():
-	capture_manager.attempt_capture(enemy_monster)
-func capture_succeeded():
-	if enemy_party.get_child_count() == 0:
-		end_battle()
-
-func end_battle():
-	clean_up_bars()
-	for enemy in enemy_party.get_children():
-		enemy.queue_free()
-	turn_queue.clear()
-	player.set_physics_process(true)
-	in_battle = false
-	self.visible = false
-	canvas_layer.visible = false
-	if player:
-		player.camera.make_current()
-func clean_up_bars():
-	for bar in pm1.get_children():
-		if bar is ProgressBar:
-			bar.queue_free()
-	for bar in em1.get_children():
-		if bar is ProgressBar:
-			bar.queue_free()
+func _on_on_pressed() -> void:
+	flip_ui_visibility(true)
+func _on_off_pressed() -> void:
+	flip_ui_visibility(false)

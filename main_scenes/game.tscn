@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b0bf3hk6wxjyr" path="res://main_scenes/game.gd" id="1_6h35g"]
 [ext_resource type="PackedScene" uid="uid://bmfphnhglhc3" path="res://main_scenes/player/player.tscn" id="2_iywne"]
+[ext_resource type="PackedScene" uid="uid://cemvqf4navxda" path="res://main_scenes/battle/battle_scene3.tscn" id="3_7i1yy"]
 [ext_resource type="PackedScene" uid="uid://dslyemb151w4k" path="res://components/encounter_zone/encounter_zone.tscn" id="3_p57ef"]
 [ext_resource type="PackedScene" uid="uid://cwvxpdmi5vk2b" path="res://main_scenes/party/Party.tscn" id="4_im5ls"]
 [ext_resource type="PackedScene" uid="uid://njxdudpywcah" path="res://components/trainer/trainer_component.tscn" id="4_u5sy4"]
@@ -14,7 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://btka8kpgy1kc5" path="res://main_scenes/capture_manager/capture_manager.tscn" id="10_7i1yy"]
 [ext_resource type="Resource" uid="uid://cajcst55ivnkf" path="res://monsters/pistol_shrimp.tres" id="11_mf5kq"]
 [ext_resource type="Resource" uid="uid://mkqktbhjqjxf" path="res://monsters/pyro_badger.tres" id="13_mf5kq"]
-[ext_resource type="PackedScene" uid="uid://yat5a0u3snmk" path="res://main_scenes/battle/battle_scene_2.tscn" id="15_noxtv"]
 [ext_resource type="Script" uid="uid://3y2odgqmtkte" path="res://main_scenes/monster_adder.gd" id="17_7i1yy"]
 [ext_resource type="PackedScene" uid="uid://0353uec73bnc" path="res://components/healing_component/healing_component.tscn" id="17_mvuii"]
 
@@ -37,36 +37,35 @@ script = ExtResource("1_6h35g")
 z_index = 1
 position = Vector2(143, 143)
 
-[node name="BattleScene2" parent="." node_paths=PackedStringArray("party", "enemy_party", "player", "capture_manager", "storage_manager", "monster_factory") instance=ExtResource("15_noxtv")]
+[node name="BattleScene3" parent="." node_paths=PackedStringArray("player", "party", "enemy_party", "capture_mgr", "storage_mgr") instance=ExtResource("3_7i1yy")]
+visible = false
 z_index = 1
+player = NodePath("../Player")
 party = NodePath("../Party")
 enemy_party = NodePath("../EnemyParty")
-player = NodePath("../Player")
-capture_manager = NodePath("../CaptureManager")
-storage_manager = NodePath("../StorageManager")
-monster_factory = NodePath("../MonsterFactory")
+capture_mgr = NodePath("../CaptureManager")
+storage_mgr = NodePath("../StorageManager")
 
-[node name="Party" parent="." node_paths=PackedStringArray("monster_factory", "battle_scene") instance=ExtResource("4_im5ls")]
+[node name="Party" parent="." node_paths=PackedStringArray("monster_factory") instance=ExtResource("4_im5ls")]
 script = ExtResource("6_m3jfi")
 monster_factory = NodePath("../MonsterFactory")
-battle_scene = NodePath("../BattleScene2")
 
 [node name="EnemyParty" parent="." node_paths=PackedStringArray("monster_factory") instance=ExtResource("7_0tnpc")]
 unique_name_in_owner = true
 monster_factory = NodePath("../MonsterFactory")
 
-[node name="StorageManager" parent="." node_paths=PackedStringArray("player", "capture_manager", "party") instance=ExtResource("7_7j0c4")]
-player = NodePath("../Player")
-capture_manager = NodePath("../CaptureManager")
-party = NodePath("../Party")
-
-[node name="CaptureManager" parent="." node_paths=PackedStringArray("party", "enemy_party", "storage_manager", "monster_adder", "monster_factory", "battle_scene") instance=ExtResource("10_7i1yy")]
+[node name="CaptureManager" parent="." node_paths=PackedStringArray("party", "enemy_party", "storage_manager", "monster_adder", "monster_factory") instance=ExtResource("10_7i1yy")]
 party = NodePath("../Party")
 enemy_party = NodePath("../EnemyParty")
 storage_manager = NodePath("../StorageManager")
 monster_adder = NodePath("../MonsterAdder")
 monster_factory = NodePath("../MonsterFactory")
-battle_scene = NodePath("../BattleScene2")
+
+[node name="StorageManager" parent="." node_paths=PackedStringArray("player", "capture_manager", "party", "monster_factory") instance=ExtResource("7_7j0c4")]
+player = NodePath("../Player")
+capture_manager = NodePath("../CaptureManager")
+party = NodePath("../Party")
+monster_factory = NodePath("../MonsterFactory")
 
 [node name="MonsterFactory" parent="." instance=ExtResource("8_7j0c4")]
 unique_name_in_owner = true
@@ -142,9 +141,9 @@ shape = SubResource("RectangleShape2D_02fbf")
 [connection signal="ask_for_healing" from="Player" to="Party" method="heal_party"]
 [connection signal="moved_to_tile" from="Player" to="EncounterZone" method="_on_player_moved_to_tile"]
 [connection signal="moved_to_tile" from="Player" to="TrainerComponent" method="_on_player_moved_to_tile"]
-[connection signal="battle_started" from="EnemyParty" to="BattleScene2" method="start_battle"]
+[connection signal="monsters_ready" from="EnemyParty" to="BattleScene3" method="_on_enemy_party_monsters_ready"]
 [connection signal="monster_captured" from="CaptureManager" to="StorageManager" method="add_monster_to_caught_monsters"]
-[connection signal="current_wild_monster" from="EncounterZone" to="CaptureManager" method="_on_encounter_zone_current_wild_monster"]
+[connection signal="ask_party" from="StorageManager" to="Party" method="check_party_slots"]
 [connection signal="body_entered" from="MonsterAdder" to="MonsterAdder" method="_on_body_entered"]
 [connection signal="monster_get" from="MonsterAdder" to="StorageManager" method="get_starter"]
 [connection signal="body_entered" from="MonsterAdder2" to="MonsterAdder2" method="_on_body_entered"]

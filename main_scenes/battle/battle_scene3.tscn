@@ -1,0 +1,248 @@
+[gd_scene load_steps=2 format=3 uid="uid://cemvqf4navxda"]
+
+[ext_resource type="Script" uid="uid://nvro8gbwaglw" path="res://main_scenes/battle/battle_scene3.gd" id="1_r5if4"]
+
+[node name="BattleScene3" type="Node2D" node_paths=PackedStringArray("txt_pnl", "camera", "singles_ui", "doubles_ui", "constant_ui", "player_box1", "player_box2", "enemy_box1", "enemy_box2", "player_container", "enemy_container", "player_texture1", "player_texture2", "enemy_texture1", "enemy_texture2", "player_name1", "player_name2", "enemy_name1", "enemy_name2")]
+script = ExtResource("1_r5if4")
+txt_pnl = NodePath("TextPanel")
+camera = NodePath("Camera2D")
+singles_ui = [NodePath("MonsterContainer/PlayerContainer/PMVBox1"), NodePath("MonsterContainer/EnemyContainer/EMVBox1")]
+doubles_ui = [NodePath("MonsterContainer/PlayerContainer/PMVBox1"), NodePath("MonsterContainer/PlayerContainer/PMVBox2"), NodePath("MonsterContainer/EnemyContainer/EMVBox1"), NodePath("MonsterContainer/EnemyContainer/EMVBox2")]
+constant_ui = [NodePath("FightButtons"), NodePath("ColorRect"), NodePath("TextPanel")]
+player_box1 = NodePath("MonsterContainer/PlayerContainer/PMVBox1")
+player_box2 = NodePath("MonsterContainer/PlayerContainer/PMVBox2")
+enemy_box1 = NodePath("MonsterContainer/EnemyContainer/EMVBox1")
+enemy_box2 = NodePath("MonsterContainer/EnemyContainer/EMVBox2")
+player_container = NodePath("MonsterContainer/PlayerContainer")
+enemy_container = NodePath("MonsterContainer/EnemyContainer")
+player_texture1 = NodePath("MonsterContainer/PlayerContainer/PMVBox1/PM1")
+player_texture2 = NodePath("MonsterContainer/PlayerContainer/PMVBox2/PM2")
+enemy_texture1 = NodePath("MonsterContainer/EnemyContainer/EMVBox1/EM1")
+enemy_texture2 = NodePath("MonsterContainer/EnemyContainer/EMVBox2/EM2")
+player_name1 = NodePath("MonsterContainer/PlayerContainer/PMVBox1/Label")
+player_name2 = NodePath("MonsterContainer/PlayerContainer/PMVBox2/Label")
+enemy_name1 = NodePath("MonsterContainer/EnemyContainer/EMVBox1/Label")
+enemy_name2 = NodePath("MonsterContainer/EnemyContainer/EMVBox2/Label")
+
+[node name="On" type="Button" parent="."]
+custom_minimum_size = Vector2(50, 50)
+offset_left = 432.0
+offset_top = 13.0
+offset_right = 482.0
+offset_bottom = 63.0
+text = "On"
+metadata/_edit_use_anchors_ = true
+
+[node name="Off" type="Button" parent="."]
+custom_minimum_size = Vector2(50, 50)
+offset_left = 499.0
+offset_top = 13.0
+offset_right = 549.0
+offset_bottom = 63.0
+text = "Off
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -35.0
+offset_right = 416.0
+offset_bottom = 347.0
+
+[node name="MonsterContainer" type="HBoxContainer" parent="."]
+offset_top = 68.0
+offset_right = 640.0
+offset_bottom = 229.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="PlayerContainer" type="HBoxContainer" parent="MonsterContainer"]
+custom_minimum_size = Vector2(266, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="PMVBox1" type="VBoxContainer" parent="MonsterContainer/PlayerContainer"]
+visible = false
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="PM1" type="TextureRect" parent="MonsterContainer/PlayerContainer/PMVBox1"]
+layout_mode = 2
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MonsterContainer/PlayerContainer/PMVBox1"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "name"
+horizontal_alignment = 1
+vertical_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PMVBox2" type="VBoxContainer" parent="MonsterContainer/PlayerContainer"]
+visible = false
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="PM2" type="TextureRect" parent="MonsterContainer/PlayerContainer/PMVBox2"]
+layout_mode = 2
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MonsterContainer/PlayerContainer/PMVBox2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "name"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MonsterContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+
+[node name="EnemyContainer" type="HBoxContainer" parent="MonsterContainer"]
+custom_minimum_size = Vector2(266, 128)
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="EMVBox1" type="VBoxContainer" parent="MonsterContainer/EnemyContainer"]
+visible = false
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="EM1" type="TextureRect" parent="MonsterContainer/EnemyContainer/EMVBox1"]
+layout_mode = 2
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MonsterContainer/EnemyContainer/EMVBox1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "name"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="EMVBox2" type="VBoxContainer" parent="MonsterContainer/EnemyContainer"]
+visible = false
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="EM2" type="TextureRect" parent="MonsterContainer/EnemyContainer/EMVBox2"]
+layout_mode = 2
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MonsterContainer/EnemyContainer/EMVBox2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "name"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="FightButtons" type="GridContainer" parent="."]
+custom_minimum_size = Vector2(240, 120)
+offset_left = 6.0
+offset_top = 237.0
+offset_right = 131.0
+offset_bottom = 357.0
+columns = 2
+
+[node name="Button" type="Button" parent="FightButtons"]
+layout_mode = 2
+size_flags_horizontal = 7
+size_flags_vertical = 7
+text = "Item"
+
+[node name="Button2" type="Button" parent="FightButtons"]
+layout_mode = 2
+size_flags_horizontal = 7
+size_flags_vertical = 7
+text = "Fight"
+
+[node name="Button3" type="Button" parent="FightButtons"]
+layout_mode = 2
+size_flags_horizontal = 7
+size_flags_vertical = 7
+text = "Run"
+
+[node name="Button4" type="Button" parent="FightButtons"]
+layout_mode = 2
+size_flags_horizontal = 7
+size_flags_vertical = 7
+text = "Monster"
+
+[node name="MoveButtons1" type="GridContainer" parent="."]
+visible = false
+custom_minimum_size = Vector2(240, 120)
+offset_left = 6.0
+offset_top = 237.0
+offset_right = 131.0
+offset_bottom = 357.0
+columns = 2
+
+[node name="Button" type="Button" parent="MoveButtons1"]
+layout_mode = 2
+size_flags_horizontal = 7
+size_flags_vertical = 7
+
+[node name="Button2" type="Button" parent="MoveButtons1"]
+layout_mode = 2
+size_flags_horizontal = 7
+size_flags_vertical = 7
+
+[node name="Button3" type="Button" parent="MoveButtons1"]
+layout_mode = 2
+size_flags_horizontal = 7
+size_flags_vertical = 7
+
+[node name="Button4" type="Button" parent="MoveButtons1"]
+layout_mode = 2
+size_flags_horizontal = 7
+size_flags_vertical = 7
+
+[node name="MoveButtons2" type="GridContainer" parent="."]
+visible = false
+custom_minimum_size = Vector2(240, 120)
+offset_left = 6.0
+offset_top = 237.0
+offset_right = 131.0
+offset_bottom = 357.0
+columns = 2
+
+[node name="Button" type="Button" parent="MoveButtons2"]
+layout_mode = 2
+size_flags_horizontal = 7
+size_flags_vertical = 7
+
+[node name="Button2" type="Button" parent="MoveButtons2"]
+layout_mode = 2
+size_flags_horizontal = 7
+size_flags_vertical = 7
+
+[node name="Button3" type="Button" parent="MoveButtons2"]
+layout_mode = 2
+size_flags_horizontal = 7
+size_flags_vertical = 7
+
+[node name="Button4" type="Button" parent="MoveButtons2"]
+layout_mode = 2
+size_flags_horizontal = 7
+size_flags_vertical = 7
+
+[node name="TextPanel" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 120)
+offset_left = 249.0
+offset_top = 237.0
+offset_right = 634.0
+offset_bottom = 357.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(320, 180)
+
+[connection signal="pressed" from="On" to="." method="_on_on_pressed"]
+[connection signal="pressed" from="Off" to="." method="_on_off_pressed"]

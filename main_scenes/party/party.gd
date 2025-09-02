@@ -4,7 +4,7 @@ extends Node
 @export var monster_factory : Node
 @export var battle_scene : Node
 
-@export var party_monster : Array[MonsterData] = []
+var party_slots : Array[PartySlot] = []
 
 func _ready() -> void:
 	pass
@@ -14,9 +14,16 @@ func heal_party():
 	for monster in get_children():
 		monster.health_component.heal()
 
-func _on_storage_manager_monster_added(monster : PlayerMonster) -> void:
-	var instance = monster_factory.create_from_player_data(monster)
-	instance.battle_scene = battle_scene
-	add_child(instance)
-	instance.name = "PlayerMonster"
-	print(instance)
+func check_party_slots(caught):
+	if party_slots.size() < 6:
+		var new_instance = monster_factory.create_from_pm(caught)
+		add_child(new_instance)
+		print("added party member")
+		make_party_slot(caught, new_instance)
+		print("made party slot")
+
+func make_party_slot(pm, node):
+	var slot = PartySlot.new()
+	slot.pm = pm
+	slot.node = node
+	party_slots.append(slot)
