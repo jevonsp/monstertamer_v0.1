@@ -29,7 +29,6 @@ func setup_monster_from_data(event : EncounterEvent):
 	current_attack = base_attack
 	current_defense = base_defense
 	current_dexterity = base_dexterity
-	
-# These types in battle
-func get_effective_attack():
+
+func change_stats(stat, amount):
 	pass

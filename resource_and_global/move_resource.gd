@@ -1,6 +1,7 @@
 class_name Move extends Resource
 
 enum TargetType {SELF, ALLY, ENEMY, ALL_ALLY, ALL_ENEMY, ALL_FIELD, RANDOM}
+enum Effect {DAMAGE, HEAL, BUFF, DEBUFF}
 
 @export var name : String
 @export var icon : Texture2D

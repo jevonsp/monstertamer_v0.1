@@ -75,7 +75,6 @@ func _process(delta: float) -> void:
 	else:
 		hold_timer = 0.0
 
-
 func _on_enemy_party_monsters_ready() -> void:
 	enter_battle()
 	setup_battle()
@@ -115,6 +114,7 @@ func _move_back_pressed():
 func flip_physics_process(enable: bool):
 	print("stop/start movement here")
 	player.set_physics_process(enable)
+	player.set_process_input(enable)
 func flip_camera():
 	if camera.is_current():
 		player.camera.make_current()
@@ -173,10 +173,10 @@ func make_doubles_queue():
 	enemy_monster2.set_meta("texture_rect", enemy_texture2)
 	enemy_monster2.set_meta("name_label", enemy_name2)
 	turn_queue.append(enemy_monster2)
-
 func sort_turn_queue():
-	turn_queue.sort_custom(
-		func(a ,b): return a.stats_component.current_speed < b.stats_component.current_speed)
+	turn_queue.sort_custom(Callable(self, "compare_speed"))
+func compare_speed(a, b): # Helper
+	return b.stats_component.current_speed - a.stats_component.current_speed
 
 func display_monsters():
 	for node in turn_queue:
@@ -274,7 +274,11 @@ func all_moves_chosen():
 		return turn_actions.size() == 2
 func execute_turn():
 	enemy_choose_moves()
-	#var sorted_actions = sort_actions_by_speed(turn_actions)
+	sort_actions()
+	for action in turn_actions:
+		await resolve_action(action)
+	turn_actions.clear()
+	show_button_state(ChoiceState.MAIN)
 	
 func enemy_choose_moves():
 	if is_single:
@@ -289,9 +293,40 @@ func enemy_choose_moves():
 			var target = get_default_target(enemy)
 			queue_move(enemy, target, move)
 			
-#func sort_actions_by_speed(actions: Array) -> Array:
+func sort_actions():
+	turn_actions.sort_custom(Callable(self, "compare_turn_actions"))
+func compare_turn_actions(a, b): # Helper
+	var index_a = turn_queue.find(a.user)
+	var index_b = turn_queue.find(b.user)
+	return index_a - index_b
 	
+func resolve_action(action):
+	var user = action.user
+	var target = action.target
+	var move = action.move
+	if target:
+		var damage = user.get_effective_attack(move)
+		target.health_component.take_damage(damage)
+		print("%s used %s on %s for %d damage" % [
+			user.monster_data.species_name, move.name, target.monster_data.species_name, damage])
+		print("%s base stat: %d" % [user.monster_data.species_name, user.stats_component.current_attack])
 
+		if target.health_component.is_dead():
+			print("%s has fainted" % target.monster_data.species_name)
+			remove_from_battle(target)
+	var timer = Timer.new()
+	add_child(timer)
+	timer.wait_time = .5
+	timer.one_shot = true
+	timer.start()
+	await timer.timeout
+	timer.queue_free()
+
+func remove_from_battle(target):
+	if target in [enemy_monster1, enemy_monster2]:
+		queue_free()
+		if enemy_party.get_child_count() == 0:
+			end_battle()
 
 func start_battle():
 	print("battle ok to start")

@@ -5,6 +5,9 @@ extends Node
 
 var monster_name : String
 var nick_name : String
+var type : MonsterData.Type
+var role : MonsterData.Role
+var growth_rate : MonsterData.GrowthRate
 var stats_component : StatsComponent
 var current_level : int
 var health_component : HealthComponent
@@ -23,10 +26,30 @@ func set_monster_data(data : MonsterData, level : int) -> void:
 	monster_data = data
 	monster_name = data.species_name
 	current_level = level
+	type = data.type
+	role = data.role
+	#growth_rate = data.GrowthRate
 
 func create_monster(event : EncounterEvent = null):
-	pass
-	#debug_print()
+	debug_print()
+
+func get_effective_attack(move: Move) -> int:
+	var main_stat = 0
+	match role:
+		MonsterData.Role.MELEE:
+			main_stat = stats_component.current_attack
+		MonsterData.Role.RANGE:
+			main_stat = stats_component.current_dexterity
+		MonsterData.Role.TANK:
+			main_stat = stats_component.current_defense
+	return main_stat + move.damage
+
+func level_up():
+	stats_component.base_hp += 5
+	stats_component.base_speed += 1
+	stats_component.base_attack += 1
+	stats_component.base_defense += 1
+	stats_component.base_dexterity += 1
 
 func add_to_turn_queue():
 	if health_component == null:
@@ -44,10 +67,10 @@ func debug_print():
 	print("Level: ", stats_component.level)
 	print("HP: ", stats_component.base_hp)
 	print("Current HP: ", health_component.current_hp)
-	print("Speed: ", stats_component.base_speed)
-	print("Attack: ", stats_component.base_attack)
-	print("Defense: ", stats_component.base_defense)
-	print("Dexterity: ", stats_component.base_dexterity)
+	print("Speed: ", stats_component.current_speed)
+	print("Attack: ", stats_component.current_attack)
+	print("Defense: ", stats_component.current_defense)
+	print("Dexterity: ", stats_component.current_dexterity)
 	print("=====================")
 	print("=== KNOWN MOVES ===")
 	if known_moves.size() > 0:
