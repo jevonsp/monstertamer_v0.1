@@ -1,1 +1,1 @@
-class_name TurnSlot extends Node
+class_name TurnAction extends Node

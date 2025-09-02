@@ -1,6 +1,7 @@
 extends Node
 
 signal monsters_ready
+signal is_double
 
 var monster_data_array : Array[MonsterData] = []
 
@@ -18,4 +19,5 @@ func add_trainer_monsters(trainer_party: Array):
 		var event = trainer_party[i]
 		var trainer_monster = monster_factory.create_from_encounter(event)
 		add_child(trainer_monster)
+	is_double.emit()
 	monsters_ready.emit()

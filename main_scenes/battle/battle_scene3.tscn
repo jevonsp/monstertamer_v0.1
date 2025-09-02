@@ -2,19 +2,22 @@
 
 [ext_resource type="Script" uid="uid://nvro8gbwaglw" path="res://main_scenes/battle/battle_scene3.gd" id="1_r5if4"]
 
-[node name="BattleScene3" type="Node2D" node_paths=PackedStringArray("txt_pnl", "camera", "singles_ui", "doubles_ui", "constant_ui", "player_box1", "player_box2", "enemy_box1", "enemy_box2", "player_container", "enemy_container", "player_texture1", "player_texture2", "enemy_texture1", "enemy_texture2", "player_name1", "player_name2", "enemy_name1", "enemy_name2")]
+[node name="BattleScene3" type="Node2D" node_paths=PackedStringArray("txt_pnl", "camera", "singles_ui", "doubles_ui", "constant_ui", "player_box1", "player_box2", "enemy_box1", "enemy_box2", "player_container", "enemy_container", "main_buttons", "move_buttons1", "move_buttons2", "player_texture1", "player_texture2", "enemy_texture1", "enemy_texture2", "player_name1", "player_name2", "enemy_name1", "enemy_name2")]
 script = ExtResource("1_r5if4")
 txt_pnl = NodePath("TextPanel")
 camera = NodePath("Camera2D")
 singles_ui = [NodePath("MonsterContainer/PlayerContainer/PMVBox1"), NodePath("MonsterContainer/EnemyContainer/EMVBox1")]
 doubles_ui = [NodePath("MonsterContainer/PlayerContainer/PMVBox1"), NodePath("MonsterContainer/PlayerContainer/PMVBox2"), NodePath("MonsterContainer/EnemyContainer/EMVBox1"), NodePath("MonsterContainer/EnemyContainer/EMVBox2")]
-constant_ui = [NodePath("FightButtons"), NodePath("ColorRect"), NodePath("TextPanel")]
+constant_ui = [NodePath("MainButtons"), NodePath("ColorRect"), NodePath("TextPanel")]
 player_box1 = NodePath("MonsterContainer/PlayerContainer/PMVBox1")
 player_box2 = NodePath("MonsterContainer/PlayerContainer/PMVBox2")
 enemy_box1 = NodePath("MonsterContainer/EnemyContainer/EMVBox1")
 enemy_box2 = NodePath("MonsterContainer/EnemyContainer/EMVBox2")
 player_container = NodePath("MonsterContainer/PlayerContainer")
 enemy_container = NodePath("MonsterContainer/EnemyContainer")
+main_buttons = NodePath("MainButtons")
+move_buttons1 = NodePath("MoveButtons1")
+move_buttons2 = NodePath("MoveButtons2")
 player_texture1 = NodePath("MonsterContainer/PlayerContainer/PMVBox1/PM1")
 player_texture2 = NodePath("MonsterContainer/PlayerContainer/PMVBox2/PM2")
 enemy_texture1 = NodePath("MonsterContainer/EnemyContainer/EMVBox1/EM1")
@@ -23,6 +26,8 @@ player_name1 = NodePath("MonsterContainer/PlayerContainer/PMVBox1/Label")
 player_name2 = NodePath("MonsterContainer/PlayerContainer/PMVBox2/Label")
 enemy_name1 = NodePath("MonsterContainer/EnemyContainer/EMVBox1/Label")
 enemy_name2 = NodePath("MonsterContainer/EnemyContainer/EMVBox2/Label")
+
+[node name="Node" type="Node" parent="."]
 
 [node name="On" type="Button" parent="."]
 custom_minimum_size = Vector2(50, 50)
@@ -144,7 +149,7 @@ text = "name"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="FightButtons" type="GridContainer" parent="."]
+[node name="MainButtons" type="GridContainer" parent="."]
 custom_minimum_size = Vector2(240, 120)
 offset_left = 6.0
 offset_top = 237.0
@@ -152,25 +157,25 @@ offset_right = 131.0
 offset_bottom = 357.0
 columns = 2
 
-[node name="Button" type="Button" parent="FightButtons"]
+[node name="Item" type="Button" parent="MainButtons"]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 text = "Item"
 
-[node name="Button2" type="Button" parent="FightButtons"]
+[node name="Fight" type="Button" parent="MainButtons"]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 text = "Fight"
 
-[node name="Button3" type="Button" parent="FightButtons"]
+[node name="Run" type="Button" parent="MainButtons"]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 text = "Run"
 
-[node name="Button4" type="Button" parent="FightButtons"]
+[node name="Monster" type="Button" parent="MainButtons"]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
@@ -185,22 +190,22 @@ offset_right = 131.0
 offset_bottom = 357.0
 columns = 2
 
-[node name="Button" type="Button" parent="MoveButtons1"]
+[node name="Move0" type="Button" parent="MoveButtons1"]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 
-[node name="Button2" type="Button" parent="MoveButtons1"]
+[node name="Move1" type="Button" parent="MoveButtons1"]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 
-[node name="Button3" type="Button" parent="MoveButtons1"]
+[node name="Move2" type="Button" parent="MoveButtons1"]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 
-[node name="Button4" type="Button" parent="MoveButtons1"]
+[node name="Move3" type="Button" parent="MoveButtons1"]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
@@ -214,22 +219,22 @@ offset_right = 131.0
 offset_bottom = 357.0
 columns = 2
 
-[node name="Button" type="Button" parent="MoveButtons2"]
+[node name="Move0" type="Button" parent="MoveButtons2"]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 
-[node name="Button2" type="Button" parent="MoveButtons2"]
+[node name="Move1" type="Button" parent="MoveButtons2"]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 
-[node name="Button3" type="Button" parent="MoveButtons2"]
+[node name="Move2" type="Button" parent="MoveButtons2"]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 
-[node name="Button4" type="Button" parent="MoveButtons2"]
+[node name="Move3" type="Button" parent="MoveButtons2"]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
@@ -246,3 +251,4 @@ position = Vector2(320, 180)
 
 [connection signal="pressed" from="On" to="." method="_on_on_pressed"]
 [connection signal="pressed" from="Off" to="." method="_on_off_pressed"]
+[connection signal="pressed" from="MainButtons/Fight" to="." method="_on_fight_pressed"]

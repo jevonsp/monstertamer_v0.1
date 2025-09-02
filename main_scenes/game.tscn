@@ -141,6 +141,7 @@ shape = SubResource("RectangleShape2D_02fbf")
 [connection signal="ask_for_healing" from="Player" to="Party" method="heal_party"]
 [connection signal="moved_to_tile" from="Player" to="EncounterZone" method="_on_player_moved_to_tile"]
 [connection signal="moved_to_tile" from="Player" to="TrainerComponent" method="_on_player_moved_to_tile"]
+[connection signal="is_double" from="EnemyParty" to="BattleScene3" method="_on_enemy_party_is_double"]
 [connection signal="monsters_ready" from="EnemyParty" to="BattleScene3" method="_on_enemy_party_monsters_ready"]
 [connection signal="monster_captured" from="CaptureManager" to="StorageManager" method="add_monster_to_caught_monsters"]
 [connection signal="ask_party" from="StorageManager" to="Party" method="check_party_slots"]
