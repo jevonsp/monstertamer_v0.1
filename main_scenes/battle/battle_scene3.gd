@@ -298,22 +298,28 @@ func compare_turn_actions(a, b): # Helper
 	var index_a = turn_queue.find(a.user)
 	var index_b = turn_queue.find(b.user)
 	return index_a - index_b
-	
+
+func calc_damage(user, target, move):
+	var base_damage = user.get_effective_attack(move)
+	var type_multi = TypeChart.get_multi(move.type, target.monster_data.type)
+	var final_dmg = int(base_damage * type_multi)
+	return final_dmg
 func resolve_action(action):
 	var user = action.user
 	var target = action.target
 	var move = action.move
 	if target:
-		var base_damage = user.get_effective_attack(move)
-		var type_multi = TypeChart.get_multi(move.type, target.monster_data.type)
-		var final_dmg = int(base_damage * type_multi)
-		target.health_component.take_damage(final_dmg)
+		calc_damage(user, target, move)
+		target.health_component.take_damage(calc_damage(user, target, move))
 		print("%s used %s on %s for %d damage" % [
-			user.monster_data.species_name, move.name, target.monster_data.species_name, final_dmg])
+			user.monster_data.species_name, 
+			move.name, target.monster_data.species_name, 
+			calc_damage(user, target, move)])
 		print("%s base stat: %d" % [user.monster_data.species_name, user.stats_component.current_attack])
 		if target.health_component.is_dead():
 			print("%s has fainted" % target.monster_data.species_name)
 			remove_from_battle(target)
+	flip_button_enable(true)
 	var timer = Timer.new()
 	add_child(timer)
 	timer.wait_time = .5
@@ -321,6 +327,15 @@ func resolve_action(action):
 	timer.start()
 	await timer.timeout
 	timer.queue_free()
+	flip_button_enable(false)
+
+func flip_button_enable(enable: bool):
+	for button in main_buttons.get_children():
+		button.disabled = enable
+	for button in move_buttons1.get_children():
+		button.disabled = enable
+	for button in move_buttons2.get_children():
+		button.disabled = enable
 
 func remove_from_battle(target):
 	if target.health_component.is_dead():
@@ -342,11 +357,21 @@ func remove_from_battle(target):
 				print("you lost")
 				end_battle()
 
+func hide_health_bars():
+	for node in turn_queue:
+		if node.has_meta("HPBar"):
+			var bar = node.get_meta("HPBar")
+			bar.queue_free()
+	for node in turn_queue:
+		if node.has_meta("HPBar"):
+			node.remove_meta("HPBar")
+
 func start_battle():
 	print("battle ok to start")
 
 func end_battle():
 	self.visible = false
+	hide_health_bars()
 	flip_physics_process(true)
 	player.set_process_input(true)
 	flip_camera()

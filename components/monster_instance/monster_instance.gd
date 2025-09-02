@@ -41,7 +41,7 @@ func get_effective_attack(move: Move) -> int:
 		MonsterData.Role.RANGE:
 			main_stat = stats_component.current_dexterity
 		MonsterData.Role.TANK:
-			main_stat = stats_component.current_defense
+			main_stat = (stats_component.current_defense) / 2
 	return main_stat + move.damage
 
 func level_up():

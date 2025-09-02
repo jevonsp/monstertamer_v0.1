@@ -49,10 +49,10 @@ text = "Off
 metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -15.0
-offset_top = -18.0
-offset_right = 648.0
-offset_bottom = 378.0
+visible = false
+offset_left = -35.0
+offset_right = 416.0
+offset_bottom = 347.0
 
 [node name="MonsterContainer" type="HBoxContainer" parent="."]
 offset_top = 68.0
@@ -78,7 +78,6 @@ size_flags_horizontal = 4
 layout_mode = 2
 expand_mode = 5
 stretch_mode = 5
-flip_h = true
 
 [node name="Label" type="Label" parent="MonsterContainer/PlayerContainer/PMVBox1"]
 layout_mode = 2
@@ -98,7 +97,6 @@ layout_mode = 2
 layout_mode = 2
 expand_mode = 5
 stretch_mode = 5
-flip_h = true
 
 [node name="Label" type="Label" parent="MonsterContainer/PlayerContainer/PMVBox2"]
 layout_mode = 2
