@@ -54,12 +54,12 @@ var enemy_monster2 : Node
 var known_moves1 : Array[Move]
 var known_moves2 : Array[Move]
 
-var turn_action : Array[TurnAction]
+var turn_actions : Array[TurnAction]
 
 var hp_bar_scene = preload("res://main_scenes/battle/progress_bar.tscn")
 
 func _ready() -> void:
-	pass
+	randomize()
 	
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("no"):
@@ -173,6 +173,7 @@ func make_doubles_queue():
 	enemy_monster2.set_meta("texture_rect", enemy_texture2)
 	enemy_monster2.set_meta("name_label", enemy_name2)
 	turn_queue.append(enemy_monster2)
+
 func sort_turn_queue():
 	turn_queue.sort_custom(
 		func(a ,b): return a.stats_component.current_speed < b.stats_component.current_speed)
@@ -230,15 +231,67 @@ func setup_moves():
 		var known_moves1 = player_monster1.known_moves
 		var buttons1 = move_buttons1.get_children()
 		for i in range(min(buttons1.size(), known_moves1.size())):
-			buttons1[i].text = known_moves1[i].name
-			#buttons1[i].pressed.connect()
-			
+			var move = known_moves1[i]
+			var btn = buttons1[i]
+			btn.text = move.name
+			btn.set_meta("user", player_monster1)
+			btn.set_meta("move", move)
+			if not btn.pressed.is_connected(_on_move_pressed):
+				btn.pressed.connect(_on_move_pressed.bind(btn))
 	if player_monster2:
 		var known_moves2 = player_monster2.known_moves
 		var buttons2 = move_buttons2.get_children()
 		for i in range(min(buttons2.size(), known_moves2.size())):
-			buttons2[i].text = known_moves2[i].name
+			var move = known_moves2[i]
+			var btn = buttons2[i]
+			btn.text = move.name
+			btn.set_meta("user", player_monster2)
+			btn.set_meta("move", move)
+			if not btn.pressed.is_connected(_on_move_pressed):
+				btn.pressed.connect(_on_move_pressed.bind(btn))
+
+func _on_fight_pressed() -> void:
+	show_button_state(ChoiceState.CHOICE1)
+func _on_move_pressed(btn: Button):
+	var user = btn.get_meta("user")
+	var move = btn.get_meta("move")
+	var target = get_default_target(user)
+	queue_move(user, target, move)
+func get_default_target(user):
+	if user in [player_monster1, player_monster2]:
+		return enemy_monster1
+	else:
+		return player_monster1
+func queue_move(user, target, move):
+	var action = TurnAction.new(user, target, move)
+	turn_actions.append(action)
+	if all_moves_chosen():
+		execute_turn()
+func all_moves_chosen():
+	if is_single:
+		return turn_actions.size() == 1
+	else:
+		return turn_actions.size() == 2
+func execute_turn():
+	enemy_choose_moves()
+	#var sorted_actions = sort_actions_by_speed(turn_actions)
+	
+func enemy_choose_moves():
+	if is_single:
+		var enemy = enemy_monster1
+		var move = enemy_monster1.known_moves.pick_random()
+		var target = get_default_target(enemy)
+		queue_move(enemy, target, move)
+	else:
+		for i in range(2):
+			var enemy = enemy_party.get_child(i)
+			var move = enemy.known_moves.pick_random()
+			var target = get_default_target(enemy)
+			queue_move(enemy, target, move)
 			
+#func sort_actions_by_speed(actions: Array) -> Array:
+	
+
 
 func start_battle():
 	print("battle ok to start")
@@ -254,9 +307,3 @@ func _on_on_pressed() -> void:
 	flip_ui_visibility(true)
 func _on_off_pressed() -> void:
 	flip_ui_visibility(false)
-
-func _on_fight_pressed() -> void:
-	show_button_state(ChoiceState.CHOICE1)
-
-func _on_move_pressed():
-	pass
