@@ -50,9 +50,10 @@ player = NodePath("../../Player")
 visible = false
 party_list = NodePath("../PartyList")
 
-[node name="PartyList" parent="CanvasLayer/UI" node_paths=PackedStringArray("party") instance=ExtResource("5_7i1yy")]
+[node name="PartyList" parent="CanvasLayer/UI" node_paths=PackedStringArray("party", "menu_list") instance=ExtResource("5_7i1yy")]
 visible = false
 party = NodePath("../../../Party")
+menu_list = NodePath("../MenuList")
 
 [node name="Player" parent="." instance=ExtResource("2_iywne")]
 z_index = 1

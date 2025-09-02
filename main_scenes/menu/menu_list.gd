@@ -37,9 +37,16 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("yes"):
 		if selected_slot == Slot.PARTY:
 			print("open party")
+			open_party()
 		elif selected_slot == Slot.INVENT:
 			print("no invent yet")
 		elif selected_slot == Slot.SAVE:
 			print("save game")
 	if event.is_action_pressed("no"):
 		self.visible = false
+
+func open_party():
+	set_process_input(false)
+	party_list.visible = true
+	party_list.set_process_input(true)
+	

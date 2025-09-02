@@ -1,6 +1,7 @@
 extends Node2D
 
-@export var party : Node 
+@export var party : Node
+@export var menu_list : Node2D
 
 enum Slot {SLOT1, SLOT2, SLOT3, SLOT4, SLOT5, SLOT6}
 var selected_slot: int = Slot.SLOT1
@@ -57,6 +58,9 @@ func _input(event: InputEvent) -> void:
 			print("cancelled moved")
 		else:
 			self.visible = false
+			set_process_input(false)
+			menu_list.set_process_input(true)
+			
 		
 func unset_active_slot():
 	slot[selected_slot].frame = 0
