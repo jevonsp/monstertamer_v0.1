@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bq063dfhf6obm"]
+[gd_scene load_steps=21 format=3 uid="uid://bq063dfhf6obm"]
 
 [ext_resource type="Script" uid="uid://b0bf3hk6wxjyr" path="res://main_scenes/game.gd" id="1_6h35g"]
 [ext_resource type="PackedScene" uid="uid://bmfphnhglhc3" path="res://main_scenes/player/player.tscn" id="2_iywne"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://njxdudpywcah" path="res://components/trainer/trainer_component.tscn" id="4_u5sy4"]
 [ext_resource type="Script" uid="uid://p7x6o07vrvvf" path="res://components/monster_instance/monster_data_resource.gd" id="5_gee14"]
 [ext_resource type="PackedScene" uid="uid://dqai2b5hdqekg" path="res://levels/level_0.tscn" id="5_p57ef"]
-[ext_resource type="Script" uid="uid://cf7eub3ripssg" path="res://main_scenes/party/party.gd" id="6_m3jfi"]
 [ext_resource type="PackedScene" uid="uid://bfft6btg2h78k" path="res://main_scenes/enemy_party/enemy_party.tscn" id="7_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://drha37ou4kgj3" path="res://main_scenes/storage_manager/storage_manager.tscn" id="7_7j0c4"]
 [ext_resource type="PackedScene" uid="uid://cjtia66k50wk0" path="res://main_scenes/monster_factory/monster_factory.tscn" id="8_7j0c4"]
@@ -47,7 +46,6 @@ capture_mgr = NodePath("../CaptureManager")
 storage_mgr = NodePath("../StorageManager")
 
 [node name="Party" parent="." node_paths=PackedStringArray("monster_factory") instance=ExtResource("4_im5ls")]
-script = ExtResource("6_m3jfi")
 monster_factory = NodePath("../MonsterFactory")
 
 [node name="EnemyParty" parent="." node_paths=PackedStringArray("monster_factory") instance=ExtResource("7_0tnpc")]
