@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cryxiacejrt12" path="res://assets/party_text-Sheet.png" id="2_3flux"]
 
 [node name="MenuList" type="Node2D"]
+visible = false
 script = ExtResource("1_ui8qf")
 
 [node name="Party" type="Node2D" parent="."]

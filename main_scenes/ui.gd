@@ -5,8 +5,6 @@ extends Node
 @export var player : CharacterBody2D
 
 var in_battle : bool = false
-var in_menu : bool = false
-var in_party : bool = false
 
 func _ready() -> void:
 	_set_ui_state(menu_list, false)
@@ -18,30 +16,38 @@ func _ready() -> void:
 	party_list.closed.connect(_on_party_closed)
  
 func _input(event: InputEvent) -> void:
-	if in_battle: return
-	if event.is_action_pressed("menu"): 
-		if in_menu: hide_menu()
-		else: show_menu()
+	if in_battle:
+		return
+	if event.is_action_pressed("menu"):
+		var transitions = {
+			menu_list: func(): hide_menu(),
+			party_list: func(): 
+				_set_ui_state(party_list, false)
+				_set_ui_state(menu_list, true),
+			null: func(): show_menu()
+		}
+		var current_state: Node = null
+		if menu_list.visible:
+			current_state = menu_list
+		elif party_list.visible:
+			current_state = party_list
+		transitions[current_state].call()
 
 func show_menu():
 	_set_ui_state(menu_list, true)
 	_set_player_state(false)
-	in_menu = true
 func hide_menu():
 	_set_ui_state(menu_list, false)
 	_set_player_state(true)
-	in_menu = false
 func show_party():
 	_set_ui_state(menu_list, false)
 	_set_ui_state(party_list, true)
-	in_party = true
 
 func _on_menu_closed(): hide_menu()
 func _on_party_selected(): show_party()
 func _on_party_closed():
 	_set_ui_state(party_list, false)
 	show_menu()
-	in_party = false
 
 func _on_invent_selected(): print("Todo: Invent")
 func _on_save_selected(): print("Todo: Save")

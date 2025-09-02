@@ -18,6 +18,7 @@ var selected_slot = Slot.PARTY
 
 func _ready() -> void:
 	set_active_slot()
+	self.visible = false
 
 func unset_active_slot():
 	slot[selected_slot].frame = 0
@@ -49,6 +50,6 @@ func _input(event: InputEvent) -> void:
 			Slot.SAVE:
 				print("save game")
 				save_selected.emit()
-	elif event.is_action_pressed("no") or event.is_action_pressed("menu"):
+	elif event.is_action_pressed("no"):
 		print("closed menu")
 		closed.emit()
