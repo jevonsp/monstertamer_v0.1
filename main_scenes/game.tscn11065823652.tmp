@@ -40,18 +40,14 @@ player = NodePath("Player")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="UI" type="Node" parent="CanvasLayer" node_paths=PackedStringArray("menu_list", "party_list", "player")]
+[node name="UI" type="Node" parent="CanvasLayer" node_paths=PackedStringArray("menu_list")]
 script = ExtResource("2_mvuii")
 menu_list = NodePath("MenuList")
-party_list = NodePath("PartyList")
-player = NodePath("../../Player")
 
 [node name="MenuList" parent="CanvasLayer/UI" node_paths=PackedStringArray("party_list") instance=ExtResource("3_02fbf")]
-visible = false
 party_list = NodePath("../PartyList")
 
 [node name="PartyList" parent="CanvasLayer/UI" node_paths=PackedStringArray("party") instance=ExtResource("5_7i1yy")]
-visible = false
 party = NodePath("../../../Party")
 
 [node name="Player" parent="." instance=ExtResource("2_iywne")]

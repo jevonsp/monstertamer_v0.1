@@ -1,43 +1,67 @@
-[gd_scene load_steps=2 format=3 uid="uid://dlnu4qdx6ll8l"]
+[gd_scene load_steps=3 format=3 uid="uid://mhu8ee54jmu1"]
 
-[ext_resource type="PackedScene" uid="uid://bfq7b46y7llba" path="res://main_scenes/party/party_entry.tscn" id="1_8lgay"]
+[ext_resource type="Texture2D" uid="uid://ixql1s0yevy4" path="res://assets/highlighted_tile.png" id="1_5fkqx"]
+[ext_resource type="Script" uid="uid://ttoc23lik2hc" path="res://main_scenes/party/party_list.gd" id="1_qfqby"]
 
-[node name="PartyList" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="PartyList" type="Node2D"]
+script = ExtResource("1_qfqby")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -4.0
+offset_top = -6.0
+offset_right = 645.0
+offset_bottom = 369.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-alignment = 1
+[node name="Slot1" type="Node2D" parent="."]
+position = Vector2(-160, 0)
 
-[node name="PartyEntry" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_8lgay")]
-layout_mode = 2
+[node name="Background" type="Sprite2D" parent="Slot1"]
+position = Vector2(320, 30)
+texture = ExtResource("1_5fkqx")
+hframes = 3
+region_rect = Rect2(0, 0, 320, 60)
 
-[node name="PartyEntry2" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_8lgay")]
-layout_mode = 2
+[node name="Slot2" type="Node2D" parent="."]
+position = Vector2(-160, 0)
 
-[node name="PartyEntry3" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_8lgay")]
-layout_mode = 2
+[node name="Background" type="Sprite2D" parent="Slot2"]
+position = Vector2(320, 90)
+texture = ExtResource("1_5fkqx")
+hframes = 3
+region_rect = Rect2(0, 0, 320, 60)
 
-[node name="PartyEntry4" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_8lgay")]
-layout_mode = 2
+[node name="Slot3" type="Node2D" parent="."]
+position = Vector2(-160, 0)
 
-[node name="PartyEntry5" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_8lgay")]
-layout_mode = 2
+[node name="Background" type="Sprite2D" parent="Slot3"]
+position = Vector2(320, 150)
+texture = ExtResource("1_5fkqx")
+hframes = 3
+region_rect = Rect2(0, 0, 320, 60)
 
-[node name="PartyEntry6" parent="ScrollContainer/VBoxContainer" instance=ExtResource("1_8lgay")]
-layout_mode = 2
+[node name="Slot4" type="Node2D" parent="."]
+position = Vector2(-160, 0)
+
+[node name="Background" type="Sprite2D" parent="Slot4"]
+position = Vector2(320, 210)
+texture = ExtResource("1_5fkqx")
+hframes = 3
+region_rect = Rect2(0, 0, 320, 60)
+
+[node name="Slot5" type="Node2D" parent="."]
+position = Vector2(-160, 0)
+
+[node name="Background" type="Sprite2D" parent="Slot5"]
+position = Vector2(320, 270)
+texture = ExtResource("1_5fkqx")
+hframes = 3
+region_rect = Rect2(0, 0, 320, 60)
+
+[node name="Slot6" type="Node2D" parent="."]
+position = Vector2(-160, 0)
+
+[node name="Background" type="Sprite2D" parent="Slot6"]
+position = Vector2(320, 330)
+texture = ExtResource("1_5fkqx")
+hframes = 3
+region_rect = Rect2(0, 0, 320, 60)

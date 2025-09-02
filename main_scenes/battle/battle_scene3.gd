@@ -1,6 +1,8 @@
 extends Node2D
 
 signal move_used
+signal now_in_battle
+signal ending_battle
 
 @export_subgroup("Nodes")
 @export var player : CharacterBody2D
@@ -76,6 +78,7 @@ func _process(delta: float) -> void:
 		hold_timer = 0.0
 
 func _on_enemy_party_monsters_ready() -> void:
+	now_in_battle.emit()
 	enter_battle()
 	setup_battle()
 	start_battle()
@@ -370,6 +373,7 @@ func start_battle():
 	print("battle ok to start")
 
 func end_battle():
+	ending_battle.emit()
 	self.visible = false
 	hide_health_bars()
 	flip_physics_process(true)
