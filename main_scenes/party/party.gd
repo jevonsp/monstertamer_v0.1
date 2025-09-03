@@ -1,6 +1,7 @@
 extends Node
 
 signal party_slots_updated
+signal party_healed
 
 @export_subgroup("Nodes")
 @export var monster_factory : Node
@@ -16,6 +17,8 @@ func heal_party():
 	print("got asked for healing")
 	for monster in get_children():
 		monster.health_component.heal()
+		update_party_slots()
+		party_healed.emit()
 
 func check_party_slots(caught):
 	if party_slots.size() < 6:

@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://cemvqf4navxda"]
+[gd_scene load_steps=4 format=3 uid="uid://cemvqf4navxda"]
 
 [ext_resource type="Script" uid="uid://nvro8gbwaglw" path="res://main_scenes/battle/battle_scene3.gd" id="1_r5if4"]
 [ext_resource type="Script" uid="uid://dr6c4kyxna4uo" path="res://main_scenes/battle/text_prompt_manager.gd" id="2_kqvhi"]
+[ext_resource type="Script" uid="uid://brukg8erda36v" path="res://main_scenes/battle/ui_manager.gd" id="3_dxlco"]
 
-[node name="BattleScene3" type="Node2D" node_paths=PackedStringArray("txt_pnl", "camera", "singles_ui", "doubles_ui", "constant_ui", "player_box1", "player_box2", "enemy_box1", "enemy_box2", "player_container", "enemy_container", "main_buttons", "move_buttons1", "move_buttons2", "player_texture1", "player_texture2", "enemy_texture1", "enemy_texture2", "player_name1", "player_name2", "enemy_name1", "enemy_name2")]
+[node name="BattleScene3" type="Node2D" node_paths=PackedStringArray("txt_mgr", "ui_mgr", "camera", "singles_ui", "doubles_ui", "constant_ui", "player_box1", "player_box2", "enemy_box1", "enemy_box2", "player_container", "enemy_container", "main_buttons", "move_buttons1", "move_buttons2", "player_texture1", "player_texture2", "enemy_texture1", "enemy_texture2", "player_name1", "player_name2", "enemy_name1", "enemy_name2")]
 script = ExtResource("1_r5if4")
-txt_pnl = NodePath("TextPromptManager/TextPanel")
+txt_mgr = NodePath("TextPromptManager")
+ui_mgr = NodePath("UIManager")
 camera = NodePath("Camera2D")
 singles_ui = [NodePath("MonsterContainer/PlayerContainer/PMVBox1"), NodePath("MonsterContainer/EnemyContainer/EMVBox1")]
 doubles_ui = [NodePath("MonsterContainer/PlayerContainer/PMVBox1"), NodePath("MonsterContainer/PlayerContainer/PMVBox2"), NodePath("MonsterContainer/EnemyContainer/EMVBox1"), NodePath("MonsterContainer/EnemyContainer/EMVBox2")]
@@ -28,12 +30,13 @@ player_name2 = NodePath("MonsterContainer/PlayerContainer/PMVBox2/Label")
 enemy_name1 = NodePath("MonsterContainer/EnemyContainer/EMVBox1/Label")
 enemy_name2 = NodePath("MonsterContainer/EnemyContainer/EMVBox2/Label")
 
-[node name="TextPromptManager" type="Control" parent="."]
+[node name="TextPromptManager" type="Control" parent="." node_paths=PackedStringArray("label")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_kqvhi")
+label = NodePath("TextPanel/MarginContainer/Label")
 
 [node name="TextPanel" type="Panel" parent="TextPromptManager"]
 z_index = 1
@@ -60,6 +63,16 @@ layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 22
 text = "test test"
+
+[node name="UIManager" type="Control" parent="." node_paths=PackedStringArray("main_buttons", "move_buttons1", "move_buttons2")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_dxlco")
+main_buttons = NodePath("../MainButtons")
+move_buttons1 = NodePath("../MoveButtons1")
+move_buttons2 = NodePath("../MoveButtons2")
 
 [node name="On" type="Button" parent="."]
 custom_minimum_size = Vector2(50, 50)
@@ -282,8 +295,6 @@ size_flags_vertical = 7
 position = Vector2(320, 180)
 
 [connection signal="attack_happened" from="." to="TextPromptManager" method="_on_battle_scene_3_attack_happened"]
-[connection signal="text_ready" from="." to="TextPromptManager" method="_on_battle_scene_3_text_ready"]
-[connection signal="text_read" from="TextPromptManager" to="." method="_on_text_complete"]
 [connection signal="pressed" from="On" to="." method="_on_on_pressed"]
 [connection signal="pressed" from="Off" to="." method="_on_off_pressed"]
 [connection signal="pressed" from="MainButtons/Fight" to="." method="_on_fight_pressed"]

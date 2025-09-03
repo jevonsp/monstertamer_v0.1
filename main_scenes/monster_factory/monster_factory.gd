@@ -14,8 +14,9 @@ func create_from_encounter(event: EncounterEvent) -> MonsterInstance:
 	monster.moves_component = MovesComponent.new()
 	monster.moves_component.setup_moves_from_data(event.monster_data, event.level)
 	monster.known_moves = monster.moves_component.moveset.duplicate()
+	
+	#monster.level_component = LevelingComponent.new()
 
-	monster.create_monster()
 	return monster
 	
 func create_from_pm(pm: PlayerMonster) -> MonsterInstance:
@@ -43,5 +44,4 @@ func create_from_pm(pm: PlayerMonster) -> MonsterInstance:
 	monster.moves_component = MovesComponent.new()
 	monster.known_moves = pm.moves.duplicate()
 	
-	monster.create_monster()
 	return monster

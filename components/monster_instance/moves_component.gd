@@ -1,4 +1,4 @@
-class_name MovesComponent extends Node
+class_name MovesComponent extends Resource
 
 signal move_gained(move_gained : Move, move_lost : Move)
 

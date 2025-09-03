@@ -2,6 +2,7 @@ class_name MonsterInstance
 extends Node
 
 @export var monster_data : MonsterData
+# var battle_scene : Node
 
 var monster_name : String
 var nick_name : String
@@ -15,7 +16,7 @@ var current_hp : int
 var moves_component : MovesComponent
 var moves : Array[Move] = []
 var known_moves : Array[Move]
-var battle_scene : Node
+var level_component : LevelingComponent
 var experience : int = 0
 var level : int = 1
 
@@ -29,11 +30,6 @@ func set_monster_data(data : MonsterData, level : int) -> void:
 	type = data.type
 	role = data.role
 	#growth_rate = data.GrowthRate
-
-func create_monster(event : EncounterEvent = null):
-	for i in range(current_level):
-		level_up()
-	debug_print()
 
 func get_effective_attack(move: Move) -> int:
 	var main_stat = 0
@@ -55,19 +51,16 @@ func level_up():
 	stats_component.base_dexterity += 1
 	health_component.max_hp = stats_component.base_hp
 	health_component.current_hp = health_component.max_hp
-	print(stats_component.base_hp, 
-	stats_component.base_speed, stats_component.base_attack, 
-	stats_component.base_defense, stats_component.base_dexterity)
 
-func add_to_turn_queue():
-	if health_component == null:
-		push_error("Monster missing health_component: %s" % name)
-		return
-	# Setup HP bar if missing
-	if not has_meta("HPBar"):
-		push_error("no meta!")
+#func add_to_turn_queue():
+	#if health_component == null:
+		#push_error("Monster missing health_component: %s" % name)
+		#return
+	## Setup HP bar if missing
+	#if not has_meta("HPBar"):
+		#push_error("no meta!")
 	
-	battle_scene.turn_queue.append(self)
+	# battle_scene.turn_queue.append(self)
 
 func debug_print():
 	# Print all stats
