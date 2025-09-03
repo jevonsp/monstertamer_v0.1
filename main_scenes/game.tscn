@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bq063dfhf6obm"]
+[gd_scene load_steps=25 format=3 uid="uid://bq063dfhf6obm"]
 
 [ext_resource type="Script" uid="uid://b0bf3hk6wxjyr" path="res://main_scenes/game.gd" id="1_6h35g"]
 [ext_resource type="PackedScene" uid="uid://bmfphnhglhc3" path="res://main_scenes/player/player.tscn" id="2_iywne"]
@@ -19,6 +19,7 @@
 [ext_resource type="Resource" uid="uid://mkqktbhjqjxf" path="res://monsters/pyro_badger.tres" id="13_mf5kq"]
 [ext_resource type="Script" uid="uid://3y2odgqmtkte" path="res://main_scenes/monster_adder.gd" id="17_7i1yy"]
 [ext_resource type="PackedScene" uid="uid://0353uec73bnc" path="res://components/healing_component/healing_component.tscn" id="17_mvuii"]
+[ext_resource type="Resource" uid="uid://co7im85dpqgr4" path="res://monsters/fox_mcleaf.tres" id="19_3eh77"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lbhrr"]
 size = Vector2(91, 219)
@@ -162,6 +163,25 @@ offset_bottom = 17.0
 position = Vector2(3.5, 0.5)
 shape = SubResource("RectangleShape2D_m3jfi")
 
+[node name="MonsterAdder3" type="Area2D" parent="." node_paths=PackedStringArray("party", "monster_factory")]
+position = Vector2(99, 143)
+script = ExtResource("17_7i1yy")
+party = NodePath("../Party")
+monster_factory = NodePath("../MonsterFactory")
+monster_data = ExtResource("19_3eh77")
+level = 3
+
+[node name="ColorRect" type="ColorRect" parent="MonsterAdder3"]
+custom_minimum_size = Vector2(32, 32)
+offset_left = -12.0
+offset_top = -15.0
+offset_right = 20.0
+offset_bottom = 17.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MonsterAdder3"]
+position = Vector2(3.5, 0.5)
+shape = SubResource("RectangleShape2D_m3jfi")
+
 [node name="HealingComponent" parent="." instance=ExtResource("17_mvuii")]
 position = Vector2(304, 48)
 
@@ -184,3 +204,5 @@ shape = SubResource("RectangleShape2D_02fbf")
 [connection signal="monster_get" from="MonsterAdder" to="StorageManager" method="get_starter"]
 [connection signal="body_entered" from="MonsterAdder2" to="MonsterAdder2" method="_on_body_entered"]
 [connection signal="monster_get" from="MonsterAdder2" to="StorageManager" method="get_starter"]
+[connection signal="body_entered" from="MonsterAdder3" to="MonsterAdder3" method="_on_body_entered"]
+[connection signal="monster_get" from="MonsterAdder3" to="StorageManager" method="get_starter"]

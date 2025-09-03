@@ -1,8 +1,9 @@
 extends Node2D
 
-signal move_used
 signal now_in_battle
 signal ending_battle
+signal attack_happened(user, target, move, damage)
+signal text_ready
 
 @export_subgroup("Nodes")
 @export var player : CharacterBody2D
@@ -58,10 +59,20 @@ var known_moves2 : Array[Move]
 
 var turn_actions : Array[TurnAction]
 
+var last_main_used : Button
+var last_move1_used : Button
+var last_move2_used : Button
+
 var hp_bar_scene = preload("res://main_scenes/battle/progress_bar.tscn")
 
 func _ready() -> void:
 	randomize()
+	for button in get_tree().get_nodes_in_group("main_buttons"):
+		button.connect("pressed", Callable(self, "track_main_pressed").bind(button))
+	for button in get_tree().get_nodes_in_group("move1_buttons"):
+		button.connect("pressed", Callable(self, "track_buttons1_pressed").bind(button))
+	for button in get_tree().get_nodes_in_group("move2_buttons"):
+		button.connect("pressed", Callable(self, "track_buttons2_pressed").bind(button))
 	
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("no"):
@@ -83,9 +94,6 @@ func _on_enemy_party_monsters_ready() -> void:
 	setup_battle()
 	start_battle()
 
-func start_battle():
-	print("battle ok to start")
-
 func enter_battle():
 	self.visible = true
 	flip_physics_process(false)
@@ -98,7 +106,11 @@ func setup_battle():
 	show_health_bars()
 	setup_moves()
 	flip_ui_visibility(true)
-
+	main_buttons.get_child(1).grab_focus()
+	
+func start_battle():
+	pass
+	
 func show_button_state(state: ChoiceState):
 	main_buttons.visible = false
 	move_buttons1.visible = false
@@ -106,11 +118,29 @@ func show_button_state(state: ChoiceState):
 	match state:
 		ChoiceState.MAIN:
 			main_buttons.visible = true
+			if last_main_used != null:
+				last_main_used.grab_focus()
+			else:
+				main_buttons.get_child(1).grab_focus()
 		ChoiceState.CHOICE1:
 			move_buttons1.visible = true
+			if last_move1_used != null:
+				last_move1_used.grab_focus()
+			else:
+				move_buttons1.get_child(0).grab_focus()
 		ChoiceState.CHOICE2:
 			move_buttons2.visible = true
+			if last_move2_used != null:
+				last_move2_used.grab_focus()
+			else:
+				move_buttons2.get_child(0).grab_focus
 	choice_state = state
+func track_main_pressed(button: Button) -> void:
+	last_main_used = button
+func track_buttons1_pressed(button: Button) -> void:
+	last_move1_used = button
+func track_buttons2_pressed(button: Button) -> void:
+	last_move2_used = button
 func _move_back_pressed():
 	if choice_state == ChoiceState.CHOICE1:
 		show_button_state(ChoiceState.MAIN)
@@ -283,7 +313,7 @@ func execute_turn():
 	for action in turn_actions:
 		await resolve_action(action)
 	turn_actions.clear()
-	show_button_state(ChoiceState.MAIN)
+	show_button_state(ChoiceState.CHOICE1)
 	
 func enemy_choose_moves():
 	if is_single:
@@ -309,6 +339,7 @@ func calc_damage(user, target, move):
 	var base_damage = user.get_effective_attack(move)
 	var type_multi = TypeChart.get_multi(move.type, target.monster_data.type)
 	var final_dmg = int((base_damage - target.stats_component.current_defense) * type_multi)
+	attack_happened.emit(user, target, move, final_dmg)
 	return final_dmg
 func resolve_action(action):
 	var user = action.user
@@ -317,25 +348,17 @@ func resolve_action(action):
 	if target:
 		calc_damage(user, target, move)
 		target.health_component.take_damage(calc_damage(user, target, move))
-		print("%s used %s on %s for %d damage" % [
-			user.monster_data.species_name, 
-			move.name, target.monster_data.species_name, 
-			calc_damage(user, target, move)])
-		print("%s base stat: %d" % [user.monster_data.species_name, user.stats_component.current_attack])
+		text_ready.emit()
 		if target.health_component.is_dead():
-			print("%s has fainted" % target.monster_data.species_name)
 			remove_from_battle(target)
-	flip_button_enable(true)
-	var timer = Timer.new()
-	add_child(timer)
-	timer.wait_time = .5
-	timer.one_shot = true
-	timer.start()
-	await timer.timeout
-	timer.queue_free()
-	flip_button_enable(false)
+	stop_input()
+func stop_input():
+	buttons_off(true)
 
-func flip_button_enable(enable: bool):
+func _on_text_complete():
+	buttons_off(false)
+
+func buttons_off(enable: bool):
 	for button in main_buttons.get_children():
 		button.disabled = enable
 	for button in move_buttons1.get_children():
@@ -371,7 +394,6 @@ func hide_health_bars():
 	for node in turn_queue:
 		if node.has_meta("HPBar"):
 			node.remove_meta("HPBar")
-
 func clear_enemy_party():
 	for child in enemy_party.get_children():
 		child.queue_free()

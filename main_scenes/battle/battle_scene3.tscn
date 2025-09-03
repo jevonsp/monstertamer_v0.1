@@ -1,14 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://cemvqf4navxda"]
+[gd_scene load_steps=3 format=3 uid="uid://cemvqf4navxda"]
 
 [ext_resource type="Script" uid="uid://nvro8gbwaglw" path="res://main_scenes/battle/battle_scene3.gd" id="1_r5if4"]
+[ext_resource type="Script" uid="uid://dr6c4kyxna4uo" path="res://main_scenes/battle/text_prompt_manager.gd" id="2_kqvhi"]
 
 [node name="BattleScene3" type="Node2D" node_paths=PackedStringArray("txt_pnl", "camera", "singles_ui", "doubles_ui", "constant_ui", "player_box1", "player_box2", "enemy_box1", "enemy_box2", "player_container", "enemy_container", "main_buttons", "move_buttons1", "move_buttons2", "player_texture1", "player_texture2", "enemy_texture1", "enemy_texture2", "player_name1", "player_name2", "enemy_name1", "enemy_name2")]
 script = ExtResource("1_r5if4")
-txt_pnl = NodePath("TextPanel")
+txt_pnl = NodePath("TextPromptManager/TextPanel")
 camera = NodePath("Camera2D")
 singles_ui = [NodePath("MonsterContainer/PlayerContainer/PMVBox1"), NodePath("MonsterContainer/EnemyContainer/EMVBox1")]
 doubles_ui = [NodePath("MonsterContainer/PlayerContainer/PMVBox1"), NodePath("MonsterContainer/PlayerContainer/PMVBox2"), NodePath("MonsterContainer/EnemyContainer/EMVBox1"), NodePath("MonsterContainer/EnemyContainer/EMVBox2")]
-constant_ui = [NodePath("MainButtons"), NodePath("ColorRect"), NodePath("TextPanel")]
+constant_ui = [NodePath("MainButtons"), NodePath("ColorRect"), NodePath("TextPromptManager/TextPanel")]
 player_box1 = NodePath("MonsterContainer/PlayerContainer/PMVBox1")
 player_box2 = NodePath("MonsterContainer/PlayerContainer/PMVBox2")
 enemy_box1 = NodePath("MonsterContainer/EnemyContainer/EMVBox1")
@@ -27,7 +28,38 @@ player_name2 = NodePath("MonsterContainer/PlayerContainer/PMVBox2/Label")
 enemy_name1 = NodePath("MonsterContainer/EnemyContainer/EMVBox1/Label")
 enemy_name2 = NodePath("MonsterContainer/EnemyContainer/EMVBox2/Label")
 
-[node name="Node" type="Node" parent="."]
+[node name="TextPromptManager" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_kqvhi")
+
+[node name="TextPanel" type="Panel" parent="TextPromptManager"]
+z_index = 1
+custom_minimum_size = Vector2(0, 120)
+offset_left = 249.0
+offset_top = 237.0
+offset_right = 634.0
+offset_bottom = 357.0
+
+[node name="MarginContainer" type="MarginContainer" parent="TextPromptManager/TextPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Label" type="Label" parent="TextPromptManager/TextPanel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 22
+text = "test test"
 
 [node name="On" type="Button" parent="."]
 custom_minimum_size = Vector2(50, 50)
@@ -55,9 +87,9 @@ offset_right = 648.0
 offset_bottom = 378.0
 
 [node name="MonsterContainer" type="HBoxContainer" parent="."]
-offset_top = 68.0
+offset_top = 35.0
 offset_right = 640.0
-offset_bottom = 229.0
+offset_bottom = 196.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
@@ -159,28 +191,33 @@ offset_right = 131.0
 offset_bottom = 357.0
 columns = 2
 
-[node name="Item" type="Button" parent="MainButtons"]
+[node name="Item" type="Button" parent="MainButtons" groups=["main_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
+theme_override_font_sizes/font_size = 20
 text = "Item"
 
-[node name="Fight" type="Button" parent="MainButtons"]
+[node name="Fight" type="Button" parent="MainButtons" groups=["main_buttons"]]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
+theme_override_font_sizes/font_size = 20
 text = "Fight"
 
-[node name="Run" type="Button" parent="MainButtons"]
+[node name="Run" type="Button" parent="MainButtons" groups=["main_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
+theme_override_font_sizes/font_size = 20
 text = "Run"
 
-[node name="Monster" type="Button" parent="MainButtons"]
+[node name="Monster" type="Button" parent="MainButtons" groups=["main_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
+theme_override_font_sizes/font_size = 20
 text = "Monster"
 
 [node name="MoveButtons1" type="GridContainer" parent="."]
@@ -192,22 +229,22 @@ offset_right = 131.0
 offset_bottom = 357.0
 columns = 2
 
-[node name="Move0" type="Button" parent="MoveButtons1"]
+[node name="Move0" type="Button" parent="MoveButtons1" groups=["move1_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 
-[node name="Move1" type="Button" parent="MoveButtons1"]
+[node name="Move1" type="Button" parent="MoveButtons1" groups=["move1_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 
-[node name="Move2" type="Button" parent="MoveButtons1"]
+[node name="Move2" type="Button" parent="MoveButtons1" groups=["move1_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 
-[node name="Move3" type="Button" parent="MoveButtons1"]
+[node name="Move3" type="Button" parent="MoveButtons1" groups=["move1_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
@@ -221,36 +258,32 @@ offset_right = 131.0
 offset_bottom = 357.0
 columns = 2
 
-[node name="Move0" type="Button" parent="MoveButtons2"]
+[node name="Move0" type="Button" parent="MoveButtons2" groups=["move2_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 
-[node name="Move1" type="Button" parent="MoveButtons2"]
+[node name="Move1" type="Button" parent="MoveButtons2" groups=["move2_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 
-[node name="Move2" type="Button" parent="MoveButtons2"]
+[node name="Move2" type="Button" parent="MoveButtons2" groups=["move2_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
 
-[node name="Move3" type="Button" parent="MoveButtons2"]
+[node name="Move3" type="Button" parent="MoveButtons2" groups=["move2_buttons"]]
 layout_mode = 2
 size_flags_horizontal = 7
 size_flags_vertical = 7
-
-[node name="TextPanel" type="Panel" parent="."]
-custom_minimum_size = Vector2(0, 120)
-offset_left = 249.0
-offset_top = 237.0
-offset_right = 634.0
-offset_bottom = 357.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(320, 180)
 
+[connection signal="attack_happened" from="." to="TextPromptManager" method="_on_battle_scene_3_attack_happened"]
+[connection signal="text_ready" from="." to="TextPromptManager" method="_on_battle_scene_3_text_ready"]
+[connection signal="text_read" from="TextPromptManager" to="." method="_on_text_complete"]
 [connection signal="pressed" from="On" to="." method="_on_on_pressed"]
 [connection signal="pressed" from="Off" to="." method="_on_off_pressed"]
 [connection signal="pressed" from="MainButtons/Fight" to="." method="_on_fight_pressed"]
