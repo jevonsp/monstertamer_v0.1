@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Move" load_steps=2 format=3 uid="uid://b2f6nd5yclrtu"]
+
+[ext_resource type="Script" uid="uid://dwht48w3ngyly" path="res://resource_and_global/move_resource.gd" id="1_fl0o2"]
+
+[resource]
+script = ExtResource("1_fl0o2")
+name = "Swipe"
+damage = 3
+type = 3
+target_type = 2
+metadata/_custom_type_script = "uid://dwht48w3ngyly"

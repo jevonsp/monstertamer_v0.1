@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Move" load_steps=2 format=3 uid="uid://763gna3b50ky"]
+
+[ext_resource type="Script" uid="uid://dwht48w3ngyly" path="res://resource_and_global/move_resource.gd" id="1_au57f"]
+
+[resource]
+script = ExtResource("1_au57f")
+name = "Grass Needle"
+damage = 5
+type = 2
+target_type = 2
+metadata/_custom_type_script = "uid://dwht48w3ngyly"

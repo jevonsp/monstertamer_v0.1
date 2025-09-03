@@ -83,6 +83,9 @@ func _on_enemy_party_monsters_ready() -> void:
 	setup_battle()
 	start_battle()
 
+func start_battle():
+	print("battle ok to start")
+
 func enter_battle():
 	self.visible = true
 	flip_physics_process(false)
@@ -369,10 +372,12 @@ func hide_health_bars():
 		if node.has_meta("HPBar"):
 			node.remove_meta("HPBar")
 
-func start_battle():
-	print("battle ok to start")
+func clear_enemy_party():
+	for child in enemy_party.get_children():
+		child.queue_free()
 
 func end_battle():
+	clear_enemy_party()
 	party.update_party_slots()
 	ending_battle.emit()
 	self.visible = false

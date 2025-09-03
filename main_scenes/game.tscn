@@ -55,9 +55,10 @@ party = NodePath("../../../Party")
 menu_list = NodePath("../MenuList")
 player = NodePath("../../../Player")
 
-[node name="Player" parent="." instance=ExtResource("2_iywne")]
+[node name="Player" parent="." node_paths=PackedStringArray("battle_scene") instance=ExtResource("2_iywne")]
 z_index = 1
 position = Vector2(143, 143)
+battle_scene = NodePath("../BattleScene3")
 
 [node name="BattleScene3" parent="." node_paths=PackedStringArray("player", "party", "enemy_party", "capture_mgr", "storage_mgr") instance=ExtResource("3_7i1yy")]
 visible = false

@@ -5,6 +5,7 @@ signal ask_for_healing
 
 @export var camera : Camera2D
 @export var ray2d : RayCast2D
+@export var battle_scene : Node
 
 enum State {IDLE, MOVING, DISABLED}
 
@@ -20,6 +21,10 @@ func _ready() -> void:
 	add_to_group("player")
 	add_to_group("player_elements")
 	_rotate_look_direction(Vector2.DOWN)
+
+func _process(delta: float) -> void:
+	if battle_scene.visible: set_physics_process(false)
+	else: set_physics_process(true)
 	
 func _physics_process(delta: float) -> void:
 	if state != State.IDLE:

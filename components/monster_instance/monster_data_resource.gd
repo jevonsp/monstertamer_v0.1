@@ -1,7 +1,7 @@
 class_name MonsterData
 extends Resource
 
-enum Type {FIRE, WATER, GRASS}
+enum Type {FIRE, WATER, GRASS, NONE}
 enum Role {MELEE, RANGE, TANK}
 enum GrowthRate {SLOWEST, SLOW, MEDIUM, FAST, FASTEST}
 @export var species_name : String

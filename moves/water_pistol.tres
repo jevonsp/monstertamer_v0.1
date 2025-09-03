@@ -6,4 +6,6 @@
 script = ExtResource("1_afbtf")
 name = "Water Pistol"
 damage = 5
+type = 1
+target_type = 2
 metadata/_custom_type_script = "uid://dwht48w3ngyly"
