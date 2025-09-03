@@ -12,7 +12,7 @@ func create_from_encounter(event: EncounterEvent) -> MonsterInstance:
 	monster.health_component.setup_from_stats(monster.stats_component)
 	
 	monster.moves_component = MovesComponent.new()
-	monster.moves_component.setup_moves_from_data(event.monster_data)
+	monster.moves_component.setup_moves_from_data(event.monster_data, event.level)
 	monster.known_moves = monster.moves_component.moveset.duplicate()
 
 	monster.create_monster()

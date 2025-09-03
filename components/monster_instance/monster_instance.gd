@@ -31,6 +31,8 @@ func set_monster_data(data : MonsterData, level : int) -> void:
 	#growth_rate = data.GrowthRate
 
 func create_monster(event : EncounterEvent = null):
+	for i in range(current_level):
+		level_up()
 	debug_print()
 
 func get_effective_attack(move: Move) -> int:
@@ -52,7 +54,10 @@ func level_up():
 	stats_component.base_defense += 1
 	stats_component.base_dexterity += 1
 	health_component.max_hp = stats_component.base_hp
-	health_component.current_hp = health_component.max_hp 
+	health_component.current_hp = health_component.max_hp
+	print(stats_component.base_hp, 
+	stats_component.base_speed, stats_component.base_attack, 
+	stats_component.base_defense, stats_component.base_dexterity)
 
 func add_to_turn_queue():
 	if health_component == null:
