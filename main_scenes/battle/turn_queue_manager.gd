@@ -1,9 +1,13 @@
 extends Node
+
+signal battle_monster_display_req(monster)
+
 @export_subgroup("Nodes")
 @export var battle_scene : Node2D
 @export var txt_mgr : Control
 @export var ui_mgr : Control
 @export var battle_calc : Node
+
 # Nodes
 var party : Node
 var enemy_party : Node
@@ -27,6 +31,7 @@ func _ready():
 	party.connect("party_slots_updated", Callable(self, "_on_party_slots_updated"))
 	enemy_party = battle_scene.get_parent().get_node("EnemyParty")
 	enemy_party.connect("monsters_ready", Callable(self, "_on_enemy_party_slots_update"))
+	enemy_party.connect("is_double", Callable(self, "_on_enemy_party_is_double"))
 	
 func _on_enemy_party_is_double() -> void:
 	is_single = false
@@ -55,20 +60,29 @@ func compare_speed(a, b): # Helper
 	return b.stats_component.current_speed - a.stats_component.current_speed
 
 func make_singles_queue():
-	player_monster1 = tqm_party_slots[0].node
+	player_monster1 = tqm_party_slots[0]
+	player_monster1.set_meta("ui_slot", "player1")
 	turn_queue.append(player_monster1)
+	battle_monster_display_req.emit(player_monster1)
 	enemy_monster1 = tqm_enemy_slots[0]
+	player_monster1.set_meta("ui_slot", "enemy1")
 	turn_queue.append(enemy_monster1)
+	battle_monster_display_req.emit(enemy_monster1)
 func make_doubles_queue():
-	player_monster1 = tqm_party_slots[0].node
-	turn_queue.append(player_monster1)
-	enemy_monster1 = tqm_enemy_slots[0]
-	turn_queue.append(enemy_monster1)
-	
-	player_monster2 = tqm_party_slots[1].node
-	turn_queue.append(player_monster2)
-	enemy_monster2 = tqm_enemy_slots[1]
-	turn_queue.append(enemy_monster2)
+	pass
+	#player_monster1 = tqm_party_slots[0]
+	#turn_queue.append(player_monster1)
+	#battle_monster_display_req.emit(player_monster1, player_box1, player_texture1, player_name1)
+	#enemy_monster1 = tqm_enemy_slots[0]
+	#turn_queue.append(enemy_monster1)
+	#battle_monster_display_req.emit(enemy_monster1, enemy_box1, enemy_texture1, enemy_name1)
+	#
+	#player_monster2 = tqm_party_slots[1]
+	#turn_queue.append(player_monster2)
+	#battle_monster_display_req.emit(player_monster2, player_box2, player_texture2, player_name2)
+	#enemy_monster2 = tqm_enemy_slots[1]
+	#turn_queue.append(enemy_monster2)
+	#battle_monster_display_req.emit(enemy_monster2, enemy_box2, enemy_texture2, enemy_name2)
 
 func queue_move(user, target, move):
 	var action = TurnAction.new(user, target, move)

@@ -1,46 +1,22 @@
-[gd_scene load_steps=8 format=3 uid="uid://cemvqf4navxda"]
+[gd_scene load_steps=8 format=3 uid="uid://ctc4a85u52g02"]
 
-[ext_resource type="Script" uid="uid://nvro8gbwaglw" path="res://main_scenes/battle/battle_scene3.gd" id="1_r5if4"]
-[ext_resource type="Script" uid="uid://dr6c4kyxna4uo" path="res://main_scenes/battle/text_prompt_manager.gd" id="2_kqvhi"]
-[ext_resource type="Script" uid="uid://brukg8erda36v" path="res://main_scenes/battle/ui_manager.gd" id="3_dxlco"]
-[ext_resource type="Script" uid="uid://do7fjjogppfce" path="res://main_scenes/battle/turn_queue_manager.gd" id="4_xei35"]
-[ext_resource type="Script" uid="uid://nvc0prbgjvq0" path="res://main_scenes/battle/ai_manager.gd" id="5_2ansq"]
-[ext_resource type="Script" uid="uid://cdfqxo2s2oo76" path="res://main_scenes/battle/battle_calculator.gd" id="5_jgkx3"]
-[ext_resource type="Script" uid="uid://e6a7kd0tmsq4" path="res://main_scenes/battle/monster_ui_binder.gd" id="6_2ansq"]
+[ext_resource type="Script" uid="uid://cyobp8utut0ct" path="res://test/battle_scene_4.gd" id="1_1es03"]
+[ext_resource type="Script" uid="uid://dr6c4kyxna4uo" path="res://main_scenes/battle/text_prompt_manager.gd" id="2_un2ux"]
+[ext_resource type="Script" uid="uid://brukg8erda36v" path="res://main_scenes/battle/ui_manager.gd" id="3_6yfip"]
+[ext_resource type="Script" uid="uid://do7fjjogppfce" path="res://main_scenes/battle/turn_queue_manager.gd" id="4_vft4k"]
+[ext_resource type="Script" uid="uid://nvc0prbgjvq0" path="res://main_scenes/battle/ai_manager.gd" id="5_ve251"]
+[ext_resource type="Script" uid="uid://e6a7kd0tmsq4" path="res://main_scenes/battle/monster_ui_binder.gd" id="6_ufgyq"]
+[ext_resource type="Script" uid="uid://cdfqxo2s2oo76" path="res://main_scenes/battle/battle_calculator.gd" id="7_0e0lg"]
 
-[node name="BattleScene3" type="Node2D" node_paths=PackedStringArray("txt_mgr", "ui_mgr", "battle_calc", "camera", "singles_ui", "doubles_ui", "constant_ui", "player_box1", "player_box2", "enemy_box1", "enemy_box2", "player_container", "enemy_container", "main_buttons", "move_buttons1", "move_buttons2", "player_texture1", "player_texture2", "enemy_texture1", "enemy_texture2", "player_name1", "player_name2", "enemy_name1", "enemy_name2")]
-script = ExtResource("1_r5if4")
-txt_mgr = NodePath("TextPromptManager")
-ui_mgr = NodePath("UIManager")
-battle_calc = NodePath("BattleCalculator")
-camera = NodePath("Camera2D")
-singles_ui = [NodePath("MonsterContainer/PlayerContainer/PMVBox1"), NodePath("MonsterContainer/EnemyContainer/EMVBox1")]
-doubles_ui = [NodePath("MonsterContainer/PlayerContainer/PMVBox1"), NodePath("MonsterContainer/PlayerContainer/PMVBox2"), NodePath("MonsterContainer/EnemyContainer/EMVBox1"), NodePath("MonsterContainer/EnemyContainer/EMVBox2")]
-constant_ui = [NodePath("MainButtons"), NodePath("ColorRect"), NodePath("TextPromptManager/TextPanel")]
-player_box1 = NodePath("MonsterContainer/PlayerContainer/PMVBox1")
-player_box2 = NodePath("MonsterContainer/PlayerContainer/PMVBox2")
-enemy_box1 = NodePath("MonsterContainer/EnemyContainer/EMVBox1")
-enemy_box2 = NodePath("MonsterContainer/EnemyContainer/EMVBox2")
-player_container = NodePath("MonsterContainer/PlayerContainer")
-enemy_container = NodePath("MonsterContainer/EnemyContainer")
-main_buttons = NodePath("MainButtons")
-move_buttons1 = NodePath("MoveButtons1")
-move_buttons2 = NodePath("MoveButtons2")
-player_texture1 = NodePath("MonsterContainer/PlayerContainer/PMVBox1/PM1")
-player_texture2 = NodePath("MonsterContainer/PlayerContainer/PMVBox2/PM2")
-enemy_texture1 = NodePath("MonsterContainer/EnemyContainer/EMVBox1/EM1")
-enemy_texture2 = NodePath("MonsterContainer/EnemyContainer/EMVBox2/EM2")
-player_name1 = NodePath("MonsterContainer/PlayerContainer/PMVBox1/Label")
-player_name2 = NodePath("MonsterContainer/PlayerContainer/PMVBox2/Label")
-enemy_name1 = NodePath("MonsterContainer/EnemyContainer/EMVBox1/Label")
-enemy_name2 = NodePath("MonsterContainer/EnemyContainer/EMVBox2/Label")
+[node name="BattleScene4" type="Node2D"]
+script = ExtResource("1_1es03")
 
 [node name="TextPromptManager" type="Control" parent="." node_paths=PackedStringArray("label")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("2_kqvhi")
+script = ExtResource("2_un2ux")
 label = NodePath("TextPanel/MarginContainer/Label")
 
 [node name="TextPanel" type="Panel" parent="TextPromptManager"]
@@ -75,23 +51,23 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("3_dxlco")
+script = ExtResource("3_6yfip")
 main_buttons = NodePath("../MainButtons")
 move_buttons1 = NodePath("../MoveButtons1")
 move_buttons2 = NodePath("../MoveButtons2")
 
 [node name="TurnQueueManager" type="Node" parent="." node_paths=PackedStringArray("battle_scene", "txt_mgr", "ui_mgr", "battle_calc")]
-script = ExtResource("4_xei35")
+script = ExtResource("4_vft4k")
 battle_scene = NodePath("..")
 txt_mgr = NodePath("../TextPromptManager")
 ui_mgr = NodePath("../UIManager")
 battle_calc = NodePath("../BattleCalculator")
 
 [node name="AIManager" type="Node" parent="."]
-script = ExtResource("5_2ansq")
+script = ExtResource("5_ve251")
 
 [node name="MonsterUIBinder" type="Node" parent="." node_paths=PackedStringArray("tqm_mgr", "player_box1", "player_box2", "enemy_box1", "enemy_box2", "player_texture1", "player_texture2", "enemy_texture1", "enemy_texture2", "player_name1", "player_name2", "enemy_name1", "enemy_name2")]
-script = ExtResource("6_2ansq")
+script = ExtResource("6_ufgyq")
 tqm_mgr = NodePath("../TurnQueueManager")
 player_box1 = NodePath("../MonsterContainer/PlayerContainer/PMVBox1")
 player_box2 = NodePath("../MonsterContainer/PlayerContainer/PMVBox2")
@@ -107,7 +83,7 @@ enemy_name1 = NodePath("../MonsterContainer/EnemyContainer/EMVBox1/Label")
 enemy_name2 = NodePath("../MonsterContainer/EnemyContainer/EMVBox2/Label")
 
 [node name="BattleCalculator" type="Node" parent="."]
-script = ExtResource("5_jgkx3")
+script = ExtResource("7_0e0lg")
 
 [node name="On" type="Button" parent="."]
 custom_minimum_size = Vector2(50, 50)

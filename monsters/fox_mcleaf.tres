@@ -19,4 +19,5 @@ base_defense = 1
 base_dexterity = 1
 learnable_moves = Array[ExtResource("1_ylsxl")]([ExtResource("2_h13o0"), ExtResource("3_8jux2")])
 learn_levels = Array[int]([1, 5])
+base_xp = 1
 metadata/_custom_type_script = "uid://p7x6o07vrvvf"

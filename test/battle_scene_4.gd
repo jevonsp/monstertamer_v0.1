@@ -13,6 +13,8 @@ signal turn_complete
 @export var storage_mgr : Node
 @export var txt_mgr : Node
 @export var ui_mgr : Control
+@export var tqm_mgr : Node
+@export var mui_binder : Node
 @export var battle_calc : Node
 @export var camera : Camera2D
 @export_subgroup("Node Arrays")

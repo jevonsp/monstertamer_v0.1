@@ -1,0 +1,200 @@
+[gd_scene load_steps=25 format=3 uid="uid://1815a8jitt27"]
+
+[ext_resource type="Script" uid="uid://b0bf3hk6wxjyr" path="res://main_scenes/game.gd" id="1_t4iuj"]
+[ext_resource type="Script" uid="uid://d11e0fpp1n8co" path="res://main_scenes/ui.gd" id="2_6qese"]
+[ext_resource type="PackedScene" uid="uid://dd08nodrya43f" path="res://main_scenes/menu/menu_list.tscn" id="3_nshpj"]
+[ext_resource type="PackedScene" uid="uid://mhu8ee54jmu1" path="res://main_scenes/party/party_list.tscn" id="4_viky5"]
+[ext_resource type="PackedScene" uid="uid://bmfphnhglhc3" path="res://main_scenes/player/player.tscn" id="5_omoy4"]
+[ext_resource type="PackedScene" uid="uid://ctc4a85u52g02" path="res://test/battle_scene_4.tscn" id="6_t4iuj"]
+[ext_resource type="PackedScene" uid="uid://cwvxpdmi5vk2b" path="res://main_scenes/party/Party.tscn" id="7_5ofoc"]
+[ext_resource type="PackedScene" uid="uid://bfft6btg2h78k" path="res://main_scenes/enemy_party/enemy_party.tscn" id="8_iovyl"]
+[ext_resource type="PackedScene" uid="uid://btka8kpgy1kc5" path="res://main_scenes/capture_manager/capture_manager.tscn" id="9_so1bb"]
+[ext_resource type="PackedScene" uid="uid://drha37ou4kgj3" path="res://main_scenes/storage_manager/storage_manager.tscn" id="10_0s6m3"]
+[ext_resource type="PackedScene" uid="uid://cjtia66k50wk0" path="res://main_scenes/monster_factory/monster_factory.tscn" id="11_28rni"]
+[ext_resource type="PackedScene" uid="uid://dqai2b5hdqekg" path="res://levels/level_0.tscn" id="12_vqdmh"]
+[ext_resource type="PackedScene" uid="uid://dslyemb151w4k" path="res://components/encounter_zone/encounter_zone.tscn" id="13_spce4"]
+[ext_resource type="Script" uid="uid://p7x6o07vrvvf" path="res://components/monster_instance/monster_data_resource.gd" id="14_ekv7v"]
+[ext_resource type="Resource" uid="uid://cajcst55ivnkf" path="res://monsters/pistol_shrimp.tres" id="15_7jd21"]
+[ext_resource type="PackedScene" uid="uid://njxdudpywcah" path="res://components/trainer/trainer_component.tscn" id="16_rkbhh"]
+[ext_resource type="Resource" uid="uid://mkqktbhjqjxf" path="res://monsters/pyro_badger.tres" id="17_xqq0c"]
+[ext_resource type="Script" uid="uid://3y2odgqmtkte" path="res://main_scenes/monster_adder.gd" id="18_761r2"]
+[ext_resource type="Resource" uid="uid://co7im85dpqgr4" path="res://monsters/fox_mcleaf.tres" id="19_rrjhl"]
+[ext_resource type="PackedScene" uid="uid://0353uec73bnc" path="res://components/healing_component/healing_component.tscn" id="20_q660u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lbhrr"]
+size = Vector2(91, 219)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gee14"]
+size = Vector2(20, 224)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m3jfi"]
+size = Vector2(29, 27)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_02fbf"]
+size = Vector2(27, 28)
+
+[node name="Game2" type="Node2D" node_paths=PackedStringArray("menu_list", "party_list", "player")]
+script = ExtResource("1_t4iuj")
+menu_list = NodePath("CanvasLayer/UI/MenuList")
+party_list = NodePath("CanvasLayer/UI/PartyList")
+player = NodePath("Player")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Node" parent="CanvasLayer" node_paths=PackedStringArray("menu_list", "party_list", "player")]
+script = ExtResource("2_6qese")
+menu_list = NodePath("MenuList")
+party_list = NodePath("PartyList")
+player = NodePath("../../Player")
+
+[node name="MenuList" parent="CanvasLayer/UI" node_paths=PackedStringArray("party_list") instance=ExtResource("3_nshpj")]
+party_list = NodePath("../PartyList")
+
+[node name="PartyList" parent="CanvasLayer/UI" node_paths=PackedStringArray("party", "menu_list", "player") instance=ExtResource("4_viky5")]
+visible = false
+party = NodePath("../../../Party")
+menu_list = NodePath("../MenuList")
+player = NodePath("../../../Player")
+
+[node name="Player" parent="." instance=ExtResource("5_omoy4")]
+z_index = 1
+position = Vector2(143, 143)
+
+[node name="BattleScene4" parent="." node_paths=PackedStringArray("player") instance=ExtResource("6_t4iuj")]
+visible = false
+z_index = 1
+player = NodePath("../Player")
+
+[node name="Party" parent="." node_paths=PackedStringArray("monster_factory", "party_list") instance=ExtResource("7_5ofoc")]
+monster_factory = NodePath("../MonsterFactory")
+party_list = NodePath("../CanvasLayer/UI/PartyList")
+
+[node name="EnemyParty" parent="." node_paths=PackedStringArray("monster_factory") instance=ExtResource("8_iovyl")]
+unique_name_in_owner = true
+monster_factory = NodePath("../MonsterFactory")
+
+[node name="CaptureManager" parent="." node_paths=PackedStringArray("party", "enemy_party", "storage_manager", "monster_adder", "monster_factory") instance=ExtResource("9_so1bb")]
+party = NodePath("../Party")
+enemy_party = NodePath("../EnemyParty")
+storage_manager = NodePath("../StorageManager")
+monster_adder = NodePath("../MonsterAdder")
+monster_factory = NodePath("../MonsterFactory")
+
+[node name="StorageManager" parent="." node_paths=PackedStringArray("player", "capture_manager", "party", "monster_factory") instance=ExtResource("10_0s6m3")]
+player = NodePath("../Player")
+capture_manager = NodePath("../CaptureManager")
+party = NodePath("../Party")
+monster_factory = NodePath("../MonsterFactory")
+
+[node name="MonsterFactory" parent="." instance=ExtResource("11_28rni")]
+unique_name_in_owner = true
+
+[node name="Level0" parent="." groups=["level"] instance=ExtResource("12_vqdmh")]
+
+[node name="Button" type="Button" parent="."]
+custom_minimum_size = Vector2(30, 30)
+offset_left = 37.0
+offset_top = 37.0
+offset_right = 67.0
+offset_bottom = 67.0
+
+[node name="EncounterZone" parent="." node_paths=PackedStringArray("enemy_party") instance=ExtResource("13_spce4")]
+position = Vector2(300, 109)
+enemy_party = NodePath("../EnemyParty")
+encounter_table = Array[ExtResource("14_ekv7v")]([ExtResource("15_7jd21")])
+encounter_rate = 0.5
+min_level = 1
+max_level = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EncounterZone"]
+position = Vector2(3.5, 98.5)
+shape = SubResource("RectangleShape2D_lbhrr")
+
+[node name="TrainerComponent" parent="." instance=ExtResource("16_rkbhh")]
+position = Vector2(464, 76)
+party = Array[ExtResource("14_ekv7v")]([ExtResource("17_xqq0c"), ExtResource("17_xqq0c")])
+party_levels = Array[int]([1, 2])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TrainerComponent"]
+position = Vector2(0, 130)
+shape = SubResource("RectangleShape2D_gee14")
+
+[node name="MonsterAdder" type="Area2D" parent="." node_paths=PackedStringArray("party", "monster_factory")]
+position = Vector2(99, 107)
+script = ExtResource("18_761r2")
+party = NodePath("../Party")
+monster_factory = NodePath("../MonsterFactory")
+monster_data = ExtResource("17_xqq0c")
+level = 2
+
+[node name="ColorRect" type="ColorRect" parent="MonsterAdder"]
+custom_minimum_size = Vector2(32, 32)
+offset_left = -12.0
+offset_top = -15.0
+offset_right = 20.0
+offset_bottom = 17.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MonsterAdder"]
+position = Vector2(3.5, 0.5)
+shape = SubResource("RectangleShape2D_m3jfi")
+
+[node name="MonsterAdder2" type="Area2D" parent="." node_paths=PackedStringArray("party", "monster_factory")]
+position = Vector2(99, 143)
+script = ExtResource("18_761r2")
+party = NodePath("../Party")
+monster_factory = NodePath("../MonsterFactory")
+monster_data = ExtResource("15_7jd21")
+level = 2
+
+[node name="ColorRect" type="ColorRect" parent="MonsterAdder2"]
+custom_minimum_size = Vector2(32, 32)
+offset_left = -12.0
+offset_top = -15.0
+offset_right = 20.0
+offset_bottom = 17.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MonsterAdder2"]
+position = Vector2(3.5, 0.5)
+shape = SubResource("RectangleShape2D_m3jfi")
+
+[node name="MonsterAdder3" type="Area2D" parent="." node_paths=PackedStringArray("party", "monster_factory")]
+position = Vector2(98, 178)
+script = ExtResource("18_761r2")
+party = NodePath("../Party")
+monster_factory = NodePath("../MonsterFactory")
+monster_data = ExtResource("19_rrjhl")
+level = 2
+
+[node name="ColorRect" type="ColorRect" parent="MonsterAdder3"]
+custom_minimum_size = Vector2(32, 32)
+offset_left = -12.0
+offset_top = -15.0
+offset_right = 20.0
+offset_bottom = 17.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MonsterAdder3"]
+position = Vector2(3.5, 0.5)
+shape = SubResource("RectangleShape2D_m3jfi")
+
+[node name="HealingComponent" parent="." instance=ExtResource("20_q660u")]
+position = Vector2(304, 48)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HealingComponent"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_02fbf")
+
+[connection signal="ask_for_healing" from="Player" to="Party" method="heal_party"]
+[connection signal="moved_to_tile" from="Player" to="EncounterZone" method="_on_player_moved_to_tile"]
+[connection signal="moved_to_tile" from="Player" to="TrainerComponent" method="_on_player_moved_to_tile"]
+[connection signal="party_healed" from="Party" to="CanvasLayer/UI/PartyList" method="_on_party_party_healed"]
+[connection signal="party_slots_updated" from="Party" to="CanvasLayer/UI/PartyList" method="update_slots"]
+[connection signal="monsters_ready" from="EnemyParty" to="BattleScene4" method="_on_enemy_party_monsters_ready"]
+[connection signal="monster_captured" from="CaptureManager" to="StorageManager" method="add_monster_to_caught_monsters"]
+[connection signal="ask_party" from="StorageManager" to="Party" method="check_party_slots"]
+[connection signal="pressed" from="Button" to="Party" method="_on_button_pressed"]
+[connection signal="body_entered" from="MonsterAdder" to="MonsterAdder" method="_on_body_entered"]
+[connection signal="monster_get" from="MonsterAdder" to="StorageManager" method="get_starter"]
+[connection signal="body_entered" from="MonsterAdder2" to="MonsterAdder2" method="_on_body_entered"]
+[connection signal="monster_get" from="MonsterAdder2" to="StorageManager" method="get_starter"]
+[connection signal="body_entered" from="MonsterAdder3" to="MonsterAdder3" method="_on_body_entered"]
+[connection signal="monster_get" from="MonsterAdder3" to="StorageManager" method="get_starter"]
