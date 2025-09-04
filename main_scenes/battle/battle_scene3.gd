@@ -13,6 +13,7 @@ signal turn_complete
 @export var storage_mgr : Node
 @export var txt_mgr : Node
 @export var ui_mgr : Control
+@export var battle_calc : Node
 @export var camera : Camera2D
 @export_subgroup("Node Arrays")
 @export var singles_ui : Array[Node]
@@ -125,7 +126,9 @@ func make_turn_queue():
 	else:
 		make_doubles_queue()
 func make_singles_queue():
+	# moved to tqm
 	player_monster1 = party.party_slots[0].node
+	# need to move to monsteruibinder
 	player_monster1.set_meta("ui_box", player_box1)
 	player_monster1.set_meta("texture_rect", player_texture1)
 	player_monster1.set_meta("name_label", player_name1)
@@ -292,17 +295,12 @@ func compare_turn_actions(a, b): # Helper
 	var index_b = turn_queue.find(b.user)
 	return index_a - index_b
 
-func calc_damage(user, target, move):
-	var base_damage = user.get_effective_attack(move)
-	var type_multi = TypeChart.get_multi(move.type, target.monster_data.type)
-	var final_dmg = int((base_damage - (target.stats_component.current_defense / 4)) * type_multi)
-	return final_dmg
 func resolve_action(action):
 	var user = action.user
 	var target = action.target
 	var move = action.move
 	if target:
-		var dmg = calc_damage(user, target, move)
+		var dmg = battle_calc.calc_damage(user, target, move)
 		target.health_component.take_damage(dmg)
 		
 		await txt_mgr.show_text("%s hit %s \nwith %s for %d damage" % [

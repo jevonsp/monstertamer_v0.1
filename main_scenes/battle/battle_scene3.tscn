@@ -1,13 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://cemvqf4navxda"]
+[gd_scene load_steps=8 format=3 uid="uid://cemvqf4navxda"]
 
 [ext_resource type="Script" uid="uid://nvro8gbwaglw" path="res://main_scenes/battle/battle_scene3.gd" id="1_r5if4"]
 [ext_resource type="Script" uid="uid://dr6c4kyxna4uo" path="res://main_scenes/battle/text_prompt_manager.gd" id="2_kqvhi"]
 [ext_resource type="Script" uid="uid://brukg8erda36v" path="res://main_scenes/battle/ui_manager.gd" id="3_dxlco"]
+[ext_resource type="Script" uid="uid://do7fjjogppfce" path="res://main_scenes/battle/turn_queue_manager.gd" id="4_xei35"]
+[ext_resource type="Script" uid="uid://nvc0prbgjvq0" path="res://main_scenes/battle/ai_manager.gd" id="5_2ansq"]
+[ext_resource type="Script" uid="uid://cdfqxo2s2oo76" path="res://main_scenes/battle/battle_calculator.gd" id="5_jgkx3"]
+[ext_resource type="Script" uid="uid://e6a7kd0tmsq4" path="res://main_scenes/battle/monster_ui_binder.gd" id="6_2ansq"]
 
-[node name="BattleScene3" type="Node2D" node_paths=PackedStringArray("txt_mgr", "ui_mgr", "camera", "singles_ui", "doubles_ui", "constant_ui", "player_box1", "player_box2", "enemy_box1", "enemy_box2", "player_container", "enemy_container", "main_buttons", "move_buttons1", "move_buttons2", "player_texture1", "player_texture2", "enemy_texture1", "enemy_texture2", "player_name1", "player_name2", "enemy_name1", "enemy_name2")]
+[node name="BattleScene3" type="Node2D" node_paths=PackedStringArray("txt_mgr", "ui_mgr", "battle_calc", "camera", "singles_ui", "doubles_ui", "constant_ui", "player_box1", "player_box2", "enemy_box1", "enemy_box2", "player_container", "enemy_container", "main_buttons", "move_buttons1", "move_buttons2", "player_texture1", "player_texture2", "enemy_texture1", "enemy_texture2", "player_name1", "player_name2", "enemy_name1", "enemy_name2")]
 script = ExtResource("1_r5if4")
 txt_mgr = NodePath("TextPromptManager")
 ui_mgr = NodePath("UIManager")
+battle_calc = NodePath("BattleCalculator")
 camera = NodePath("Camera2D")
 singles_ui = [NodePath("MonsterContainer/PlayerContainer/PMVBox1"), NodePath("MonsterContainer/EnemyContainer/EMVBox1")]
 doubles_ui = [NodePath("MonsterContainer/PlayerContainer/PMVBox1"), NodePath("MonsterContainer/PlayerContainer/PMVBox2"), NodePath("MonsterContainer/EnemyContainer/EMVBox1"), NodePath("MonsterContainer/EnemyContainer/EMVBox2")]
@@ -74,6 +79,22 @@ script = ExtResource("3_dxlco")
 main_buttons = NodePath("../MainButtons")
 move_buttons1 = NodePath("../MoveButtons1")
 move_buttons2 = NodePath("../MoveButtons2")
+
+[node name="TurnQueueManager" type="Node" parent="." node_paths=PackedStringArray("battle_scene", "txt_mgr", "ui_mgr", "battle_calc")]
+script = ExtResource("4_xei35")
+battle_scene = NodePath("..")
+txt_mgr = NodePath("../TextPromptManager")
+ui_mgr = NodePath("../UIManager")
+battle_calc = NodePath("../BattleCalculator")
+
+[node name="AIManager" type="Node" parent="."]
+script = ExtResource("5_2ansq")
+
+[node name="MonsterUIBinder" type="Node" parent="."]
+script = ExtResource("6_2ansq")
+
+[node name="BattleCalculator" type="Node" parent="."]
+script = ExtResource("5_jgkx3")
 
 [node name="On" type="Button" parent="."]
 custom_minimum_size = Vector2(50, 50)
