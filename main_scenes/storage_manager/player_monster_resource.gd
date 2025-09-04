@@ -16,6 +16,6 @@ static func create_player_monster(node: MonsterInstance) -> PlayerMonster:
 	pm.monster_name = node.monster_name
 	pm.max_hp = node.health_component.max_hp
 	pm.current_hp = node.health_component.current_hp
-	pm.experience = 0
+	pm.experience = node.level_component.experience
 	pm.moves = node.known_moves.duplicate()
 	return pm

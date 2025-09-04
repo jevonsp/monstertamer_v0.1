@@ -163,6 +163,8 @@ func make_doubles_queue():
 	turn_queue.append(enemy_monster2)
 func sort_turn_queue():
 	turn_queue.sort_custom(Callable(self, "compare_speed"))
+	for monster in turn_queue:
+		monster.participated = true
 func compare_speed(a, b): # Helper
 	return b.stats_component.current_speed - a.stats_component.current_speed
 
@@ -269,6 +271,7 @@ func execute_turn():
 	turn_actions.clear()
 	ui_mgr.buttons_off(false)
 	ui_mgr.show_button_state(ui_mgr.ChoiceState.CHOICE1)
+	sort_turn_queue()
 	
 func enemy_choose_moves():
 	if is_single:
@@ -313,9 +316,13 @@ func remove_from_battle(target):
 	if target.health_component.is_dead():
 		print("%s has fainted" % target.monster_data.species_name)
 		if target in [enemy_monster1, enemy_monster2]:
+			var xp = target.get_xp_yield()
+			award_xp(xp)
 			target.queue_free()
 			if enemy_party.get_child_count() <= 1:
 				end_battle()
+				for slot in party.party_slots:
+					slot.node.participated = false
 		if target in [player_monster1, player_monster2]:
 			var available = []
 			for slot in party.party_slots:
@@ -328,6 +335,12 @@ func remove_from_battle(target):
 			else:
 				print("you lost")
 				end_battle()
+
+func award_xp(xp: int):
+	for slot in party.party_slots:
+		if slot.node.participated:
+			slot.pm.experience += xp
+			
 
 func hide_health_bars():
 	for node in turn_queue:

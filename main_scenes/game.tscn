@@ -131,7 +131,7 @@ script = ExtResource("17_7i1yy")
 party = NodePath("../Party")
 monster_factory = NodePath("../MonsterFactory")
 monster_data = ExtResource("13_mf5kq")
-level = 3
+level = 2
 
 [node name="ColorRect" type="ColorRect" parent="MonsterAdder"]
 custom_minimum_size = Vector2(32, 32)
@@ -150,7 +150,7 @@ script = ExtResource("17_7i1yy")
 party = NodePath("../Party")
 monster_factory = NodePath("../MonsterFactory")
 monster_data = ExtResource("11_mf5kq")
-level = 3
+level = 2
 
 [node name="ColorRect" type="ColorRect" parent="MonsterAdder2"]
 custom_minimum_size = Vector2(32, 32)
@@ -169,7 +169,7 @@ script = ExtResource("17_7i1yy")
 party = NodePath("../Party")
 monster_factory = NodePath("../MonsterFactory")
 monster_data = ExtResource("19_3eh77")
-level = 3
+level = 2
 
 [node name="ColorRect" type="ColorRect" parent="MonsterAdder3"]
 custom_minimum_size = Vector2(32, 32)

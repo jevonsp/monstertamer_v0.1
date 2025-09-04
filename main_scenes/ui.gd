@@ -56,8 +56,7 @@ func _set_ui_state(node: Node2D, active: bool) -> void:
 	node.visible = active
 	node.set_process_input(active)
 func _set_player_state(active: bool) -> void:
-	player.set_physics_process(active)
-	player.set_process_input(active)
+	player.state = player.State.IDLE if active else player.State.DISABLED
 
 func _on_battle_scene_3_now_in_battle() -> void:
 	in_battle = true

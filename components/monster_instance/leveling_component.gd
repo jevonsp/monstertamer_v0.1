@@ -2,6 +2,7 @@ class_name LevelingComponent extends Resource
 
 var stats_component : StatsComponent
 var health_component : HealthComponent
+var experience : int
 
 func level_up(level):
 	stats_component.level += level

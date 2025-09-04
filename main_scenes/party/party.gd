@@ -43,7 +43,7 @@ func update_party_slots():
 			slot.pm.level = slot.node.stats_component.level
 			slot.pm.max_hp = slot.node.health_component.max_hp
 			slot.pm.current_hp = slot.node.health_component.current_hp 
-			slot.pm.experience = slot.node.experience
+			slot.pm.experience = slot.node.level_component.experience
 			slot.pm.moves = slot.node.known_moves.duplicate()
 	party_slots_updated.emit()
 

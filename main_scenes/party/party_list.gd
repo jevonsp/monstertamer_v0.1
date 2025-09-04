@@ -147,6 +147,5 @@ func swap_slots(moving, selected):
 		print("no party yet")
 	update_slots()
 
-
 func _on_party_party_healed() -> void:
 	update_slots()

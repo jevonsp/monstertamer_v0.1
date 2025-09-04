@@ -21,3 +21,6 @@ enum GrowthRate {SLOWEST, SLOW, MEDIUM, FAST, FASTEST}
 @export_subgroup("Learnset")
 @export var learnable_moves: Array[Move] = []
 @export var learn_levels: Array[int] = []
+
+@export_subgroup("Loot and Gains")
+@export var base_xp : int = 1

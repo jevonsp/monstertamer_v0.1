@@ -2,7 +2,8 @@ class_name MonsterInstance
 extends Node
 
 @export var monster_data : MonsterData
-# var battle_scene : Node
+
+const XP_SCALAR : float = 1.2
 
 var monster_name : String
 var nick_name : String
@@ -17,8 +18,9 @@ var moves_component : MovesComponent
 var moves : Array[Move] = []
 var known_moves : Array[Move]
 var level_component : LevelingComponent
-var experience : int = 0
 var level : int = 1
+
+var participated : bool = false
 
 func _ready():
 	pass
@@ -35,12 +37,15 @@ func get_effective_attack(move: Move) -> int:
 	var main_stat = 0
 	match role:
 		MonsterData.Role.MELEE:
-			main_stat = stats_component.current_attack
+			main_stat = stats_component.current_attack / 2
 		MonsterData.Role.RANGE:
-			main_stat = stats_component.current_dexterity
+			main_stat = stats_component.current_dexterity / 2
 		MonsterData.Role.TANK:
-			main_stat = (stats_component.current_defense) / 2
+			main_stat = (stats_component.current_defense) / 3
 	return main_stat + move.damage
+
+func get_xp_yield() -> int:
+	return floor(monster_data.base_xp * current_level * XP_SCALAR)
 
 func level_up():
 	stats_component.level += 1
