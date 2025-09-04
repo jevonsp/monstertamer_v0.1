@@ -29,7 +29,7 @@ func set_active_slot():
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("down"):
 		unset_active_slot()
-		selected_slot = (selected_slot + 1) % 3
+		selected_slot = ((selected_slot + 1) % 3) as Slot
 		set_active_slot()
 	elif event.is_action_pressed("up"):
 		unset_active_slot()
@@ -37,7 +37,7 @@ func _input(event: InputEvent) -> void:
 			selected_slot = Slot.SAVE
 			set_active_slot()
 		else:
-			selected_slot -= 1
+			selected_slot = (selected_slot - 1) as Slot
 			set_active_slot()
 	elif event.is_action_pressed("yes"):
 		match selected_slot:

@@ -21,13 +21,8 @@ func _ready() -> void:
 	add_to_group("player")
 	add_to_group("player_elements")
 	_rotate_look_direction(Vector2.DOWN)
-
-func _process(delta: float) -> void:
-	pass
-	#if battle_scene.visible: set_physics_process(false)
-	#else: set_physics_process(true)
 	
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if state != State.IDLE:
 		return
 	if state == State.DISABLED:

@@ -3,7 +3,6 @@ extends Node2D
 signal now_in_battle
 signal ending_battle
 signal attack_happened(user, target, move, damage)
-signal text_ready
 signal turn_complete
 
 @export_subgroup("Nodes")
@@ -218,7 +217,7 @@ func replace_monster(old: MonsterInstance, new: MonsterInstance):
 
 func setup_moves():
 	if player_monster1:
-		var known_moves1 = player_monster1.known_moves
+		known_moves1 = player_monster1.known_moves
 		var buttons1 = move_buttons1.get_children()
 		for i in range(min(buttons1.size(), known_moves1.size())):
 			var move = known_moves1[i]

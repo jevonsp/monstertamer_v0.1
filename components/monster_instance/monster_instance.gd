@@ -18,7 +18,6 @@ var moves_component : MovesComponent
 var moves : Array[Move] = []
 var known_moves : Array[Move]
 var level_component : LevelingComponent
-var level : int = 1
 
 var participated : bool = false
 
@@ -37,11 +36,14 @@ func get_effective_attack(move: Move) -> int:
 	var main_stat = 0
 	match role:
 		MonsterData.Role.MELEE:
-			main_stat = stats_component.current_attack / 2
+			@warning_ignore("integer_division")
+			main_stat = int(stats_component.current_attack / 2)
 		MonsterData.Role.RANGE:
-			main_stat = stats_component.current_dexterity / 2
+			@warning_ignore("integer_division")
+			main_stat = int(stats_component.current_dexterity / 2)
 		MonsterData.Role.TANK:
-			main_stat = (stats_component.current_defense) / 3
+			@warning_ignore("integer_division")
+			main_stat = int(stats_component.current_defense / 3)
 	return main_stat + move.damage
 
 func get_xp_yield() -> int:
