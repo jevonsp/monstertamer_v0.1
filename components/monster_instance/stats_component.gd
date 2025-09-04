@@ -30,5 +30,13 @@ func setup_monster_from_data(event : EncounterEvent):
 	current_defense = base_defense
 	current_dexterity = base_dexterity
 
+func setup_monster_from_pm(pm: PlayerMonster):
+	level = pm.level
+	base_hp = pm.base_data.base_hp
+	base_attack = pm.base_data.base_attack
+	base_defense = pm.base_data.base_defense
+	base_speed = pm.base_data.base_speed
+	base_dexterity = pm.base_data.base_dexterity
+
 func change_stats(stat, amount):
 	pass

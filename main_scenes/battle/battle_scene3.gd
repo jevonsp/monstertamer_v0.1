@@ -293,7 +293,7 @@ func compare_turn_actions(a, b): # Helper
 func calc_damage(user, target, move):
 	var base_damage = user.get_effective_attack(move)
 	var type_multi = TypeChart.get_multi(move.type, target.monster_data.type)
-	var final_dmg = int((base_damage - target.stats_component.current_defense) * type_multi)
+	var final_dmg = int((base_damage - (target.stats_component.current_defense / 4)) * type_multi)
 	return final_dmg
 func resolve_action(action):
 	var user = action.user
