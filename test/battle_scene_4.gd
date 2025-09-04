@@ -7,6 +7,7 @@ signal turn_complete
 
 @export_subgroup("Nodes")
 @export var player : CharacterBody2D
+@export var camera : Camera2D
 @export var party : Node
 @export var enemy_party : Node
 @export var capture_mgr : Node
@@ -16,7 +17,7 @@ signal turn_complete
 @export var tqm_mgr : Node
 @export var mui_binder : Node
 @export var battle_calc : Node
-@export var camera : Camera2D
+
 @export_subgroup("Node Arrays")
 @export var singles_ui : Array[Node]
 @export var doubles_ui : Array[Node]

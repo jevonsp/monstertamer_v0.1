@@ -60,10 +60,14 @@ player = NodePath("../../../Player")
 z_index = 1
 position = Vector2(143, 143)
 
-[node name="BattleScene4" parent="." node_paths=PackedStringArray("player") instance=ExtResource("6_t4iuj")]
+[node name="BattleScene4" parent="." node_paths=PackedStringArray("player", "party", "enemy_party", "capture_mgr", "storage_mgr") instance=ExtResource("6_t4iuj")]
 visible = false
 z_index = 1
 player = NodePath("../Player")
+party = NodePath("../Party")
+enemy_party = NodePath("../EnemyParty")
+capture_mgr = NodePath("../CaptureManager")
+storage_mgr = NodePath("../StorageManager")
 
 [node name="Party" parent="." node_paths=PackedStringArray("monster_factory", "party_list") instance=ExtResource("7_5ofoc")]
 monster_factory = NodePath("../MonsterFactory")
