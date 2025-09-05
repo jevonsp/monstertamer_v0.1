@@ -39,7 +39,7 @@ func _move(direction):
 	unset_active_slot()
 	selected_slot = (selected_slot + 1) % 3
 	set_active_slot()
-	
+
 func unset_active_slot():
 	slot[selected_slot].frame = 0
 	
@@ -50,6 +50,9 @@ func _party_options_opened() -> void:
 	_set_ui_state(self, true)
 
 func _on_swap_complete() -> void:
+	set_process_input(true)
+	
+func _on_switch_cancelled() -> void:
 	set_process_input(true)
 
 func _set_ui_state(node: Node2D, active: bool) -> void:

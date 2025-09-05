@@ -55,19 +55,22 @@ func _move(direction: Vector2):
 	else:
 		set_active_slot()
 
+func _on_fight_pressed() -> void:
+	pass
+
 func input_move():
 	var current_enum = v2_to_slot[selected_slot]
 	move_used.emit(current_enum)
 	print("move_used emitted: %d" % current_enum)
 
+func get_curr_slot():
+	return v2_to_slot[selected_slot]
+
 func unset_active_slot():
-	var current_enum = v2_to_slot[selected_slot]
-	slot[current_enum].frame = 0
+	slot[get_curr_slot()].frame = 0
 	
 func set_active_slot():
-	var current_enum = v2_to_slot[selected_slot]
-	slot[current_enum].frame = 1
+	slot[get_curr_slot()].frame = 1
 
 func set_moving_slot():
-	var current_enum = v2_to_slot[selected_slot]
-	slot[current_enum].frame = 2
+	slot[get_curr_slot()].frame = 2

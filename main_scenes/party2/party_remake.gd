@@ -1,7 +1,9 @@
 extends Node2D
 
 signal party_options_opened
+signal switch_cancelled
 signal swap_completed
+signal party_closed
 
 enum Slot {SLOT1, SLOT2, SLOT3, SLOT4, SLOT5, SLOT6}
 var selected_slot : Vector2 = Vector2(0,0)
@@ -31,10 +33,20 @@ var in_battle : bool = false
 	Slot.SLOT5 : Vector2(1,3),
 	Slot.SLOT6 : Vector2(1,4)}
 func _ready() -> void:
+	visible = false
 	set_active_slot()
-	#set_process_input(false)
+	set_process_input(false)
 	
 func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("no"):
+		if is_moving:
+			is_moving = false
+			set_active_slot()
+			switch_cancelled.emit()
+			set_process_input(false)
+		else:
+			_set_ui_state(self, false)
+			party_closed.emit()
 	if event.is_action_pressed("yes"):
 		if !is_moving:
 			set_process_input(false)
@@ -63,20 +75,26 @@ func _move(direction: Vector2):
 	else:
 		set_active_slot()
 
+func get_curr_slot():
+	return v2_to_slot[selected_slot]
+
 func unset_active_slot():
-	var current_enum = v2_to_slot[selected_slot]
-	slot[current_enum].frame = 0
+	slot[get_curr_slot()].frame = 0
 	
 func set_active_slot():
-	var current_enum = v2_to_slot[selected_slot]
-	slot[current_enum].frame = 1
+	slot[get_curr_slot()].frame = 1
 
 func set_moving_slot():
-	var current_enum = v2_to_slot[selected_slot]
-	slot[current_enum].frame = 2
+	slot[get_curr_slot()].frame = 2
+
+func _on_party_opened(current_enum) -> void:
+	if current_enum == 0:
+		print("success")
+		_set_ui_state(self, true)
 
 func _on_in_battle() -> void:
 	in_battle = true
+	print("in_battle = true")
 
 func _on_switch_requested() -> void:
 	set_process_input(true)
@@ -96,8 +114,11 @@ func swap_slots(moving, selected):
 	is_moving = false
 	set_process_input(false)
 	swap_completed.emit()
-	
-func on_party_options_closed() -> void:
+
+func _on_party_requested() -> void:
+	_set_ui_state(self, true)
+
+func _on_party_options_closed() -> void:
 	_set_ui_state(self, true)
 
 func _set_ui_state(node: Node2D, active: bool) -> void:

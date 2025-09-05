@@ -5,3 +5,11 @@ res://main_scenes/battle2/battle_options.tscn
 res://main_scenes/battle2/battle_moves1.tscn
 res://main_scenes/party2/PartyRemake.tscn
 res://main_scenes/party2/PartyOptions.tscn
+res://main_scenes/party2/party_remake.gd
+res://main_scenes/battle2/hp_bar.tscn
+res://main_scenes/game_2.gd
+res://main_scenes/battle2/battle_options.gd
+res://main_scenes/battle2/battle_moves1.gd
+res://main_scenes/battle/ui_manager.gd
+res://main_scenes/battle/monster_updater.gd
+res://main_scenes/party2/party_options.gd

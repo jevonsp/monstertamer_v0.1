@@ -1,22 +1,23 @@
 extends Node2D
+signal party_requested
+signal party_closed
 
-signal is_in_battle
 @export var in_battle : bool = false
 
 func _ready() -> void:
-	visible = false
-	send_battle_signal()
+	pass
 
 func _show_subscenes():
-	for child in get_children():
-		child.visible = true
+	var nodes = get_tree().get_nodes_in_group("battle_ui")
+	for node in nodes:
+		node.visible = true
 func _hide_subscenes():
-	for child in get_children():
-		child.visible = false
+	var nodes = get_tree().get_nodes_in_group("battle_ui")
+	for node in nodes:
+		node.visible = false
 
-func check_visibility():
-	await get_tree().process_frame
+func _on_party_requested() -> void:
+	party_requested.emit()
 
-func send_battle_signal() -> void:
-	if in_battle == true:
-		is_in_battle.emit()
+func _on_party_closed() -> void:
+	party_closed.emit()

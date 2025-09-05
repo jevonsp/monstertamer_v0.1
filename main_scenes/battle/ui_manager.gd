@@ -1,6 +1,8 @@
 extends Node
 
 signal moves1_hidden
+signal party_requested
+signal party_closed
 
 @export_subgroup("Nodes")
 @export var battle : Node2D
@@ -20,10 +22,9 @@ func _input(event: InputEvent) -> void:
 		if state in transitions:
 			transitions[state].call()
 
-
 func _on_option_pressed(button: int):
-	if button == 1 and state == State.MAIN:
-		_show_moves1()
+	if button == 0: _show_party()
+	if button == 1: _show_moves1()
 
 func _set_ui_state(node: Node2D, active: bool) -> void:
 	node.visible = active
@@ -39,3 +40,16 @@ func _hide_moves1():
 	_set_ui_state(battle, true)
 	state = State.MAIN
 	moves1_hidden.emit()
+
+func _show_party():
+	_disable_control()
+	party_requested.emit()
+
+func _party_hidden():
+	_enable_control()
+	
+func _enable_control()-> void:
+	battle.set_process_input(true)
+	
+func _disable_control() -> void:
+	battle.set_process_input(false)

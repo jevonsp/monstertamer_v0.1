@@ -46,12 +46,17 @@ func _move(direction: Vector2):
 func _input_action():
 	var current_enum = v2_to_slot[selected_slot]
 	option_pressed.emit(current_enum)
-	print("option_pressed emitted: %d" % current_enum)
-		
+	print("current enum %d emitted" % current_enum)
+
+func get_curr_slot():
+	return v2_to_slot[selected_slot]
+
 func unset_active_slot():
-	var current_enum = v2_to_slot[selected_slot]
-	slot[current_enum].frame = 0
+	slot[get_curr_slot()].frame = 0
 	
 func set_active_slot():
-	var current_enum = v2_to_slot[selected_slot]
-	slot[current_enum].frame = 1
+	slot[get_curr_slot()].frame = 1
+	
+func _set_ui_state(node: Node2D, active: bool) -> void:
+	node.visible = active
+	node.set_process_input(active)

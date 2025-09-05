@@ -1,3 +1,4 @@
+ColorRect
 Control
 Label
 Sprite2D
@@ -9,6 +10,5 @@ Container
 TextureProgressBar
 MarginContainer
 ProgressBar
-ColorRect
 CanvasLayer
 VBoxContainer
