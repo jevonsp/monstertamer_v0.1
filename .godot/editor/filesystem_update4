@@ -26,3 +26,5 @@ res://2/battle2/hp_bar.tscn
 res://2/mon_creation2/MonsterFactory2.tscn
 res://2/mon_creation2/monster_data.gd
 res://2/mon_creation2/monster_factory_2.gd
+res://2/mon_creation2/MonsterInstance.tscn
+res://2/mon_creation2/monster_instance.gd
