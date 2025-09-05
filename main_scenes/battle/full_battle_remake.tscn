@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1d0srquyvny1"]
+
+[ext_resource type="PackedScene" uid="uid://bs2uaal21cnd5" path="res://main_scenes/battle2/battle_options.tscn" id="1_uayyl"]
+[ext_resource type="Script" uid="uid://bch3bghg4aos1" path="res://main_scenes/battle/button_manager.gd" id="1_v3m3r"]
+[ext_resource type="PackedScene" uid="uid://k5hriwdxiq3c" path="res://main_scenes/battle2/battle_moves1.tscn" id="2_v3m3r"]
+
+[node name="FullBattleRemake" type="Node2D"]
+
+[node name="ButtonManager" type="Node" parent="." node_paths=PackedStringArray("battle", "moves1")]
+script = ExtResource("1_v3m3r")
+battle = NodePath("BattleOptions")
+moves1 = NodePath("BattleMoves1")
+
+[node name="BattleOptions" parent="ButtonManager" instance=ExtResource("1_uayyl")]
+
+[node name="BattleMoves1" parent="ButtonManager" instance=ExtResource("2_v3m3r")]
+visible = false

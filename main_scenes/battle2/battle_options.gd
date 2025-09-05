@@ -1,34 +1,32 @@
 extends Node2D
 
-enum Slot {BUTTON1, BUTTON2, BUTTON3, BUTTON4}
+signal option_pressed
+
+enum Slot {MONSTERS, FIGHT, RUN, ITEMS}
 var selected_slot : Vector2 = Vector2(1,0)
-var is_moving : bool = false
-var index_move_slot : int = -1
 var v2_to_slot : Dictionary = {
-	Vector2(0,0): Slot.BUTTON1,
-	Vector2(1,0): Slot.BUTTON2,
-	Vector2(0,1): Slot.BUTTON3,
-	Vector2(1,1): Slot.BUTTON4 }
+	Vector2(0,0): Slot.MONSTERS,
+	Vector2(1,0): Slot.FIGHT,
+	Vector2(0,1): Slot.RUN,
+	Vector2(1,1): Slot.ITEMS }
 var slot_to_v2 : Dictionary = {
-	Slot.BUTTON1 : Vector2(0,0),
-	Slot.BUTTON2 : Vector2(1,0),
-	Slot.BUTTON3 : Vector2(0,1),
-	Slot.BUTTON4 : Vector2(1,1) }
+	Slot.MONSTERS : Vector2(0,0),
+	Slot.FIGHT : Vector2(1,0),
+	Slot.RUN : Vector2(0,1),
+	Slot.ITEMS : Vector2(1,1) }
 
 @onready var slot : Dictionary = {
-	Slot.BUTTON1: $Button1/Background,
-	Slot.BUTTON2: $Button2/Background,
-	Slot.BUTTON3: $Button3/Background,
-	Slot.BUTTON4: $Button4/Background }
-@onready var move_name : Dictionary = {}
-@onready var move_color : Dictionary = {}
-@onready var move_power : Dictionary = {}
+	Slot.MONSTERS: $Monsters/Background,
+	Slot.FIGHT: $Fight/Background,
+	Slot.RUN: $Run/Background,
+	Slot.ITEMS: $Items/Background }
 
 func _ready() -> void:
 	set_active_slot()
-	#set_process_input(false)
 	
 func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("yes"):
+		_input_action()
 	if event.is_action_pressed("up"):
 		_move(Vector2.UP)
 	if event.is_action_pressed("down"):
@@ -37,17 +35,18 @@ func _input(event: InputEvent) -> void:
 		_move(Vector2.LEFT)
 	if event.is_action_pressed("right"):
 		_move(Vector2.RIGHT)
-		
 
 func _move(direction: Vector2):
 	unset_active_slot()
 	selected_slot += direction
 	selected_slot.x = clamp(selected_slot.x, 0, 1)
 	selected_slot.y = clamp(selected_slot.y, 0, 1)
-	if is_moving:
-		set_moving_slot()
-	else:
-		set_active_slot()
+	set_active_slot()
+
+func _input_action():
+	var current_enum = v2_to_slot[selected_slot]
+	option_pressed.emit(current_enum)
+		
 func unset_active_slot():
 	var current_enum = v2_to_slot[selected_slot]
 	slot[current_enum].frame = 0
@@ -55,7 +54,3 @@ func unset_active_slot():
 func set_active_slot():
 	var current_enum = v2_to_slot[selected_slot]
 	slot[current_enum].frame = 1
-
-func set_moving_slot():
-	var current_enum = v2_to_slot[selected_slot]
-	slot[current_enum].frame = 2
