@@ -1,15 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://cj7llarrugoyc"]
+[gd_scene load_steps=7 format=3 uid="uid://cj7llarrugoyc"]
 
 [ext_resource type="Texture2D" uid="uid://c6j2bohgwmot0" path="res://assets/exp_out_mockup.png" id="1_chhqn"]
 [ext_resource type="Texture2D" uid="uid://cgmy6eosp4xi0" path="res://assets/exp_back_mockup.png" id="1_fhkpb"]
 [ext_resource type="Texture2D" uid="uid://dwtwutyjtu2p1" path="res://assets/exp_fill_mockup.png" id="3_dgvi0"]
 [ext_resource type="PackedScene" uid="uid://dgvx2lqngbvy8" path="res://main_scenes/battle2/level_indicator.tscn" id="4_dgvi0"]
 [ext_resource type="Script" uid="uid://d0iurpbhliua" path="res://main_scenes/battle2/exp_bar.gd" id="4_ru8q2"]
+[ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="6_ncdkw"]
 
 [node name="ExpBar" type="TextureProgressBar"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -10.0
+offset_right = 80.0
+offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
 value = 100.0
@@ -20,7 +27,20 @@ script = ExtResource("4_ru8q2")
 
 [node name="LevelIndicator" parent="." instance=ExtResource("4_dgvi0")]
 layout_mode = 1
-offset_left = 3.0
-offset_top = 1.0
-offset_right = 3.0
-offset_bottom = 1.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6
+anchor_top = 0.45
+anchor_right = 0.6
+anchor_bottom = 0.45
+offset_left = -40.0
+offset_top = -8.0
+offset_right = 28.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("6_ncdkw")
+text = "Pistol Shrimp"

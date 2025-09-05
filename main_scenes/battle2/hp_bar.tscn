@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://ekaxdlsypmh" path="res://assets/hp_fill_mockup.png" id="3_uics2"]
 
 [node name="HPBar" type="TextureProgressBar"]
+offset_right = 160.0
+offset_bottom = 30.0
 value = 60.0
 texture_under = ExtResource("1_lwlcn")
 texture_over = ExtResource("2_gy7vl")

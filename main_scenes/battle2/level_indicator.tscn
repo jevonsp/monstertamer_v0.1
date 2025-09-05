@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dgvx2lqngbvy8"]
+[gd_scene load_steps=2 format=3 uid="uid://dgvx2lqngbvy8"]
 
 [ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="1_v3equ"]
-[ext_resource type="Script" uid="uid://caa0fe5kfbh8w" path="res://main_scenes/battle2/level_indicator.gd" id="2_amcka"]
 
 [node name="LevelIndicator" type="Label"]
 anchors_preset = 15
@@ -11,4 +10,3 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("1_v3equ")
 text = "Lvl. 91"
-script = ExtResource("2_amcka")
