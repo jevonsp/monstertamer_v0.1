@@ -5,6 +5,7 @@
 
 [node name="Game2" type="Node2D"]
 
-[node name="FullBattleRemake" parent="." instance=ExtResource("1_aieie")]
-
 [node name="PartyRemake" parent="." instance=ExtResource("2_h2pcr")]
+visible = false
+
+[node name="FullBattleRemake" parent="." instance=ExtResource("1_aieie")]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://d1d0srquyvny1"]
+[gd_scene load_steps=7 format=3 uid="uid://d1d0srquyvny1"]
 
 [ext_resource type="Script" uid="uid://cob7t8e5xeh2o" path="res://main_scenes/battle/full_battle_remake.gd" id="1_dgal7"]
 [ext_resource type="PackedScene" uid="uid://bs2uaal21cnd5" path="res://main_scenes/battle2/battle_options.tscn" id="1_uayyl"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://k5hriwdxiq3c" path="res://main_scenes/battle2/battle_moves1.tscn" id="2_v3m3r"]
 [ext_resource type="PackedScene" uid="uid://b7m6mbju1hdsh" path="res://main_scenes/battle2/hp_bar.tscn" id="4_dlqsn"]
 [ext_resource type="PackedScene" uid="uid://cj7llarrugoyc" path="res://main_scenes/battle2/exp_bar.tscn" id="5_iy6rr"]
-[ext_resource type="PackedScene" uid="uid://dbqp8dpgx7apb" path="res://main_scenes/party2/PartyRemake.tscn" id="7_drhl3"]
 
 [node name="FullBattleRemake" type="Node2D"]
 script = ExtResource("1_dgal7")
@@ -19,7 +18,6 @@ moves1 = NodePath("BattleMoves1")
 [node name="BattleOptions" parent="UIManager" instance=ExtResource("1_uayyl")]
 
 [node name="BattleMoves1" parent="UIManager" instance=ExtResource("2_v3m3r")]
-visible = false
 
 [node name="MonsterUpdater" type="Node" parent="."]
 
@@ -33,7 +31,3 @@ offset_top = 40.0
 offset_right = 0.0
 offset_bottom = 60.0
 metadata/_edit_use_anchors_ = true
-
-[node name="PartyRemake" parent="." instance=ExtResource("7_drhl3")]
-
-[connection signal="is_in_battle" from="." to="PartyRemake" method="_on_in_battle"]
