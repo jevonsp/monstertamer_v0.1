@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://8gvmts8i4jwc"]
+
+[ext_resource type="PackedScene" uid="uid://d1d0srquyvny1" path="res://main_scenes/battle/full_battle_remake.tscn" id="1_aieie"]
+[ext_resource type="PackedScene" uid="uid://dbqp8dpgx7apb" path="res://main_scenes/party2/PartyRemake.tscn" id="2_h2pcr"]
+
+[node name="Game2" type="Node2D"]
+
+[node name="FullBattleRemake" parent="." instance=ExtResource("1_aieie")]
+
+[node name="PartyRemake" parent="." instance=ExtResource("2_h2pcr")]

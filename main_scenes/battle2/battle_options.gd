@@ -29,11 +29,11 @@ func _input(event: InputEvent) -> void:
 		_input_action()
 	if event.is_action_pressed("up"):
 		_move(Vector2.UP)
-	if event.is_action_pressed("down"):
+	elif event.is_action_pressed("down"):
 		_move(Vector2.DOWN)
-	if event.is_action_pressed("left"):
+	elif event.is_action_pressed("left"):
 		_move(Vector2.LEFT)
-	if event.is_action_pressed("right"):
+	elif event.is_action_pressed("right"):
 		_move(Vector2.RIGHT)
 
 func _move(direction: Vector2):
@@ -46,6 +46,7 @@ func _move(direction: Vector2):
 func _input_action():
 	var current_enum = v2_to_slot[selected_slot]
 	option_pressed.emit(current_enum)
+	print("option_pressed emitted: %d" % current_enum)
 		
 func unset_active_slot():
 	var current_enum = v2_to_slot[selected_slot]

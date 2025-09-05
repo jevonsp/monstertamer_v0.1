@@ -2,11 +2,83 @@
 
 [ext_resource type="Script" uid="uid://nvro8gbwaglw" path="res://main_scenes/battle/battle_scene3.gd" id="1_r5if4"]
 [ext_resource type="Script" uid="uid://dr6c4kyxna4uo" path="res://main_scenes/battle/text_prompt_manager.gd" id="2_kqvhi"]
-[ext_resource type="Script" uid="uid://brukg8erda36v" path="res://main_scenes/battle/ui_manager.gd" id="3_dxlco"]
 [ext_resource type="Script" uid="uid://do7fjjogppfce" path="res://main_scenes/battle/turn_queue_manager.gd" id="4_xei35"]
 [ext_resource type="Script" uid="uid://nvc0prbgjvq0" path="res://main_scenes/battle/ai_manager.gd" id="5_2ansq"]
 [ext_resource type="Script" uid="uid://cdfqxo2s2oo76" path="res://main_scenes/battle/battle_calculator.gd" id="5_jgkx3"]
 [ext_resource type="Script" uid="uid://e6a7kd0tmsq4" path="res://main_scenes/battle/monster_ui_binder.gd" id="6_2ansq"]
+
+[sub_resource type="GDScript" id="GDScript_xei35"]
+script/source = "extends Control
+
+@export_subgroup(\"Node Containers\")
+@export var main_buttons : GridContainer
+@export var move_buttons1 : GridContainer
+@export var move_buttons2 : GridContainer
+#@export_subgroup(\"Nodes\")
+
+var last_main_used : Button
+var last_move1_used : Button
+var last_move2_used : Button
+
+enum ChoiceState {MAIN, CHOICE1, CHOICE2}
+var choice_state = ChoiceState.MAIN
+
+func _ready() -> void:
+	for button in get_tree().get_nodes_in_group(\"main_buttons\"):
+		button.connect(\"pressed\", Callable(self, \"track_main_pressed\").bind(button))
+	for button in get_tree().get_nodes_in_group(\"move1_buttons\"):
+		button.connect(\"pressed\", Callable(self, \"track_buttons1_pressed\").bind(button))
+	for button in get_tree().get_nodes_in_group(\"move2_buttons\"):
+		button.connect(\"pressed\", Callable(self, \"track_buttons2_pressed\").bind(button))
+
+func buttons_off(enable: bool):
+	for button in main_buttons.get_children():
+		button.disabled = enable
+	for button in move_buttons1.get_children():
+		button.disabled = enable
+	for button in move_buttons2.get_children():
+		button.disabled = enable
+
+func show_button_state(state: ChoiceState):
+	main_buttons.visible = false
+	move_buttons1.visible = false
+	move_buttons2.visible = false
+	match state:
+		ChoiceState.MAIN:
+			main_buttons.visible = true
+			if last_main_used != null:
+				last_main_used.grab_focus()
+			else:
+				main_buttons.get_child(1).grab_focus()
+		ChoiceState.CHOICE1:
+			move_buttons1.visible = true
+			if last_move1_used != null:
+				last_move1_used.grab_focus()
+			else:
+				move_buttons1.get_child(0).grab_focus()
+		ChoiceState.CHOICE2:
+			move_buttons2.visible = true
+			if last_move2_used != null:
+				last_move2_used.grab_focus()
+			else:
+				move_buttons2.get_child(0).grab_focus
+	choice_state = state
+
+func track_main_pressed(button: Button) -> void:
+	last_main_used = button
+
+func track_buttons1_pressed(button: Button) -> void:
+	last_move1_used = button
+
+func track_buttons2_pressed(button: Button) -> void:
+	last_move2_used = button
+
+func _move_back_pressed():
+	if choice_state == ChoiceState.CHOICE1:
+		show_button_state(ChoiceState.MAIN)
+	elif choice_state == ChoiceState.CHOICE2:
+		show_button_state(ChoiceState.CHOICE1)
+"
 
 [node name="BattleScene3" type="Node2D" node_paths=PackedStringArray("txt_mgr", "ui_mgr", "battle_calc", "camera", "singles_ui", "doubles_ui", "constant_ui", "player_box1", "player_box2", "enemy_box1", "enemy_box2", "player_container", "enemy_container", "main_buttons", "move_buttons1", "move_buttons2", "player_texture1", "player_texture2", "enemy_texture1", "enemy_texture2", "player_name1", "player_name2", "enemy_name1", "enemy_name2")]
 script = ExtResource("1_r5if4")
@@ -75,7 +147,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
-script = ExtResource("3_dxlco")
+script = SubResource("GDScript_xei35")
 main_buttons = NodePath("../MainButtons")
 move_buttons1 = NodePath("../MoveButtons1")
 move_buttons2 = NodePath("../MoveButtons2")

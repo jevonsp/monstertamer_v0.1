@@ -58,6 +58,7 @@ func _move(direction: Vector2):
 func input_move():
 	var current_enum = v2_to_slot[selected_slot]
 	move_used.emit(current_enum)
+	print("move_used emitted: %d" % current_enum)
 
 func unset_active_slot():
 	var current_enum = v2_to_slot[selected_slot]
