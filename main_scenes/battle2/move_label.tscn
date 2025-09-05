@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://cog1lrtry3g3e"]
+
+[ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="1_lf8tw"]
+[ext_resource type="Script" uid="uid://byg15glf4lklg" path="res://main_scenes/battle2/move_label.gd" id="2_d5x0m"]
+
+[node name="MoveLabel" type="Label"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -30.0
+offset_right = -160.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+theme_override_fonts/font = ExtResource("1_lf8tw")
+text = "text"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("2_d5x0m")

@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://k5hriwdxiq3c"]
+
+[ext_resource type="Script" uid="uid://bim840tdtg3wx" path="res://main_scenes/battle2/battle_buttons_ui.gd" id="1_onwy5"]
+[ext_resource type="Texture2D" uid="uid://dvmd0nse7aihq" path="res://assets/button_mockup.png" id="2_77t8h"]
+[ext_resource type="PackedScene" uid="uid://cog1lrtry3g3e" path="res://main_scenes/battle2/move_label.tscn" id="3_qidsg"]
+[ext_resource type="PackedScene" uid="uid://bbftmyyhwefve" path="res://main_scenes/battle2/move_type.tscn" id="4_r0db6"]
+
+[node name="BattleButtonsUI" type="Node2D"]
+script = ExtResource("1_onwy5")
+
+[node name="Button1" type="Node2D" parent="."]
+position = Vector2(80, 270)
+
+[node name="Background" type="Sprite2D" parent="Button1"]
+texture = ExtResource("2_77t8h")
+hframes = 3
+region_rect = Rect2(0, 0, 160, 60)
+
+[node name="MoveLabel" parent="Button1/Background" instance=ExtResource("3_qidsg")]
+
+[node name="MoveType" parent="Button1" instance=ExtResource("4_r0db6")]
+
+[node name="Button2" type="Node2D" parent="."]
+position = Vector2(240, 270)
+
+[node name="Background" type="Sprite2D" parent="Button2"]
+texture = ExtResource("2_77t8h")
+hframes = 3
+region_rect = Rect2(0, 0, 160, 60)
+
+[node name="MoveLabel" parent="Button2/Background" instance=ExtResource("3_qidsg")]
+
+[node name="MoveType" parent="Button2" instance=ExtResource("4_r0db6")]
+
+[node name="Button3" type="Node2D" parent="."]
+position = Vector2(80, 330)
+
+[node name="Background" type="Sprite2D" parent="Button3"]
+texture = ExtResource("2_77t8h")
+hframes = 3
+region_rect = Rect2(0, 0, 160, 60)
+
+[node name="MoveLabel" parent="Button3/Background" instance=ExtResource("3_qidsg")]
+
+[node name="MoveType" parent="Button3" instance=ExtResource("4_r0db6")]
+
+[node name="Button4" type="Node2D" parent="."]
+position = Vector2(240, 330)
+
+[node name="Background" type="Sprite2D" parent="Button4"]
+texture = ExtResource("2_77t8h")
+hframes = 3
+region_rect = Rect2(0, 0, 160, 60)
+
+[node name="MoveLabel" parent="Button4/Background" instance=ExtResource("3_qidsg")]
+
+[node name="MoveType" parent="Button4" instance=ExtResource("4_r0db6")]

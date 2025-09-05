@@ -7,6 +7,10 @@ signal battle_monster_display_req(monster)
 @export var txt_mgr : Control
 @export var ui_mgr : Control
 @export var battle_calc : Node
+@export_subgroup("Buttons")
+@export var main_buttons : GridContainer
+@export var move_buttons1 : GridContainer
+@export var move_buttons2 : GridContainer
 
 # Nodes
 var party : Node
@@ -22,11 +26,11 @@ var player_monster1 : Node
 var player_monster2 : Node
 var enemy_monster1 : Node
 var enemy_monster2 : Node
+
 # gets signal from enemy party
 var is_single : bool = false
 
 func _ready():
-	var battle_scene = get_parent()
 	party = battle_scene.get_parent().get_node("Party")
 	party.connect("party_slots_updated", Callable(self, "_on_party_slots_updated"))
 	enemy_party = battle_scene.get_parent().get_node("EnemyParty")
@@ -41,12 +45,23 @@ func _on_party_slots_updated() -> void:
 	for slot in party.party_slots:
 		if slot.node:
 			tqm_party_slots.append(slot.node)
+			print("%s (p) added" % slot.node)
+	check_tq_ready()
 func _on_enemy_party_slots_update() -> void:
 	tqm_enemy_slots.clear()
 	for enemy in enemy_party.get_children():
 		tqm_enemy_slots.append(enemy)
-	
+		print("%s (e) added" % enemy)
+	check_tq_ready()
+func check_tq_ready():
+	if battle_scene.is_single:
+		if tqm_party_slots.size() > 0 and tqm_enemy_slots.size() > 0:
+			make_turn_queue()
+	else:
+		if tqm_party_slots.size() > 1 and tqm_enemy_slots.size() > 1:
+			make_turn_queue()
 func make_turn_queue():
+	print("make tq called")
 	if is_single:
 		make_singles_queue()
 	else:
@@ -58,16 +73,18 @@ func sort_turn_queue():
 		monster.participated = true
 func compare_speed(a, b): # Helper
 	return b.stats_component.current_speed - a.stats_component.current_speed
-
+#Connected from tqm to mui
 func make_singles_queue():
 	player_monster1 = tqm_party_slots[0]
 	player_monster1.set_meta("ui_slot", "player1")
 	turn_queue.append(player_monster1)
 	battle_monster_display_req.emit(player_monster1)
+	print("%s emitted: " % player_monster1)
 	enemy_monster1 = tqm_enemy_slots[0]
-	player_monster1.set_meta("ui_slot", "enemy1")
+	enemy_monster1.set_meta("ui_slot", "enemy1")
 	turn_queue.append(enemy_monster1)
 	battle_monster_display_req.emit(enemy_monster1)
+	print("%s emitted: " % enemy_monster1)
 func make_doubles_queue():
 	pass
 	#player_monster1 = tqm_party_slots[0]

@@ -171,9 +171,6 @@ func compare_speed(a, b): # Helper
 	return b.stats_component.current_speed - a.stats_component.current_speed
 
 func display_monsters():
-	for node in turn_queue:
-		pass
-	
 	if !is_single:
 		if player_monster1:
 			player_texture1.texture = player_monster1.monster_data.texture
