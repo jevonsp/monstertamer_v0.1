@@ -1,0 +1,262 @@
+[gd_scene load_steps=8 format=3 uid="uid://dbqp8dpgx7apb"]
+
+[ext_resource type="Script" uid="uid://brx6iesd2swnw" path="res://2/party2/party_remake.gd" id="1_s3i6v"]
+[ext_resource type="Texture2D" uid="uid://ixql1s0yevy4" path="res://assets/highlighted_tile.png" id="2_1wkuv"]
+[ext_resource type="Texture2D" uid="uid://cb5sewlmkate3" path="res://assets/pistol_shrimp.png" id="3_gisa8"]
+[ext_resource type="PackedScene" uid="uid://b7m6mbju1hdsh" path="res://2/battle2/hp_bar.tscn" id="4_io0hy"]
+[ext_resource type="PackedScene" uid="uid://cj7llarrugoyc" path="res://2/battle2/exp_bar.tscn" id="5_hjsu6"]
+[ext_resource type="Texture2D" uid="uid://puyhwcwqr4sb" path="res://assets/gender_symbols.png" id="6_io0hy"]
+[ext_resource type="PackedScene" uid="uid://dtdya0n6sybth" path="res://2/party2/PartyOptions.tscn" id="7_hjsu6"]
+
+[node name="PartyRemake" type="Node2D"]
+script = ExtResource("1_s3i6v")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -14.0
+offset_top = -8.0
+offset_right = 669.0
+offset_bottom = 386.0
+
+[node name="PartyContainer" type="Node" parent="."]
+
+[node name="Slot1" type="Node2D" parent="."]
+position = Vector2(160, 149)
+
+[node name="Background" type="Sprite2D" parent="Slot1"]
+texture = ExtResource("2_1wkuv")
+hframes = 3
+
+[node name="TextureRect" type="TextureRect" parent="Slot1/Background"]
+custom_minimum_size = Vector2(64, 64)
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -138.0
+offset_top = -50.0
+offset_right = -98.0
+offset_bottom = -10.0
+grow_vertical = 2
+texture = ExtResource("3_gisa8")
+flip_h = true
+
+[node name="HPBar" parent="Slot1/Background" instance=ExtResource("4_io0hy")]
+offset_left = -76.0
+offset_top = 1.0
+offset_right = 84.0
+offset_bottom = 21.0
+
+[node name="ExpBar" parent="Slot1/Background" instance=ExtResource("5_hjsu6")]
+offset_left = -236.0
+offset_top = -51.0
+offset_right = -76.0
+offset_bottom = -31.0
+
+[node name="GenderIcon" type="Sprite2D" parent="Slot1/Background"]
+position = Vector2(114, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("6_io0hy")
+hframes = 3
+
+[node name="Slot2" type="Node2D" parent="."]
+position = Vector2(480, 30)
+
+[node name="Background" type="Sprite2D" parent="Slot2"]
+texture = ExtResource("2_1wkuv")
+hframes = 3
+
+[node name="TextureRect" type="TextureRect" parent="Slot2/Background"]
+custom_minimum_size = Vector2(64, 64)
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -138.0
+offset_top = -50.0
+offset_right = -98.0
+offset_bottom = -10.0
+grow_vertical = 2
+texture = ExtResource("3_gisa8")
+flip_h = true
+
+[node name="HPBar" parent="Slot2/Background" instance=ExtResource("4_io0hy")]
+offset_left = -76.0
+offset_top = 1.0
+offset_right = 84.0
+offset_bottom = 21.0
+
+[node name="ExpBar" parent="Slot2/Background" instance=ExtResource("5_hjsu6")]
+offset_left = -236.0
+offset_top = -51.0
+offset_right = -76.0
+offset_bottom = -31.0
+
+[node name="GenderIcon" type="Sprite2D" parent="Slot2/Background"]
+position = Vector2(114, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("6_io0hy")
+hframes = 3
+frame = 1
+
+[node name="Slot3" type="Node2D" parent="."]
+position = Vector2(480, 104)
+
+[node name="Background" type="Sprite2D" parent="Slot3"]
+texture = ExtResource("2_1wkuv")
+hframes = 3
+
+[node name="TextureRect" type="TextureRect" parent="Slot3/Background"]
+custom_minimum_size = Vector2(64, 64)
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -138.0
+offset_top = -50.0
+offset_right = -98.0
+offset_bottom = -10.0
+grow_vertical = 2
+texture = ExtResource("3_gisa8")
+flip_h = true
+
+[node name="HPBar" parent="Slot3/Background" instance=ExtResource("4_io0hy")]
+offset_left = -76.0
+offset_top = 1.0
+offset_right = 84.0
+offset_bottom = 21.0
+
+[node name="ExpBar" parent="Slot3/Background" instance=ExtResource("5_hjsu6")]
+offset_left = -236.0
+offset_top = -51.0
+offset_right = -76.0
+offset_bottom = -31.0
+
+[node name="GenderIcon" type="Sprite2D" parent="Slot3/Background"]
+position = Vector2(114, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("6_io0hy")
+hframes = 3
+
+[node name="Slot4" type="Node2D" parent="."]
+position = Vector2(480, 178)
+
+[node name="Background" type="Sprite2D" parent="Slot4"]
+texture = ExtResource("2_1wkuv")
+hframes = 3
+
+[node name="TextureRect" type="TextureRect" parent="Slot4/Background"]
+custom_minimum_size = Vector2(64, 64)
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -138.0
+offset_top = -50.0
+offset_right = -98.0
+offset_bottom = -10.0
+grow_vertical = 2
+texture = ExtResource("3_gisa8")
+flip_h = true
+
+[node name="HPBar" parent="Slot4/Background" instance=ExtResource("4_io0hy")]
+offset_left = -76.0
+offset_top = 1.0
+offset_right = 84.0
+offset_bottom = 21.0
+
+[node name="ExpBar" parent="Slot4/Background" instance=ExtResource("5_hjsu6")]
+offset_left = -236.0
+offset_top = -51.0
+offset_right = -76.0
+offset_bottom = -31.0
+
+[node name="GenderIcon" type="Sprite2D" parent="Slot4/Background"]
+position = Vector2(114, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("6_io0hy")
+hframes = 3
+
+[node name="Slot5" type="Node2D" parent="."]
+position = Vector2(480, 269)
+
+[node name="Background" type="Sprite2D" parent="Slot5"]
+position = Vector2(0, -17)
+texture = ExtResource("2_1wkuv")
+hframes = 3
+
+[node name="TextureRect" type="TextureRect" parent="Slot5/Background"]
+custom_minimum_size = Vector2(64, 64)
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -138.0
+offset_top = -50.0
+offset_right = -98.0
+offset_bottom = -10.0
+grow_vertical = 2
+texture = ExtResource("3_gisa8")
+flip_h = true
+
+[node name="HPBar" parent="Slot5/Background" instance=ExtResource("4_io0hy")]
+offset_left = -76.0
+offset_top = 1.0
+offset_right = 84.0
+offset_bottom = 21.0
+
+[node name="ExpBar" parent="Slot5/Background" instance=ExtResource("5_hjsu6")]
+offset_left = -236.0
+offset_top = -51.0
+offset_right = -76.0
+offset_bottom = -31.0
+
+[node name="GenderIcon" type="Sprite2D" parent="Slot5/Background"]
+position = Vector2(114, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("6_io0hy")
+hframes = 3
+frame = 1
+
+[node name="Slot6" type="Node2D" parent="."]
+position = Vector2(480, 330)
+
+[node name="Background" type="Sprite2D" parent="Slot6"]
+texture = ExtResource("2_1wkuv")
+hframes = 3
+
+[node name="TextureRect" type="TextureRect" parent="Slot6/Background"]
+custom_minimum_size = Vector2(64, 64)
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -138.0
+offset_top = -50.0
+offset_right = -98.0
+offset_bottom = -10.0
+grow_vertical = 2
+texture = ExtResource("3_gisa8")
+flip_h = true
+
+[node name="HPBar" parent="Slot6/Background" instance=ExtResource("4_io0hy")]
+offset_left = -76.0
+offset_top = 1.0
+offset_right = 84.0
+offset_bottom = 21.0
+
+[node name="ExpBar" parent="Slot6/Background" instance=ExtResource("5_hjsu6")]
+offset_left = -236.0
+offset_top = -51.0
+offset_right = -76.0
+offset_bottom = -31.0
+
+[node name="GenderIcon" type="Sprite2D" parent="Slot6/Background"]
+position = Vector2(114, 0)
+scale = Vector2(2, 2)
+texture = ExtResource("6_io0hy")
+hframes = 3
+frame = 1
+
+[node name="PartyOptions" parent="." instance=ExtResource("7_hjsu6")]
+z_index = 1
+position = Vector2(18, 193)
+
+[connection signal="party_options_opened" from="." to="PartyOptions" method="_party_options_opened"]
+[connection signal="swap_completed" from="." to="PartyOptions" method="_on_swap_complete"]
+[connection signal="switch_cancelled" from="." to="PartyOptions" method="_on_switch_cancelled"]
+[connection signal="party_options_closed" from="PartyOptions" to="." method="_on_party_options_closed"]
+[connection signal="switch_requested" from="PartyOptions" to="." method="_on_switch_requested"]

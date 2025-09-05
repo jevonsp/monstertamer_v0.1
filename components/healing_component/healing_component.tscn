@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://0353uec73bnc"]
-
-[ext_resource type="Script" uid="uid://baxhb7hh83vyl" path="res://components/healing_component/healing_component.gd" id="1_2e1d4"]
-
-[node name="HealingComponent" type="Area2D"]
-collision_layer = 2
-collision_mask = 0
-script = ExtResource("1_2e1d4")

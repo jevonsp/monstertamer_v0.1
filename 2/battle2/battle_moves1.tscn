@@ -1,0 +1,104 @@
+[gd_scene load_steps=4 format=3 uid="uid://k5hriwdxiq3c"]
+
+[ext_resource type="Script" uid="uid://bim840tdtg3wx" path="res://2/battle2/battle_moves1.gd" id="1_503iu"]
+[ext_resource type="Texture2D" uid="uid://dvmd0nse7aihq" path="res://assets/button_mockup.png" id="2_rtvq3"]
+[ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="3_rtvq3"]
+
+[node name="BattleMoves1" type="Node2D"]
+script = ExtResource("1_503iu")
+
+[node name="Button1" type="Node2D" parent="." groups=["pm1"]]
+position = Vector2(80, 270)
+
+[node name="Background" type="Sprite2D" parent="Button1"]
+texture = ExtResource("2_rtvq3")
+hframes = 3
+region_rect = Rect2(0, 0, 160, 60)
+
+[node name="Label" type="Label" parent="Button1/Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -30.0
+offset_right = -160.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+theme_override_fonts/font = ExtResource("3_rtvq3")
+text = "Move 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button2" type="Node2D" parent="." groups=["pm1"]]
+position = Vector2(240, 270)
+
+[node name="Background" type="Sprite2D" parent="Button2"]
+texture = ExtResource("2_rtvq3")
+hframes = 3
+region_rect = Rect2(0, 0, 160, 60)
+
+[node name="Label" type="Label" parent="Button2/Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -30.0
+offset_right = -160.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+theme_override_fonts/font = ExtResource("3_rtvq3")
+text = "Move 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button3" type="Node2D" parent="." groups=["pm1"]]
+position = Vector2(80, 330)
+
+[node name="Background" type="Sprite2D" parent="Button3"]
+texture = ExtResource("2_rtvq3")
+hframes = 3
+region_rect = Rect2(0, 0, 160, 60)
+
+[node name="Label" type="Label" parent="Button3/Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -30.0
+offset_right = -160.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+theme_override_fonts/font = ExtResource("3_rtvq3")
+text = "Move 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button4" type="Node2D" parent="." groups=["pm1"]]
+position = Vector2(240, 330)
+
+[node name="Background" type="Sprite2D" parent="Button4"]
+texture = ExtResource("2_rtvq3")
+hframes = 3
+region_rect = Rect2(0, 0, 160, 60)
+
+[node name="Label" type="Label" parent="Button4/Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -80.0
+offset_top = -30.0
+offset_right = -160.0
+offset_bottom = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+theme_override_fonts/font = ExtResource("3_rtvq3")
+text = "Move 4"
+horizontal_alignment = 1
+vertical_alignment = 1

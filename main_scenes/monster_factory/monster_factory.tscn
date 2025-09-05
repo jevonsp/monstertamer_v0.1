@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cjtia66k50wk0"]
-
-[ext_resource type="Script" uid="uid://6m5mh07ih6rp" path="res://main_scenes/monster_factory/monster_factory.gd" id="1_gccsk"]
-
-[node name="MonsterFactory" type="Node"]
-script = ExtResource("1_gccsk")

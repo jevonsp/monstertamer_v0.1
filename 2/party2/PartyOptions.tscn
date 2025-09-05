@@ -1,0 +1,85 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtdya0n6sybth"]
+
+[ext_resource type="Script" uid="uid://brwjssuj6cqhy" path="res://2/party2/party_options.gd" id="1_ocxjk"]
+[ext_resource type="Texture2D" uid="uid://ctplp2kjs7m8h" path="res://assets/party_options_buttons.png" id="2_5151x"]
+[ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="3_5qjgd"]
+
+[node name="PartyOptions" type="Node2D"]
+script = ExtResource("1_ocxjk")
+
+[node name="Switch" type="Node2D" parent="."]
+position = Vector2(145, 30)
+
+[node name="Background" type="Sprite2D" parent="Switch"]
+texture = ExtResource("2_5151x")
+hframes = 2
+
+[node name="Label" type="Label" parent="Switch/Background"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -48.0
+offset_right = -160.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+theme_override_fonts/font = ExtResource("3_5qjgd")
+text = "Switch"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Summary" type="Node2D" parent="."]
+position = Vector2(145, 80)
+
+[node name="Background" type="Sprite2D" parent="Summary"]
+texture = ExtResource("2_5151x")
+hframes = 2
+
+[node name="Label" type="Label" parent="Summary/Background"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -48.0
+offset_right = -160.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+theme_override_fonts/font = ExtResource("3_5qjgd")
+text = "Summary"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Cancel" type="Node2D" parent="."]
+position = Vector2(145, 130)
+
+[node name="Background" type="Sprite2D" parent="Cancel"]
+texture = ExtResource("2_5151x")
+hframes = 2
+
+[node name="Label" type="Label" parent="Cancel/Background"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -48.0
+offset_right = -160.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+theme_override_fonts/font = ExtResource("3_5qjgd")
+text = "Cancel"
+horizontal_alignment = 1
+vertical_alignment = 1
