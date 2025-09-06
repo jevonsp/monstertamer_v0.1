@@ -42,9 +42,9 @@ func gain_exp(amount: int):
 	while experience >= exp_to_next() and level < 100:
 		level_up()
 
-func exp_to_level(level):
+func exp_to_level(p_level):
 	const BASE = 100
-	return BASE * pow(level - 1, 2)
+	return BASE * pow(p_level - 1, 2)
 	
 func exp_to_next():
 	return exp_to_level(level + 1)

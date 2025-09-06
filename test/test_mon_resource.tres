@@ -9,4 +9,5 @@ species = "Testing Mon"
 image = ExtResource("1_8i2bf")
 type = 0
 role = 0
+growth_rate = 2
 metadata/_custom_type_script = "uid://4crj5t55ynv7"

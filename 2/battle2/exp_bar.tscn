@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c6j2bohgwmot0" path="res://assets/exp_out_mockup.png" id="1_chhqn"]
 [ext_resource type="Texture2D" uid="uid://cgmy6eosp4xi0" path="res://assets/exp_back_mockup.png" id="1_fhkpb"]
-[ext_resource type="Texture2D" uid="uid://dwtwutyjtu2p1" path="res://assets/exp_fill_mockup.png" id="3_dgvi0"]
+[ext_resource type="Texture2D" uid="uid://bkt5n1j4bi7yw" path="res://assets/exp_fill_mockup.png" id="3_dgvi0"]
 [ext_resource type="PackedScene" uid="uid://dgvx2lqngbvy8" path="res://2/battle2/level_indicator.tscn" id="4_dgvi0"]
 [ext_resource type="Script" uid="uid://d0iurpbhliua" path="res://2/battle2/exp_bar.gd" id="4_ru8q2"]
 [ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="6_ncdkw"]
@@ -23,6 +23,7 @@ value = 100.0
 texture_under = ExtResource("1_fhkpb")
 texture_over = ExtResource("1_chhqn")
 texture_progress = ExtResource("3_dgvi0")
+texture_progress_offset = Vector2(39, 0)
 script = ExtResource("4_ru8q2")
 
 [node name="LevelIndicator" parent="." instance=ExtResource("4_dgvi0")]
