@@ -6,6 +6,7 @@ class_name MonsterData extends Resource
 @export var image : Texture2D
 @export var type : E.Type = E.Type.NONE
 @export var role : E.Role = E.Role.MELEE
+#@export var gender : E.Gender = E.Gender.MALE
 
 @export_subgroup("Stat Table")
 @export var growth_rate : E.GrowthRate = E.GrowthRate.MEDIUM

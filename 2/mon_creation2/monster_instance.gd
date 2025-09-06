@@ -50,8 +50,6 @@ func exp_to_next():
 	return exp_to_level(level + 1)
 	
 func print_percent():
-	
-	
 	var percent
 	print("percent through level: " + percent)
 	

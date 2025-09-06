@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://yy3ftbc0fioi"]
+[gd_scene load_steps=9 format=3 uid="uid://yy3ftbc0fioi"]
 
 [ext_resource type="PackedScene" uid="uid://k5hriwdxiq3c" path="res://2/battle2/battle_moves1.tscn" id="1_80cxr"]
 [ext_resource type="Script" uid="uid://cspm2wi3rcf7w" path="res://2/battle2/full_battle_remake.gd" id="1_k4baf"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://nythq186ehyf" path="res://2/battle2/ui_manager.gd" id="2_ymdy3"]
 [ext_resource type="PackedScene" uid="uid://b7m6mbju1hdsh" path="res://2/battle2/hp_bar.tscn" id="3_ymdy3"]
 [ext_resource type="PackedScene" uid="uid://cj7llarrugoyc" path="res://2/battle2/exp_bar.tscn" id="4_tmqx8"]
+[ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="7_tmqx8"]
 
 [sub_resource type="GDScript" id="GDScript_4tudq"]
 script/source = "extends Node
@@ -45,7 +46,20 @@ offset_left = -160.0
 offset_top = 40.0
 offset_right = 0.0
 offset_bottom = 60.0
+value = 0.0
 metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="MonsterUpdater/ExpBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("7_tmqx8")
+text = "Blank"
+horizontal_alignment = 1
 
 [connection signal="party_closed" from="." to="UIManager" method="_party_hidden"]
 [connection signal="party_requested" from="UIManager" to="." method="_on_party_requested"]

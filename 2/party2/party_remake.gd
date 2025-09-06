@@ -6,11 +6,17 @@ signal swap_completed
 signal party_closed
 signal battle_swap_requested
 
+@export var party_container : Node
+@export var is_visible : bool
+
 enum Slot {SLOT1, SLOT2, SLOT3, SLOT4, SLOT5, SLOT6}
+
 var selected_slot : Vector2 = Vector2(0,0)
 var is_moving : bool = false
 var index_move_slot : int = -1
 var in_battle : bool = false
+
+var party_array : Array[Node] = []
 
 @onready var slot : Dictionary = {
 	Slot.SLOT1: $Slot1/Background,
@@ -34,9 +40,10 @@ var in_battle : bool = false
 	Slot.SLOT5 : Vector2(1,3),
 	Slot.SLOT6 : Vector2(1,4)}
 func _ready() -> void:
-	visible = false
+	if !is_visible:
+		visible = false
+		set_process_input(false)
 	set_active_slot()
-	set_process_input(false)
 	
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("no"):
@@ -78,6 +85,27 @@ func _move(direction: Vector2):
 	else:
 		set_active_slot()
 
+func _on_party_monster_sent(monster) -> void:
+	if party_array.size() < 6:
+		party_container.add_child(monster)
+		party_array.append(monster)
+		print(party_container.get_children().size())
+		update_display()
+
+#region Slot Display Code
+
+func update_display():
+	for i in range(6):
+		var monster = null
+		if i < party_array.size():
+			monster = party_array[i]
+		var slot_node = get_node("Slot" + str(i+1)) as Node
+		if slot_node:
+			slot_node.update(monster)
+	
+#endregion
+
+#region Slot Movement Code
 func get_curr_slot():
 	return v2_to_slot[selected_slot]
 
@@ -126,3 +154,4 @@ func _on_party_options_closed() -> void:
 func _set_ui_state(node: Node2D, active: bool) -> void:
 	node.visible = active
 	node.set_process_input(active)
+#endregion

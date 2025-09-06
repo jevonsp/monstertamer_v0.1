@@ -7,7 +7,6 @@
 [node name="HPBar" type="TextureProgressBar"]
 offset_right = 160.0
 offset_bottom = 16.0
-value = 60.0
 texture_under = ExtResource("1_lwlcn")
 texture_over = ExtResource("2_gy7vl")
 texture_progress = ExtResource("3_uics2")

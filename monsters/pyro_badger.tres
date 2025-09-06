@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MonsterData" load_steps=3 format=3 uid="uid://dw4f06vf5rrc3"]
+
+[ext_resource type="Script" uid="uid://4crj5t55ynv7" path="res://2/mon_creation2/monster_data.gd" id="1_e7rbh"]
+[ext_resource type="Texture2D" uid="uid://bc17vutbqdhyj" path="res://assets/pyro_badger.png" id="1_pjiid"]
+
+[resource]
+script = ExtResource("1_e7rbh")
+species = "Pyro Badger"
+image = ExtResource("1_pjiid")
+type = 1
+role = 2
+growth_rate = 2
+metadata/_custom_type_script = "uid://4crj5t55ynv7"

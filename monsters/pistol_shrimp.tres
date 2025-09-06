@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MonsterData" load_steps=3 format=3 uid="uid://cobtyijqbr72g"]
+
+[ext_resource type="Script" uid="uid://4crj5t55ynv7" path="res://2/mon_creation2/monster_data.gd" id="1_inbku"]
+[ext_resource type="Texture2D" uid="uid://cb5sewlmkate3" path="res://assets/pistol_shrimp.png" id="1_s5lxg"]
+
+[resource]
+script = ExtResource("1_inbku")
+species = "Pistol Shrimp"
+image = ExtResource("1_s5lxg")
+type = 2
+role = 1
+growth_rate = 2
+metadata/_custom_type_script = "uid://4crj5t55ynv7"

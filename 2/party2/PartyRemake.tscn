@@ -1,15 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://dbqp8dpgx7apb"]
+[gd_scene load_steps=10 format=3 uid="uid://dbqp8dpgx7apb"]
 
 [ext_resource type="Script" uid="uid://brx6iesd2swnw" path="res://2/party2/party_remake.gd" id="1_s3i6v"]
 [ext_resource type="Texture2D" uid="uid://ixql1s0yevy4" path="res://assets/highlighted_tile.png" id="2_1wkuv"]
 [ext_resource type="Texture2D" uid="uid://cb5sewlmkate3" path="res://assets/pistol_shrimp.png" id="3_gisa8"]
+[ext_resource type="Script" uid="uid://clbcr2fpq7dty" path="res://2/party2/slot.gd" id="3_w1st1"]
 [ext_resource type="PackedScene" uid="uid://b7m6mbju1hdsh" path="res://2/battle2/hp_bar.tscn" id="4_io0hy"]
 [ext_resource type="PackedScene" uid="uid://cj7llarrugoyc" path="res://2/battle2/exp_bar.tscn" id="5_hjsu6"]
 [ext_resource type="Texture2D" uid="uid://puyhwcwqr4sb" path="res://assets/gender_symbols.png" id="6_io0hy"]
 [ext_resource type="PackedScene" uid="uid://dtdya0n6sybth" path="res://2/party2/PartyOptions.tscn" id="7_hjsu6"]
+[ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="8_70rt6"]
 
-[node name="PartyRemake" type="Node2D"]
+[node name="PartyRemake" type="Node2D" node_paths=PackedStringArray("party_container")]
 script = ExtResource("1_s3i6v")
+party_container = NodePath("PartyContainer")
+is_visible = true
 
 [node name="PartyOptions" parent="." instance=ExtResource("7_hjsu6")]
 z_index = 1
@@ -25,6 +29,7 @@ offset_bottom = 386.0
 
 [node name="Slot1" type="Node2D" parent="."]
 position = Vector2(160, 149)
+script = ExtResource("3_w1st1")
 
 [node name="Background" type="Sprite2D" parent="Slot1"]
 texture = ExtResource("2_1wkuv")
@@ -55,7 +60,20 @@ offset_top = -51.0
 offset_right = -76.0
 offset_bottom = -31.0
 
+[node name="Label" type="Label" parent="Slot1/Background/ExpBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("8_70rt6")
+text = "Blank"
+horizontal_alignment = 1
+
 [node name="GenderIcon" type="Sprite2D" parent="Slot1/Background"]
+visible = false
 position = Vector2(114, 0)
 scale = Vector2(2, 2)
 texture = ExtResource("6_io0hy")
@@ -63,6 +81,7 @@ hframes = 3
 
 [node name="Slot2" type="Node2D" parent="."]
 position = Vector2(480, 30)
+script = ExtResource("3_w1st1")
 
 [node name="Background" type="Sprite2D" parent="Slot2"]
 texture = ExtResource("2_1wkuv")
@@ -93,7 +112,20 @@ offset_top = -51.0
 offset_right = -76.0
 offset_bottom = -31.0
 
+[node name="Label" type="Label" parent="Slot2/Background/ExpBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("8_70rt6")
+text = "Blank"
+horizontal_alignment = 1
+
 [node name="GenderIcon" type="Sprite2D" parent="Slot2/Background"]
+visible = false
 position = Vector2(114, 0)
 scale = Vector2(2, 2)
 texture = ExtResource("6_io0hy")
@@ -102,6 +134,7 @@ frame = 1
 
 [node name="Slot3" type="Node2D" parent="."]
 position = Vector2(480, 104)
+script = ExtResource("3_w1st1")
 
 [node name="Background" type="Sprite2D" parent="Slot3"]
 texture = ExtResource("2_1wkuv")
@@ -132,7 +165,20 @@ offset_top = -51.0
 offset_right = -76.0
 offset_bottom = -31.0
 
+[node name="Label" type="Label" parent="Slot3/Background/ExpBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("8_70rt6")
+text = "Blank"
+horizontal_alignment = 1
+
 [node name="GenderIcon" type="Sprite2D" parent="Slot3/Background"]
+visible = false
 position = Vector2(114, 0)
 scale = Vector2(2, 2)
 texture = ExtResource("6_io0hy")
@@ -140,6 +186,7 @@ hframes = 3
 
 [node name="Slot4" type="Node2D" parent="."]
 position = Vector2(480, 178)
+script = ExtResource("3_w1st1")
 
 [node name="Background" type="Sprite2D" parent="Slot4"]
 texture = ExtResource("2_1wkuv")
@@ -170,7 +217,20 @@ offset_top = -51.0
 offset_right = -76.0
 offset_bottom = -31.0
 
+[node name="Label" type="Label" parent="Slot4/Background/ExpBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("8_70rt6")
+text = "Blank"
+horizontal_alignment = 1
+
 [node name="GenderIcon" type="Sprite2D" parent="Slot4/Background"]
+visible = false
 position = Vector2(114, 0)
 scale = Vector2(2, 2)
 texture = ExtResource("6_io0hy")
@@ -178,6 +238,7 @@ hframes = 3
 
 [node name="Slot5" type="Node2D" parent="."]
 position = Vector2(480, 269)
+script = ExtResource("3_w1st1")
 
 [node name="Background" type="Sprite2D" parent="Slot5"]
 position = Vector2(0, -17)
@@ -209,7 +270,20 @@ offset_top = -51.0
 offset_right = -76.0
 offset_bottom = -31.0
 
+[node name="Label" type="Label" parent="Slot5/Background/ExpBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("8_70rt6")
+text = "Blank"
+horizontal_alignment = 1
+
 [node name="GenderIcon" type="Sprite2D" parent="Slot5/Background"]
+visible = false
 position = Vector2(114, 0)
 scale = Vector2(2, 2)
 texture = ExtResource("6_io0hy")
@@ -218,6 +292,7 @@ frame = 1
 
 [node name="Slot6" type="Node2D" parent="."]
 position = Vector2(480, 330)
+script = ExtResource("3_w1st1")
 
 [node name="Background" type="Sprite2D" parent="Slot6"]
 texture = ExtResource("2_1wkuv")
@@ -248,7 +323,20 @@ offset_top = -51.0
 offset_right = -76.0
 offset_bottom = -31.0
 
+[node name="Label" type="Label" parent="Slot6/Background/ExpBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("8_70rt6")
+text = "Blank"
+horizontal_alignment = 1
+
 [node name="GenderIcon" type="Sprite2D" parent="Slot6/Background"]
+visible = false
 position = Vector2(114, 0)
 scale = Vector2(2, 2)
 texture = ExtResource("6_io0hy")

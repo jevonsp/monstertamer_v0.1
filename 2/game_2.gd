@@ -4,7 +4,7 @@ signal is_in_battle # Testing #
 @export var in_battle : bool = false # Testing #
 
 func _ready() -> void:
-	print(floor(3.5))
+	pass
 
 func send_battle_signal() -> void: # Testing #
 	if in_battle == true:

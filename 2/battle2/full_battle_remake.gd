@@ -5,7 +5,8 @@ signal party_closed
 @export var in_battle : bool = false
 
 func _ready() -> void:
-	pass
+	_hide_subscenes()
+	if in_battle: _show_subscenes()
 
 func _show_subscenes():
 	var nodes = get_tree().get_nodes_in_group("battle_ui")
