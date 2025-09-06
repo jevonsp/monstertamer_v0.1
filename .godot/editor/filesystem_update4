@@ -43,3 +43,5 @@ res://2/mon_creation2/level_comp.gd
 res://2/mon_creation2/level_component.gd
 res://2/mon_creation2/health_component.gd
 res://2/enums/enums.gd
+res://2/battle2/exp_bar.tscn
+res://2/battle2/exp_bar.gd

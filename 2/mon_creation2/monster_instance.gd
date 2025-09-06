@@ -1,6 +1,6 @@
 class_name MonsterInstance extends Node
 
-signal exp_gained(old: float, new: float)
+signal exp_gained(new: float)
 signal lvl_gained(current_level)
 
 @export var monster_data : MonsterData
@@ -22,8 +22,6 @@ var growth_multi : Dictionary = {
 	E.GrowthRate.FAST: 0.8,
 	E.GrowthRate.FASTEST: .6 }
 #endregion
-
-
 
 func _ready() -> void:
 	pass
