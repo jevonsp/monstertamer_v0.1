@@ -1,3 +1,1 @@
-Move
 MonsterData
-PlayerMonster

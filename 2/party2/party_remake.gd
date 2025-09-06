@@ -4,6 +4,7 @@ signal party_options_opened
 signal switch_cancelled
 signal swap_completed
 signal party_closed
+signal battle_swap_requested
 
 enum Slot {SLOT1, SLOT2, SLOT3, SLOT4, SLOT5, SLOT6}
 var selected_slot : Vector2 = Vector2(0,0)
@@ -48,6 +49,8 @@ func _input(event: InputEvent) -> void:
 			_set_ui_state(self, false)
 			party_closed.emit()
 	if event.is_action_pressed("yes"):
+		if in_battle:
+			pass
 		if !is_moving:
 			set_process_input(false)
 			party_options_opened.emit()
@@ -112,7 +115,6 @@ func swap_slots(moving, selected):
 	print(moving, current_enum)
 	index_move_slot = -1
 	is_moving = false
-	set_process_input(false)
 	swap_completed.emit()
 
 func _on_party_requested() -> void:

@@ -1,0 +1,76 @@
+[gd_scene load_steps=9 format=3 uid="uid://b7v2swmvatvj3"]
+
+[ext_resource type="Script" uid="uid://gkf830l00qpl" path="res://test/test.gd" id="1_vq6m5"]
+[ext_resource type="Resource" uid="uid://pv0r6nm374al" path="res://test/test_mon_resource.tres" id="2_ndh2t"]
+[ext_resource type="PackedScene" uid="uid://dy80dm6sus3dj" path="res://2/mon_creation2/MonsterFactory2.tscn" id="2_tl1hq"]
+[ext_resource type="Texture2D" uid="uid://cgmy6eosp4xi0" path="res://assets/exp_back_mockup.png" id="4_ludgr"]
+[ext_resource type="Texture2D" uid="uid://c6j2bohgwmot0" path="res://assets/exp_out_mockup.png" id="5_ey0xx"]
+[ext_resource type="Texture2D" uid="uid://dwtwutyjtu2p1" path="res://assets/exp_fill_mockup.png" id="6_grbwk"]
+[ext_resource type="PackedScene" uid="uid://dgvx2lqngbvy8" path="res://2/battle2/level_indicator.tscn" id="7_wd0iw"]
+[ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="8_s45e3"]
+
+[node name="Test" type="Node2D" node_paths=PackedStringArray("monster_factory")]
+script = ExtResource("1_vq6m5")
+monster_data = ExtResource("2_ndh2t")
+monster_factory = NodePath("MonsterFactory2")
+
+[node name="MonsterFactory2" parent="." instance=ExtResource("2_tl1hq")]
+
+[node name="IncExp" type="Button" parent="."]
+custom_minimum_size = Vector2(50, 50)
+offset_left = 86.0
+offset_top = 75.0
+offset_right = 136.0
+offset_bottom = 125.0
+text = "exp"
+
+[node name="IncLvl" type="Button" parent="."]
+custom_minimum_size = Vector2(50, 50)
+offset_left = 177.0
+offset_top = 74.0
+offset_right = 227.0
+offset_bottom = 124.0
+text = "lvl"
+
+[node name="ExpBar" type="TextureProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 269.0
+offset_top = 83.0
+offset_right = 429.0
+offset_bottom = 103.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 58.0
+texture_under = ExtResource("4_ludgr")
+texture_over = ExtResource("5_ey0xx")
+texture_progress = ExtResource("6_grbwk")
+
+[node name="LevelIndicator" parent="ExpBar" instance=ExtResource("7_wd0iw")]
+layout_mode = 1
+offset_left = 2.0
+offset_right = 2.0
+text = "Lvl. 1"
+
+[node name="Label" type="Label" parent="ExpBar"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6
+anchor_top = 0.45
+anchor_right = 0.6
+anchor_bottom = 0.45
+offset_left = -40.0
+offset_top = -8.0
+offset_right = 28.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_spacing = 0
+theme_override_fonts/font = ExtResource("8_s45e3")
+text = "Pistol Shrimp"
+
+[connection signal="pressed" from="IncExp" to="." method="_on_inc_exp_pressed"]
+[connection signal="pressed" from="IncLvl" to="." method="_on_inc_lvl_pressed"]

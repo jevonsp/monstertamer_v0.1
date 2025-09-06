@@ -17,12 +17,7 @@ func _ready() -> void:
 	set_active_slot()
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("yes"):
-		set_process_input(false)
-		switch_requested.emit()
-	if event.is_action_pressed("no"):
-		_set_ui_state(self, false)
-		party_options_closed.emit()
+	# Movement around the menu
 	if event.is_action_pressed("down"):
 		unset_active_slot()
 		selected_slot = (selected_slot + 1) % 3
@@ -34,6 +29,19 @@ func _input(event: InputEvent) -> void:
 		else:
 			selected_slot -= 1
 		set_active_slot()
+	# Switching Monsters
+	if selected_slot == Slot.SWITCH:
+		if event.is_action_pressed("yes"):
+			set_process_input(false)
+			switch_requested.emit()
+		elif event.is_action_pressed("no"):
+			_set_ui_state(self, false)
+			party_options_closed.emit()
+	elif selected_slot == Slot.SUMMARY and event.is_action_pressed("yes"): print("no summary yet")
+	elif selected_slot == Slot.CANCEL and event.is_action_pressed("yes"):
+		_set_ui_state(self, false)
+		party_options_closed.emit()
+		
 
 func _move(direction):
 	unset_active_slot()
@@ -50,7 +58,7 @@ func _party_options_opened() -> void:
 	_set_ui_state(self, true)
 
 func _on_swap_complete() -> void:
-	set_process_input(true)
+	_set_ui_state(self, false)
 	
 func _on_switch_cancelled() -> void:
 	set_process_input(true)

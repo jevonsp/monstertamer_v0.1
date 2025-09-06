@@ -1,3 +1,4 @@
+Button
 Node
 ColorRect
 Control
@@ -11,4 +12,3 @@ TextureProgressBar
 MarginContainer
 ProgressBar
 CanvasLayer
-VBoxContainer
