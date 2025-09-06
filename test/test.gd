@@ -18,25 +18,32 @@ func _ready():
 	add_child(monster)
 
 func _on_inc_exp_pressed() -> void:
-	current_experience += 1000
+	current_experience += 100
 	print("Level: %d, Current XP: %d" % [current_level, current_experience])
-	var temp_level = current_level
-	var temp_xp = current_experience
+
 	var times_to_tween = 0
+	var new_level = current_level
 	
-	while temp_xp >= exp_formula(temp_level + 1):
+	# figure out how many levels you gained
+	while current_experience >= exp_formula(new_level + 1):
 		times_to_tween += 1
-		temp_level += 1
-		temp_xp -= exp_formula(temp_level) - exp_formula(temp_level - 1)
-	print("Number of times to tween the bar:", times_to_tween)
+		new_level += 1
+
 	starting_level.emit(current_level)
-	current_level = temp_level
-	print("current_level now: %d" % current_level)
-	print("leftover exp: %d" % temp_xp)
-	print("exp for next bar: %d" % exp_next())
-	var last_bar_percent = (temp_xp / exp_next()) * 100
-	print(last_bar_percent)
-	while times_to_tween > 0: # decrement times to tween, tween to full, pause, reset
+	current_level = new_level
+
+	# leftover = xp into current level
+	var leftover = current_experience - exp_curr()
+	var denom = exp_next() - exp_curr()
+	var last_bar_percent = (leftover / denom) * 100.0
+
+	print("Times to tween: %d" % times_to_tween)
+	print("Current level: %d" % current_level)
+	print("Leftover exp: %d" % leftover)
+	print("Percent into bar: %f" % last_bar_percent)
+
+	# animate bars
+	while times_to_tween > 0:
 		times_to_tween -= 1
 		var tween = get_tree().create_tween()
 		tween.tween_property(%ExpBar, "value", 100, 0.5)
@@ -44,6 +51,7 @@ func _on_inc_exp_pressed() -> void:
 		tween_finished.emit()
 		%ExpBar.value = 0
 		await get_tree().create_timer(0.2).timeout
+
 	var tween = get_tree().create_tween()
 	tween.tween_property(%ExpBar, "value", last_bar_percent, 0.5)
 
