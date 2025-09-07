@@ -25,7 +25,7 @@ func _ready() -> void:
 	set_active_slot()
 	
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("yes"):
+	if event.is_action_pressed("yes") and not event.echo:
 		_input_action()
 	if event.is_action_pressed("up"):
 		_move(Vector2.UP)
@@ -47,6 +47,9 @@ func _input_action():
 	var current_enum = v2_to_slot[selected_slot]
 	option_pressed.emit(current_enum)
 	print("current enum %d emitted" % current_enum)
+
+func _on_battle_started() -> void:
+	_set_ui_state(self, true)
 
 func get_curr_slot():
 	return v2_to_slot[selected_slot]

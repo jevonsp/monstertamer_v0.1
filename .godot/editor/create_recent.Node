@@ -1,5 +1,5 @@
-HBoxContainer
 Button
+HBoxContainer
 Control
 Label
 Node2D
@@ -12,4 +12,3 @@ Container
 TextureProgressBar
 MarginContainer
 ProgressBar
-CanvasLayer

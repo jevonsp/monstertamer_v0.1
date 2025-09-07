@@ -18,18 +18,18 @@ func assign_monster(m: MonsterInstance) -> void:
 	monster.connect("exp_gained", Callable(self, "_on_exp_gained"))
 	monster.connect("lvl_gained", Callable(self, "_on_lvl_gained"))
 	
-	update_bar_immediate()
+	update_bar_immediate(monster.exp_percent)
 	update_lvl_immediate()
 	
-func update_bar_immediate():
-	bar.value = monster.get_exp_percent()
+func update_bar_immediate(percent):
+	bar.value = percent
 	
 func update_lvl_immediate():
 	label.text = "Lvl. %d" % monster.level
 
 func _on_exp_gained(percent: float) -> void:
-	print("got signal, percect: %f" % percent)
-	update_bar_immediate()
+	print("got signal, percent: %f" % percent)
+	update_bar_immediate(percent)
 	
 func _on_lvl_gained() -> void:
 	print("got lvl gained signal")

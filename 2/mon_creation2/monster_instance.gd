@@ -1,13 +1,20 @@
 class_name MonsterInstance extends Node
 
+# For Party
 signal exp_gained(new: float)
-signal lvl_gained
+signal lvl_gained 
+# For Battle
+signal bat_exp_gained(new_exp: float, times_to_tween: int)
+# For Both
+signal new_hp_value(new: int) 
 
 @export var monster_data : MonsterData
 
 #region Basic Stats
 var species : String = ""
 var gender : E.Gender
+var gender_icon : Texture2D
+var gender_icons : Dictionary = {}
 var image : Texture2D
 var type : E.Type = E.Type.NONE
 var role : E.Role = E.Role.MELEE 
@@ -15,6 +22,7 @@ var role : E.Role = E.Role.MELEE
 #region Levels
 var level : int = 1
 var experience : int = 0
+var exp_percent : float
 var growth_rate_multi
 #endregion
 #region Stats
@@ -35,10 +43,9 @@ var growth_multi : Dictionary = {
 	E.GrowthRate.FAST: 0.8,
 	E.GrowthRate.FASTEST: .6 }
 #endregion
-
 func _ready() -> void:
 	pass
-
+#region Setting Stats
 func set_data(data : MonsterData) -> void:
 	monster_data = data
 	species = monster_data.species
@@ -60,7 +67,13 @@ func pick_random_gender(mask: int) -> E.Gender:
 		options.append(E.Gender.NONE)
 	if options.size() == 0:
 		return E.Gender.NONE
-	return options[randi() % options.size()]
+	var chosen = options[randi() % options.size()]
+	gender_icon = gender_icons[chosen]
+	return chosen
+
+func set_gender_icon(male: Texture2D, female: Texture2D, none: Texture2D) -> void:
+	gender_icons = {
+		E.Gender.MALE: male, E.Gender.FEMALE: female, E.Gender.NONE: none}
 
 func set_stats(p_level: int) -> void:
 	level = p_level
@@ -82,6 +95,7 @@ func set_stats(p_level: int) -> void:
 	magic += level * monster_data.magic_growth
 	charm += level * monster_data.charm_growth
 	experience = exp_to_level(level)
+#endregion
 
 #region Exp Gain
 func exp_to_level(p_level):
@@ -91,6 +105,9 @@ func exp_to_level(p_level):
 func gain_exp(amount: int):
 	experience += amount
 	var percent = get_exp_percent()
+	if percent >= 100:
+		percent -= 100
+	exp_percent = percent
 	exp_gained.emit(percent)
 	
 	var new_level = level
@@ -112,5 +129,16 @@ func level_up():
 	level += 1
 	lvl_gained.emit()
 	print("emitted lvl_gained")
+#endregion
+
+#region Damage
+
+func lose_life(amount: int):
+	current_hp -= amount
+	new_hp_value.emit(current_hp)
+
+func gain_life(amount: int):
+	current_hp += amount
+	new_hp_value.emit(current_hp)
 
 #endregion

@@ -5,9 +5,12 @@ signal switch_cancelled
 signal swap_completed
 signal party_closed
 signal battle_swap_requested
+signal first_party_memeber(monster : MonsterInstance)
 
 @export var party_container : Node
 @export var is_visible : bool
+@export var process_input : bool
+@export var is_processing : bool = false
 
 enum Slot {SLOT1, SLOT2, SLOT3, SLOT4, SLOT5, SLOT6}
 
@@ -41,12 +44,17 @@ var party_array : Array[Node] = []
 	Slot.SLOT6 : Vector2(1,4)}
 
 func _ready() -> void:
-	if !is_visible:
-		visible = false
-		set_process_input(false)
+	visible = false
+	set_process_input(false)
+	if is_visible:
+		visible = true
+	if process_input:
+		set_process_input(true)
 	set_active_slot()
 	
 func _input(event: InputEvent) -> void:
+	if !is_processing:
+		return
 	if event.is_action_pressed("no"):
 		if is_moving:
 			is_moving = false
@@ -54,6 +62,7 @@ func _input(event: InputEvent) -> void:
 			switch_cancelled.emit()
 			set_process_input(false)
 		else:
+			is_processing = false
 			_set_ui_state(self, false)
 			party_closed.emit()
 	if event.is_action_pressed("yes"):
@@ -93,6 +102,8 @@ func _on_party_monster_sent(monster) -> void:
 		print(party_container.get_children().size())
 		update_display()
 		print("asked for updated display")
+	first_party_memeber.emit(party_array[0])
+	print("emitted party_array[0]")
 
 #region Slot Display Code
 
@@ -134,16 +145,27 @@ func _on_switch_requested() -> void:
 	set_moving_slot()
 	var current_enum = v2_to_slot[selected_slot]
 	index_move_slot = current_enum
+	if in_battle:
+		swap_slots(index_move_slot, party_array[0])
+		battle_swap_requested.emit(index_move_slot)
+		update_display()
+		print("this is where we'd send out a monster")
 
 func swap_slots(moving, selected):
 	var current_enum = v2_to_slot[selected_slot]
+	if party_array.size() == 0: return
 	if moving == current_enum:
 		return
 	slot[moving].frame = 0
 	slot[current_enum].frame = 1
-	print(moving, current_enum)
+	print(party_array[moving], party_array[current_enum])
+	var temp = party_array[moving]
+	party_array[moving] = party_array[current_enum]
+	party_array[current_enum] = temp
+	print(party_array[moving], party_array[current_enum])
 	index_move_slot = -1
 	is_moving = false
+	update_display()
 	swap_completed.emit()
 
 func _on_party_requested() -> void:
@@ -153,6 +175,7 @@ func _on_party_options_closed() -> void:
 	_set_ui_state(self, true)
 
 func _set_ui_state(node: Node2D, active: bool) -> void:
+	is_processing = active
 	node.visible = active
 	node.set_process_input(active)
 #endregion
@@ -161,11 +184,33 @@ func _set_ui_state(node: Node2D, active: bool) -> void:
 
 func _on_exp_pressed() -> void:
 	for node in party_array:
-		node.gain_exp(100)
+		node.gain_exp(1000)
 		print(node.experience)
+	$Control/Exp.release_focus()
 
 func _on_lvl_pressed() -> void:
 	for node in party_array:
 		node.level_up()
+	$Control/Lvl.release_focus()
+
+func _on_minus_hp_pressed() -> void:
+	print("minus pressed")
+	for node in party_array:
+		node.lose_life(5)
+	$Control/minusHP.release_focus()
+
+func _on_plus_hp_pressed() -> void:
+	print("plus pressed")
+	for node in party_array:
+		node.gain_life(5)
+	$Control/plusHP.release_focus()
 
 #endregion
+
+
+func _on_full_battle_remake_party_requested() -> void:
+	update_display()
+
+
+func _on_test_spawner_monster_made(node: Variant) -> void:
+	_on_party_monster_sent(node)

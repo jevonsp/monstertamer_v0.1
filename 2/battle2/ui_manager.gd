@@ -2,7 +2,6 @@ extends Node
 
 signal moves1_hidden
 signal party_requested
-signal party_closed
 
 @export_subgroup("Nodes")
 @export var battle : Node2D
@@ -45,9 +44,9 @@ func _show_party():
 	_disable_control()
 	party_requested.emit()
 
-func _party_hidden():
+func _hide_party():
 	_enable_control()
-	
+
 func _enable_control()-> void:
 	battle.set_process_input(true)
 	

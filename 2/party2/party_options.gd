@@ -1,10 +1,11 @@
 extends Node2D
 
 signal party_options_closed
-signal switch_requested
+signal switch_requested(selected_slot: int)
 
 enum Slot {SWITCH, SUMMARY, CANCEL}
 var selected_slot = Slot.SWITCH
+
 @onready var slot : Dictionary = {
 	Slot.SWITCH : $Switch/Background,
 	Slot.SUMMARY : $Summary/Background,
@@ -15,6 +16,7 @@ func _ready() -> void:
 	visible = false
 	set_process_input(false)
 	set_active_slot()
+	print("PartyOptions ready! Visible:", visible, "Parent:", get_parent().name)
 
 func _input(event: InputEvent) -> void:
 	# Movement around the menu

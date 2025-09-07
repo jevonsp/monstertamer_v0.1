@@ -2,6 +2,8 @@ extends Node2D
 
 signal move_used(slot : int)
 
+@export var is_processing : bool = false
+
 enum Slot {BUTTON1, BUTTON2, BUTTON3, BUTTON4}
 var selected_slot : Vector2 = Vector2(1,0)
 var is_moving : bool = false
@@ -34,7 +36,7 @@ func _process(delta: float) -> void:
 	pass
 	
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("yes"):
+	if event.is_action_pressed("yes") and not event.echo:
 		input_move()
 	if event.is_action_pressed("up"):
 		_move(Vector2.UP)

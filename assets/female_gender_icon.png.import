@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://puyhwcwqr4sb"
-path="res://.godot/imported/gender_symbols.png-15f0f5c60b18f3f85518fdd711916939.ctex"
+uid="uid://b1p0labvagfit"
+path="res://.godot/imported/female_gender_icon.png-b18e182a95805d0d40930e937900d474.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gender_symbols.png"
-dest_files=["res://.godot/imported/gender_symbols.png-15f0f5c60b18f3f85518fdd711916939.ctex"]
+source_file="res://assets/female_gender_icon.png"
+dest_files=["res://.godot/imported/female_gender_icon.png-b18e182a95805d0d40930e937900d474.ctex"]
 
 [params]
 
