@@ -102,7 +102,6 @@ func update_display():
 		var slot_node = get_node("Slot" + str(i+1)) as Node
 		if slot_node:
 			slot_node.update(monster)
-	
 #endregion
 
 #region Slot Movement Code
