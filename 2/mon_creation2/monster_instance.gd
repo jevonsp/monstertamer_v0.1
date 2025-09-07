@@ -1,7 +1,7 @@
 class_name MonsterInstance extends Node
 
 signal exp_gained(new: float)
-signal lvl_gained(new_level)
+signal lvl_gained
 
 @export var monster_data : MonsterData
 
@@ -110,6 +110,7 @@ func get_exp_percent():
 
 func level_up():
 	level += 1
-	lvl_gained.emit(level)
+	lvl_gained.emit()
+	print("emitted lvl_gained")
 
 #endregion
