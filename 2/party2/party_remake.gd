@@ -39,6 +39,7 @@ var party_array : Array[Node] = []
 	Slot.SLOT4 : Vector2(1,2),
 	Slot.SLOT5 : Vector2(1,3),
 	Slot.SLOT6 : Vector2(1,4)}
+
 func _ready() -> void:
 	if !is_visible:
 		visible = false
@@ -91,17 +92,18 @@ func _on_party_monster_sent(monster) -> void:
 		party_array.append(monster)
 		print(party_container.get_children().size())
 		update_display()
+		print("asked for updated display")
 
 #region Slot Display Code
 
-func update_display():
+func update_display(): # call this when swapping too (later)
 	for i in range(6):
 		var monster = null
 		if i < party_array.size():
 			monster = party_array[i]
 		var slot_node = get_node("Slot" + str(i+1)) as Node
 		if slot_node:
-			slot_node.update(monster)
+			slot_node.assign_monster(monster)
 #endregion
 
 #region Slot Movement Code
@@ -153,4 +155,17 @@ func _on_party_options_closed() -> void:
 func _set_ui_state(node: Node2D, active: bool) -> void:
 	node.visible = active
 	node.set_process_input(active)
+#endregion
+
+#region Testing Buttons
+
+func _on_exp_pressed() -> void:
+	for node in party_array:
+		node.gain_exp(100)
+		print(node.experience)
+
+func _on_lvl_pressed() -> void:
+	for node in party_array:
+		node.level_up()
+
 #endregion

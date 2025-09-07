@@ -1,10 +1,11 @@
+HBoxContainer
 Button
-Node
-ColorRect
 Control
 Label
-Sprite2D
 Node2D
+Node
+ColorRect
+Sprite2D
 TextureRect
 CenterContainer
 Container

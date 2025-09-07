@@ -1,7 +1,7 @@
 class_name MonsterInstance extends Node
 
 signal exp_gained(new: float)
-signal lvl_gained(current_level)
+signal lvl_gained(new_level)
 
 @export var monster_data : MonsterData
 
@@ -82,22 +82,34 @@ func set_stats(p_level: int) -> void:
 	magic += level * monster_data.magic_growth
 	charm += level * monster_data.charm_growth
 	experience = exp_to_level(level)
-	
-func gain_exp(amount: int):
-	pass
 
+#region Exp Gain
 func exp_to_level(p_level):
 	const BASE = 100
 	return BASE * pow(p_level - 1, 2)
 	
-func exp_to_next():
-	return exp_to_level(level + 1)
+func gain_exp(amount: int):
+	experience += amount
+	var percent = get_exp_percent()
+	exp_gained.emit(percent)
 	
-func print_percent():
-	var percent
-	print("percent through level: " + percent)
-	
+	var new_level = level
+	var times_to_level = 0
+	while experience >= exp_to_level(new_level + 1):
+		times_to_level += 1
+		new_level += 1
+	for i in range(times_to_level):
+		level_up()
+
+func get_exp_percent():
+	var curr_level_exp = exp_to_level(level)
+	var next_level_exp = exp_to_level(level + 1)
+	var exp_into_level = experience - curr_level_exp
+	var exp_needed = next_level_exp - curr_level_exp
+	return float(exp_into_level) / float(exp_needed) * 100
+
 func level_up():
 	level += 1
-	print(level)
 	lvl_gained.emit(level)
+
+#endregion

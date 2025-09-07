@@ -28,3 +28,8 @@ res://moves/move.gd
 res://moves/pow.tres
 res://monsters/monster_data.gd
 res://2/mon_creation2/monster_factory_2.gd
+res://2/battle2/exp_bar_container.tscn
+res://2/battle2/HPBarContainer.tscn
+res://2/battle2/ExpBarContainer.tscn
+res://2/battle2/exp_bar_container.gd
+res://2/battle2/hp_bar_container.gd
