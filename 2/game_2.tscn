@@ -53,6 +53,7 @@ none_icon = ExtResource("10_o2e6q")
 
 [connection signal="party_requested" from="FullBattleRemake" to="PartyRemake" method="_on_party_requested"]
 [connection signal="party_requested" from="FullBattleRemake" to="PartyRemake" method="_on_full_battle_remake_party_requested"]
+[connection signal="first_party_memeber" from="PartyRemake" to="FullBattleRemake" method="_on_first_party_member_changed"]
 [connection signal="party_closed" from="PartyRemake" to="FullBattleRemake" method="_on_party_closed"]
 [connection signal="monster_made" from="TestSpawner" to="PartyRemake" method="_on_test_spawner_monster_made"]
 [connection signal="pressed" from="TestSpawner/StartBattle" to="." method="_on_start_battle_pressed"]

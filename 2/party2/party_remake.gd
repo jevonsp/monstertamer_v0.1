@@ -115,6 +115,7 @@ func update_display(): # call this when swapping too (later)
 		var slot_node = get_node("Slot" + str(i+1)) as Node
 		if slot_node:
 			slot_node.assign_monster(monster)
+	first_party_memeber.emit(party_array[0])
 #endregion
 
 #region Slot Movement Code
@@ -147,8 +148,8 @@ func _on_switch_requested() -> void:
 	index_move_slot = current_enum
 	if in_battle:
 		swap_slots(index_move_slot, party_array[0])
-		battle_swap_requested.emit(index_move_slot)
 		update_display()
+		battle_swap_requested.emit(index_move_slot)
 		print("this is where we'd send out a monster")
 
 func swap_slots(moving, selected):

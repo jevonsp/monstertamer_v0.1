@@ -24,3 +24,9 @@ func _on_party_requested() -> void:
 
 func _on_party_closed() -> void:
 	battle_ui_requested.emit()
+
+func _on_first_party_member_changed(monster: MonsterInstance) -> void:
+	$MonsterUpdater.update_player_monster(monster)
+
+func _on_battle_monster_recieved(monster: MonsterInstance) -> void:
+	$MonsterUpdater.update_enemy_monster(monster)

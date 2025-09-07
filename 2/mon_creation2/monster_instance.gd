@@ -104,19 +104,14 @@ func exp_to_level(p_level):
 	
 func gain_exp(amount: int):
 	experience += amount
+	var times_to_level := 0
+	while experience >= exp_to_level(level + 1):
+		level_up()
+		times_to_level += 1
 	var percent = get_exp_percent()
-	if percent >= 100:
-		percent -= 100
 	exp_percent = percent
 	exp_gained.emit(percent)
-	
-	var new_level = level
-	var times_to_level = 0
-	while experience >= exp_to_level(new_level + 1):
-		times_to_level += 1
-		new_level += 1
-	for i in range(times_to_level):
-		level_up()
+	bat_exp_gained.emit(get_exp_percent(), times_to_level)
 
 func get_exp_percent():
 	var curr_level_exp = exp_to_level(level)

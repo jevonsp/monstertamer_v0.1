@@ -13,7 +13,7 @@ func assign_monster(m: MonsterInstance) -> void:
 			monster.disconnect("lvl_gained", Callable(self, "_on_lvl_gained"))
 	
 	monster = m
-	if not monster: return
+	if !monster: return
 	
 	monster.connect("exp_gained", Callable(self, "_on_exp_gained"))
 	monster.connect("lvl_gained", Callable(self, "_on_lvl_gained"))

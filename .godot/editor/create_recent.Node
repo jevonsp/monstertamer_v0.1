@@ -1,12 +1,12 @@
+Node2D
+TextureRect
 Button
 HBoxContainer
 Control
 Label
-Node2D
 Node
 ColorRect
 Sprite2D
-TextureRect
 CenterContainer
 Container
 TextureProgressBar

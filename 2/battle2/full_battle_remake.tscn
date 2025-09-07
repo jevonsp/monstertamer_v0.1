@@ -1,26 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://yy3ftbc0fioi"]
+[gd_scene load_steps=10 format=3 uid="uid://yy3ftbc0fioi"]
 
 [ext_resource type="PackedScene" uid="uid://k5hriwdxiq3c" path="res://2/battle2/battle_moves1.tscn" id="1_80cxr"]
 [ext_resource type="Script" uid="uid://cspm2wi3rcf7w" path="res://2/battle2/full_battle_remake.gd" id="1_k4baf"]
 [ext_resource type="PackedScene" uid="uid://bs2uaal21cnd5" path="res://2/battle2/battle_options.tscn" id="2_k4baf"]
 [ext_resource type="Script" uid="uid://nythq186ehyf" path="res://2/battle2/ui_manager.gd" id="2_ymdy3"]
+[ext_resource type="Script" uid="uid://cs6hawiuwrna5" path="res://2/battle2/monster_updater.gd" id="5_rabaw"]
 [ext_resource type="PackedScene" uid="uid://gjrmqwkyew54" path="res://2/battle2/BattleHPBar.tscn" id="5_tmqx8"]
+[ext_resource type="Script" uid="uid://jfx731v3luyf" path="res://2/battle2/battle_slot.gd" id="6_g6li6"]
 [ext_resource type="PackedScene" uid="uid://du534bamov2mp" path="res://2/battle2/BattleExpBar.tscn" id="6_rabaw"]
 [ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="7_tmqx8"]
-
-[sub_resource type="GDScript" id="GDScript_4tudq"]
-script/source = "extends Node
-
-
-
-func _hide_children() -> void:
-	for node in get_children():
-		node.visible = false
-		
-func _show_children() -> void:
-	for node in get_children():
-		node.visible = true
-"
 
 [node name="FullBattleRemake" type="Node2D" groups=["battle_ui"]]
 script = ExtResource("1_k4baf")
@@ -34,25 +22,69 @@ moves1 = NodePath("BattleMoves1")
 
 [node name="BattleOptions" parent="UIManager" groups=["battle_ui"] instance=ExtResource("2_k4baf")]
 
-[node name="MonsterUpdater" type="Node" parent="." groups=["monster_updater"]]
-script = SubResource("GDScript_4tudq")
+[node name="MonsterUpdater" type="Node" parent="." node_paths=PackedStringArray("pm1", "em1") groups=["monster_updater"]]
+script = ExtResource("5_rabaw")
+pm1 = NodePath("PlayerSlot1")
+em1 = NodePath("EnemySlot1")
 
-[node name="BattleHpBar" parent="MonsterUpdater" groups=["battle_ui"] instance=ExtResource("5_tmqx8")]
+[node name="PlayerSlot1" type="Node2D" parent="MonsterUpdater"]
+unique_name_in_owner = true
+script = ExtResource("6_g6li6")
+
+[node name="Image" type="TextureRect" parent="MonsterUpdater/PlayerSlot1"]
+custom_minimum_size = Vector2(128, 128)
+offset_left = 100.0
+offset_top = 65.0
+offset_right = 228.0
+offset_bottom = 193.0
+flip_h = true
+
+[node name="BattleHpBar" parent="MonsterUpdater/PlayerSlot1" groups=["battle_ui"] instance=ExtResource("5_tmqx8")]
 position = Vector2(0, 220)
 
-[node name="BattleExpBar" parent="MonsterUpdater" groups=["battle_ui"] instance=ExtResource("6_rabaw")]
+[node name="BattleExpBar" parent="MonsterUpdater/PlayerSlot1" groups=["battle_ui"] instance=ExtResource("6_rabaw")]
 position = Vector2(240, 230)
 
-[node name="NameLabel" type="Label" parent="MonsterUpdater" groups=["battle_ui"]]
+[node name="NameLabel" type="Label" parent="MonsterUpdater/PlayerSlot1" groups=["battle_ui"]]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = 38.5
-offset_right = -60.0
-offset_bottom = 61.5
+offset_left = 220.0
+offset_top = 218.5
+offset_right = 260.0
+offset_bottom = 241.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("7_tmqx8")
+text = "Name"
+horizontal_alignment = 1
+
+[node name="EnemySlot1" type="Node2D" parent="MonsterUpdater"]
+position = Vector2(319, 2)
+script = ExtResource("6_g6li6")
+
+[node name="Image" type="TextureRect" parent="MonsterUpdater/EnemySlot1"]
+custom_minimum_size = Vector2(128, 128)
+offset_left = 100.0
+offset_top = 65.0
+offset_right = 228.0
+offset_bottom = 193.0
+
+[node name="BattleHpBar" parent="MonsterUpdater/EnemySlot1" groups=["battle_ui"] instance=ExtResource("5_tmqx8")]
+position = Vector2(83, 218)
+
+[node name="NameLabel" type="Label" parent="MonsterUpdater/EnemySlot1" groups=["battle_ui"]]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 140.0
+offset_top = 220.0
+offset_right = 180.0
+offset_bottom = 243.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("7_tmqx8")
