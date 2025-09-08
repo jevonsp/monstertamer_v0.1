@@ -43,6 +43,9 @@ var growth_multi : Dictionary = {
 	E.GrowthRate.FAST: 0.8,
 	E.GrowthRate.FASTEST: .6 }
 #endregion
+#region Moves
+var known_moves : Array[Move] = []
+#endregion
 func _ready() -> void:
 	pass
 #region Setting Stats
@@ -95,9 +98,21 @@ func set_stats(p_level: int) -> void:
 	magic += level * monster_data.magic_growth
 	charm += level * monster_data.charm_growth
 	experience = exp_to_level(level)
+	
+func set_moves():
+	known_moves.clear()
+	var move_set : Array[Move] = []
+	for i in range(monster_data.levels.size()):
+		if monster_data.levels[i] <= level:
+			move_set.append(monster_data.moves[i])
+	if move_set.size() > 4:
+		move_set = move_set.slice(move_set.size() - 4, 4)
+	known_moves = move_set.duplicate()
+	var known_moves_names : Array[String]
+	for move in known_moves:
+		known_moves_names.append(move.move_name)
+	print(known_moves_names)
 #endregion
-
-
 
 #region Exp Gain
 func exp_to_level(p_level):
@@ -130,12 +145,14 @@ func level_up():
 
 #region Damage
 
-func lose_life(amount: int):
-	current_hp -= amount
-	new_hp_value.emit(current_hp)
+func lose_life(target: MonsterInstance, amount: int):
+	if target == self:
+		current_hp -= amount
+		new_hp_value.emit(current_hp)
 
-func gain_life(amount: int):
-	current_hp += amount
-	new_hp_value.emit(current_hp)
+func gain_life(target: MonsterInstance, amount: int):
+	if target == self:
+		current_hp += amount
+		new_hp_value.emit(current_hp)
 
 #endregion

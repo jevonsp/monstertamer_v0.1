@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="MonsterData" load_steps=4 format=3 uid="uid://dw4f06vf5rrc3"]
+[gd_resource type="Resource" script_class="MonsterData" load_steps=5 format=3 uid="uid://dw4f06vf5rrc3"]
 
 [ext_resource type="Texture2D" uid="uid://bc17vutbqdhyj" path="res://assets/pyro_badger.png" id="1_pjiid"]
 [ext_resource type="Script" uid="uid://bkxxpcma3i3c6" path="res://moves/move.gd" id="2_twvhw"]
+[ext_resource type="Resource" uid="uid://b8vfswvjjmmav" path="res://moves/pow.tres" id="3_ocjbq"]
 [ext_resource type="Script" uid="uid://4crj5t55ynv7" path="res://monsters/monster_data.gd" id="3_rre4x"]
 
 [resource]
@@ -26,6 +27,6 @@ defense_growth = 1.0
 dexterity_growth = 1.0
 magic_growth = 1.0
 charm_growth = 1.0
-levels = Array[int]([])
-moves = Array[ExtResource("2_twvhw")]([])
+levels = Array[int]([1])
+moves = Array[ExtResource("2_twvhw")]([ExtResource("3_ocjbq")])
 metadata/_custom_type_script = "uid://4crj5t55ynv7"

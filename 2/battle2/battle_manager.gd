@@ -1,6 +1,12 @@
 extends Node
 
 signal pm1_move_used
+signal em1_move_used
+signal pm1_switch(index_chosen)
+signal monster_damaged(target: MonsterInstance, amount: int)
+signal monster_healed(target: MonsterInstance, amount: int)
+signal text_ready(
+	user: MonsterInstance, target: MonsterInstance, move: Move, damage: int, effective: float, weak_point: float)
 
 var pm1 : Node
 var pm2 : Node
@@ -13,44 +19,115 @@ var turn_actions : Array[TurnAction] = []
 
 func _on_pm_1_switched(monster) -> void:
 	pm1 = monster
+	print("pm1 assigned:", pm1)
+	print("pm1 known moves:", pm1.known_moves)
+	connect_monster_signals()
+
+func _on_em_1_ready(monster) -> void:
+	em1 = monster
+	print("em1 assigned:", em1)
+	print("em1 known moves:", em1.known_moves)
+	connect_monster_signals()
+
+func connect_monster_signals():
+	var monsters = [pm1, pm2, em1, em2]
+	for monster in monsters:
+		if monster:
+			if not monster_damaged.is_connected(monster.lose_life):
+				monster_damaged.connect(monster.lose_life)
+				print("signals connected")
+			if not monster_healed.is_connected(monster.gain_life):
+				monster_healed.connect(monster.gain_life)
+				print("signals connected")
 
 func _on_player1_move_used(slot: int) -> void:
-	print("turn this enum into a move")
-	#var actor_id = 0
-	#var target_ids = [0]
-	#var action = TurnAction.new(
-		#actor_id, TurnAction.ActionType.MOVE, slot, target_ids
-	#)
-	#turn_actions.append(action)
-	#print("Action queue:", action)
-	#if is_single: pm1_move_used.emit()
+	var move_to_use = get_move_from_slot(slot)
+	if move_to_use:
+		var actor_id = 0
+		var target_ids = [2]
+		var action = TurnAction.new(
+			actor_id, TurnAction.ActionType.MOVE, move_to_use, target_ids)
+		turn_actions.append(action)
+		print("Action queue:", action)
+		if is_single: pm1_move_used.emit()
+	else: print("no move!")
 		
+func get_move_from_slot(slot_enum: int) -> Move:
+	if slot_enum >= 0 and slot_enum < pm1.known_moves.size():
+		return pm1.known_moves[slot_enum]
+	return null
 func _on_player1_switch(slot: int) -> void:
-	if is_single: pm1_move_used.emit()
+	if is_single: pm1_switch.emit(slot)
 	
 func _on_pm_1_move_used() -> void:
+	get_enemy_action()
 	execute_turn_queue()
+
+func get_enemy_action():
+	var move_to_use = em1.known_moves[randi() % em1.known_moves.size()]
+	if move_to_use:
+		var actor_id = 2
+		var target_ids = [0]
+		var action = TurnAction.new(
+			actor_id, TurnAction.ActionType.MOVE, move_to_use, target_ids)
+		turn_actions.append(action)
+		print("Action queue:", action)
 	
+func sort_turn_actions():
+	pass
+
+func _compare_actions(a: TurnAction, b: TurnAction) -> bool:
+	var a_speed = _get_actor_from_ids(a.actor_id).speed
+	var b_speed = _get_actor_from_ids(b.actor_id).speed
+	if a_speed == b_speed:
+		return a.actor_id in [0,1]
+	return a_speed > b_speed
+
 func execute_turn_queue():
+	sort_turn_actions()
 	for action in turn_actions:
 		match action.action_type:
 			TurnAction.ActionType.MOVE:
-				_execute_move(action)
+				await _execute_move(action)
 			TurnAction.ActionType.SWITCH:
-				_execute_move(action)
+				await _execute_move(action)
 			TurnAction.ActionType.ITEM:
-				_execute_move(action)
+				await _execute_move(action)
 			TurnAction.ActionType.RUN:
-				_execute_move(action)
+				await _execute_move(action)
 	turn_actions.clear()
 	
 func _execute_move(action: TurnAction) -> void:
 	var actor_node = _get_actor_from_ids(action.actor_id)
 	var target_nodes = _get_target_nodes(action)
+	var target_node = target_nodes[0]
+	var move = action.move
+	if target_nodes.is_empty():
+		print("No valid target for action:", action)
+		return
+	var move_power = roundi(_get_move_power(actor_node, target_node, action.move))
 	
 	print("Executing action:", action)
 	print("Actor node:", actor_node)
 	print("Target nodes:", target_nodes)
+	print("Move Power:", move_power)
+	
+	if move_power > 0: monster_damaged.emit(target_node, move_power)
+	else: monster_healed.emit(target_node, move_power)
+	
+	text_ready.emit(
+		actor_node, target_node, move, move_power, _get_type_efficacy(
+			move, target_node), _get_role_efficacy(move, target_node))
+	print( #GPT Print Statement
+	'"%s"' % actor_node.species,
+	'"%s"' % target_node.species,
+	'"%s"' % move.move_name,
+	'"%s"' % str(move_power),
+	'"%s"' % str(_get_type_efficacy(move, target_node)),
+	'"%s"' % str(_get_role_efficacy(move, target_node)))
+
+	await get_tree().create_timer(0.5).timeout
+	# Add an await for a signal from txt mgr confirm text read
 
 func _get_target_nodes(action: TurnAction) -> Array:
 	var nodes := []
@@ -64,7 +141,44 @@ func _get_target_nodes(action: TurnAction) -> Array:
 			var node = _get_actor_from_ids(tid)
 			if node: nodes.append(node)
 	return nodes
+
+func _get_move_power(user, target, move):
+	var base_power = _get_move_damage(user, move)
+	var type_multi = _get_type_efficacy(move, target)
+	var target_scalar = _get_type_efficacy(move, target)
 	
+	return base_power * type_multi * target_scalar
+
+func _get_type_efficacy(move, target):
+	var type = move.type
+	var target_type = target.type
+	var type_multi = E.get_type_multi(type, target_type)
+	return type_multi
+func _get_role_efficacy(move, target):
+	var target_role = target.role
+	var target_scalar : float = 1.0
+	if move.role_efficacy == target_role: target_scalar = 1.5
+	return target_scalar
+
+func _get_move_damage(actor: MonsterInstance, move: Move) -> int:
+	var base_damage = move.base_damage
+	var role = actor.role
+	var scaling_damage : int = 0
+	match role:
+		E.Role.TANK:
+			scaling_damage = actor.defense
+		E.Role.RANGE:
+			scaling_damage = actor.dexterity
+		E.Role.MELEE:
+			scaling_damage = actor.attack
+		E.Role.CLERIC:
+			scaling_damage = actor.hitpoints
+		E.Role.MAGE:
+			scaling_damage = actor.magic
+		E.Role.BARD:
+			scaling_damage = actor.charm
+	return base_damage + scaling_damage
+
 func _execute_switch(action: TurnAction) -> void:
 	pass
 	

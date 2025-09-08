@@ -1,10 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://yy3ftbc0fioi"]
+[gd_scene load_steps=13 format=3 uid="uid://yy3ftbc0fioi"]
 
 [ext_resource type="PackedScene" uid="uid://k5hriwdxiq3c" path="res://2/battle2/battle_moves1.tscn" id="1_80cxr"]
 [ext_resource type="Script" uid="uid://cspm2wi3rcf7w" path="res://2/battle2/full_battle_remake.gd" id="1_k4baf"]
 [ext_resource type="Script" uid="uid://bku5d8mqukoyq" path="res://2/battle2/battle_manager.gd" id="2_4tudq"]
+[ext_resource type="Texture2D" uid="uid://2u1il1540htv" path="res://assets/text_box_mockup.png" id="2_45ofm"]
 [ext_resource type="PackedScene" uid="uid://bs2uaal21cnd5" path="res://2/battle2/battle_options.tscn" id="2_k4baf"]
 [ext_resource type="Script" uid="uid://nythq186ehyf" path="res://2/battle2/ui_manager.gd" id="2_ymdy3"]
+[ext_resource type="Script" uid="uid://bgjje3ufeu2v0" path="res://2/battle2/text_manager.gd" id="3_ntymn"]
 [ext_resource type="Script" uid="uid://cs6hawiuwrna5" path="res://2/battle2/monster_updater.gd" id="5_rabaw"]
 [ext_resource type="PackedScene" uid="uid://gjrmqwkyew54" path="res://2/battle2/BattleHPBar.tscn" id="5_tmqx8"]
 [ext_resource type="Script" uid="uid://jfx731v3luyf" path="res://2/battle2/battle_slot.gd" id="6_g6li6"]
@@ -13,6 +15,58 @@
 
 [node name="FullBattleRemake" type="Node2D" groups=["battle_ui"]]
 script = ExtResource("1_k4baf")
+
+[node name="TextPanel" type="TextureRect" parent="."]
+offset_left = 320.0
+offset_top = 240.0
+offset_right = 640.0
+offset_bottom = 360.0
+texture = ExtResource("2_45ofm")
+
+[node name="TextManager" type="Control" parent="TextPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_ntymn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextPanel/TextManager"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TextPanel/TextManager/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TextPanel/TextManager/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="TextPanel/TextManager/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TextPanel/TextManager/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("7_tmqx8")
+theme_override_font_sizes/font_size = 32
+text = "TEXT"
+
+[node name="MarginContainer2" type="MarginContainer" parent="TextPanel/TextManager/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(5, 0)
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="TextPanel/TextManager/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
 
 [node name="BattleManager" type="Node" parent="."]
 script = ExtResource("2_4tudq")
@@ -100,4 +154,5 @@ horizontal_alignment = 1
 [connection signal="pm1_move_used" from="BattleManager" to="BattleManager" method="_on_pm_1_move_used"]
 [connection signal="party_requested" from="UIManager" to="." method="_on_party_requested"]
 [connection signal="pm1_move_used" from="UIManager/BattleMoves1" to="BattleManager" method="_on_player1_move_used"]
+[connection signal="em1_switched" from="MonsterUpdater" to="BattleManager" method="_on_em_1_ready"]
 [connection signal="pm1_switched" from="MonsterUpdater" to="BattleManager" method="_on_pm_1_switched"]

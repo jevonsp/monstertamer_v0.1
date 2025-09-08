@@ -36,6 +36,7 @@ monster_data = ExtResource("5_hpj43")
 monster_data2 = ExtResource("6_6tl1l")
 
 [node name="StartBattle" type="Button" parent="TestSpawner"]
+visible = false
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 0
 offset_left = 20.0

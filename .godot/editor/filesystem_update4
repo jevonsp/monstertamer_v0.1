@@ -53,3 +53,5 @@ res://2/battle2/battle_hp_bar.gd
 res://2/battle2/battle_exp_bar.gd
 res://2/battle2/battle_manager.gd
 res://2/battle2/TurnAction.gd
+res://2/battle2/battle_moves1.tscn
+res://2/battle2/text_manager.gd

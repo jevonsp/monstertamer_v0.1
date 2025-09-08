@@ -130,6 +130,7 @@ func update_display(): # call this when swapping too (later)
 		if slot_node:
 			slot_node.assign_monster(monster)
 	first_party_memeber.emit(party_array[0])
+	print("party_array[0].known_moves: ", party_array[0].known_moves)
 #endregion
 
 #region Slot Movement Code
@@ -226,7 +227,6 @@ func _on_plus_hp_pressed() -> void:
 
 func _on_full_battle_remake_party_requested() -> void:
 	update_display()
-
 
 func _on_test_spawner_monster_made(node: Variant) -> void:
 	_on_party_monster_sent(node)

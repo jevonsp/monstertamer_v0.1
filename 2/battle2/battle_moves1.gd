@@ -5,9 +5,11 @@ signal pm1_move_used(slot : int)
 @export var is_processing : bool = false
 
 enum Slot {BUTTON1, BUTTON2, BUTTON3, BUTTON4}
+
 var selected_slot : Vector2 = Vector2(1,0)
 var is_moving : bool = false
 var index_move_slot : int = -1
+
 var v2_to_slot : Dictionary = {
 	Vector2(0,0): Slot.BUTTON1,
 	Vector2(1,0): Slot.BUTTON2,
@@ -36,8 +38,11 @@ func _process(delta: float) -> void:
 	pass
 	
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("yes") and not event.echo:
-		input_move()
+	if event.is_action_pressed("yes"):
+		if !is_moving:
+			input_move()
+		#else:
+			#swap_slots(index_move_slot, selected_slot)
 	if event.is_action_pressed("up"):
 		_move(Vector2.UP)
 	if event.is_action_pressed("down"):
@@ -46,6 +51,9 @@ func _input(event: InputEvent) -> void:
 		_move(Vector2.LEFT)
 	if event.is_action_pressed("right"):
 		_move(Vector2.RIGHT)
+	if event.is_action_pressed("menu"):
+		pass
+		#start_move_swap()
 		
 func _move(direction: Vector2):
 	unset_active_slot()
@@ -76,3 +84,19 @@ func set_active_slot():
 
 func set_moving_slot():
 	slot[get_curr_slot()].frame = 2
+	
+#func start_move_swap() -> void:
+	#is_moving = true
+	#set_moving_slot()
+	#var current_enum = v2_to_slot[selected_slot]
+	#index_move_slot = current_enum
+		#
+#func swap_slots(moving, selected):
+	#var current_enum = v2_to_slot[selected_slot]
+	#if moving == current_enum:
+			#return
+	#slot[moving].frame = 0
+	#slot[current_enum].frame = 1
+	#print(moving, selected)
+	#index_move_slot = -1
+	#is_moving = false

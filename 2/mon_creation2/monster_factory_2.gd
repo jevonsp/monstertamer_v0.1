@@ -12,4 +12,6 @@ func create_monster(monster_data: MonsterData, p_level: int) -> MonsterInstance:
 	# Now we setup the monster
 	monster.set_data(monster_data)
 	monster.set_stats(p_level)
+	monster.set_moves()
+	print("monster known moves after set_moves:", monster.known_moves)
 	return monster
