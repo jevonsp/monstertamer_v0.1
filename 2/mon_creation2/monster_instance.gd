@@ -97,6 +97,8 @@ func set_stats(p_level: int) -> void:
 	experience = exp_to_level(level)
 #endregion
 
+
+
 #region Exp Gain
 func exp_to_level(p_level):
 	const BASE = 100

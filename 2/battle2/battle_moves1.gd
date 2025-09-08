@@ -1,6 +1,6 @@
 extends Node2D
 
-signal move_used(slot : int)
+signal pm1_move_used(slot : int)
 
 @export var is_processing : bool = false
 
@@ -62,7 +62,7 @@ func _on_fight_pressed() -> void:
 
 func input_move():
 	var current_enum = v2_to_slot[selected_slot]
-	move_used.emit(current_enum)
+	pm1_move_used.emit(current_enum)
 	print("move_used emitted: %d" % current_enum)
 
 func get_curr_slot():

@@ -1,6 +1,6 @@
 extends Node
 
-signal pm1_switched
+signal pm1_switched(node: MonsterInstance)
 
 @export var pm1 : Node
 @export var pm2 : Node

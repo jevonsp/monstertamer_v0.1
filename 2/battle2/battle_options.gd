@@ -25,7 +25,7 @@ func _ready() -> void:
 	set_active_slot()
 	
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("yes") and not event.echo:
+	if event.is_action_pressed("yes"):
 		_input_action()
 	if event.is_action_pressed("up"):
 		_move(Vector2.UP)
