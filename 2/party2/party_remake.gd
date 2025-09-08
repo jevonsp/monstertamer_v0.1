@@ -84,16 +84,30 @@ func _input(event: InputEvent) -> void:
 	
 func _move(direction: Vector2):
 	unset_active_slot()
-	selected_slot += direction
-	selected_slot.x = clamp(selected_slot.x, 0, 1)
-	selected_slot.y = clamp(selected_slot.y, -1, 5)
-	if selected_slot.x == 0: selected_slot = Vector2(0,0)
-	if selected_slot.y == -1: selected_slot = Vector2(1,4)
-	if selected_slot.y == 5: selected_slot = Vector2(1,0)
+	var next_slot = selected_slot + direction
+	next_slot.x = clamp(next_slot.x, 0, 1)
+	
+	var max_y = 0
+	if next_slot.x == 0: max_y = 0
+	else: max_y = max(0, min(4, party_array.size() - 2))
+	
+	if next_slot.y < 0: next_slot.y = max_y 
+	elif next_slot.y > max_y: next_slot.y = 0
+	
+	if _v2_to_index(next_slot) >= party_array.size(): next_slot = selected_slot 
+	selected_slot = next_slot
+
 	if is_moving:
 		set_moving_slot()
 	else:
 		set_active_slot()
+
+
+func _v2_to_index(v: Vector2) -> int:
+	if v.x == 0:
+		return 0
+	else:
+		return int(v.y) + 1
 
 func _on_party_monster_sent(monster) -> void:
 	if party_array.size() < 6:
@@ -171,6 +185,7 @@ func swap_slots(moving, selected):
 
 func _on_party_requested() -> void:
 	_set_ui_state(self, true)
+	update_display()
 
 func _on_party_options_closed() -> void:
 	_set_ui_state(self, true)

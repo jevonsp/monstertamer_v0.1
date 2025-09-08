@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://dbqp8dpgx7apb"]
+[gd_scene load_steps=9 format=3 uid="uid://dbqp8dpgx7apb"]
 
 [ext_resource type="Script" uid="uid://brx6iesd2swnw" path="res://2/party2/party_remake.gd" id="1_s3i6v"]
 [ext_resource type="Texture2D" uid="uid://ixql1s0yevy4" path="res://assets/highlighted_tile.png" id="2_1wkuv"]
-[ext_resource type="Texture2D" uid="uid://cb5sewlmkate3" path="res://assets/pistol_shrimp.png" id="3_gisa8"]
 [ext_resource type="Script" uid="uid://clbcr2fpq7dty" path="res://2/party2/slot.gd" id="3_w1st1"]
 [ext_resource type="Texture2D" uid="uid://b1p0labvagfit" path="res://assets/female_gender_icon.png" id="7_70rt6"]
 [ext_resource type="PackedScene" uid="uid://dtdya0n6sybth" path="res://2/party2/PartyOptions.tscn" id="7_hjsu6"]
@@ -65,9 +64,11 @@ position = Vector2(18, 193)
 
 [node name="PartyContainer" type="Node" parent="."]
 
-[node name="Slot1" type="Node2D" parent="."]
+[node name="Slot1" type="Node2D" parent="." node_paths=PackedStringArray("party_hp_bar", "party_exp_bar")]
 position = Vector2(160, 149)
 script = ExtResource("3_w1st1")
+party_hp_bar = NodePath("PartyHpBar")
+party_exp_bar = NodePath("PartyExpBar")
 
 [node name="Background" type="Sprite2D" parent="Slot1"]
 texture = ExtResource("2_1wkuv")
@@ -83,7 +84,6 @@ offset_top = -32.0
 offset_right = -74.0
 offset_bottom = 32.0
 grow_vertical = 2
-texture = ExtResource("3_gisa8")
 flip_h = true
 
 [node name="GenderIcon" type="Sprite2D" parent="Slot1"]
@@ -91,8 +91,11 @@ position = Vector2(119, -1)
 scale = Vector2(2, 2)
 texture = ExtResource("7_70rt6")
 
+[node name="PartyHpBar" parent="Slot1" instance=ExtResource("9_70rt6")]
+position = Vector2(-64, 0)
+
 [node name="PartyExpBar" parent="Slot1" instance=ExtResource("7_w1st1")]
-position = Vector2(16, -13)
+position = Vector2(16, -14)
 
 [node name="NameLabel" type="Label" parent="Slot1"]
 anchors_preset = 8
@@ -110,12 +113,11 @@ theme_override_fonts/font = ExtResource("8_70rt6")
 text = "Name"
 horizontal_alignment = 1
 
-[node name="PartyHpBar" parent="Slot1" instance=ExtResource("9_70rt6")]
-position = Vector2(-64, 0)
-
-[node name="Slot2" type="Node2D" parent="."]
+[node name="Slot2" type="Node2D" parent="." node_paths=PackedStringArray("party_hp_bar", "party_exp_bar")]
 position = Vector2(480, 32)
 script = ExtResource("3_w1st1")
+party_hp_bar = NodePath("PartyHpBar")
+party_exp_bar = NodePath("PartyExpBar")
 
 [node name="Background" type="Sprite2D" parent="Slot2"]
 texture = ExtResource("2_1wkuv")
@@ -131,15 +133,11 @@ offset_top = -32.0
 offset_right = -74.0
 offset_bottom = 32.0
 grow_vertical = 2
-texture = ExtResource("3_gisa8")
 flip_h = true
 
 [node name="GenderIcon" type="Sprite2D" parent="Slot2"]
 position = Vector2(119, -1)
 scale = Vector2(2, 2)
-
-[node name="PartyExpBar" parent="Slot2" instance=ExtResource("7_w1st1")]
-position = Vector2(16, -13)
 
 [node name="NameLabel" type="Label" parent="Slot2"]
 anchors_preset = 8
@@ -158,11 +156,16 @@ text = "Name"
 horizontal_alignment = 1
 
 [node name="PartyHpBar" parent="Slot2" instance=ExtResource("9_70rt6")]
-position = Vector2(-64, 0)
+position = Vector2(-65, 2)
 
-[node name="Slot3" type="Node2D" parent="."]
+[node name="PartyExpBar" parent="Slot2" instance=ExtResource("7_w1st1")]
+position = Vector2(15, -13)
+
+[node name="Slot3" type="Node2D" parent="." node_paths=PackedStringArray("party_hp_bar", "party_exp_bar")]
 position = Vector2(480, 105)
 script = ExtResource("3_w1st1")
+party_hp_bar = NodePath("PartyHpBar")
+party_exp_bar = NodePath("PartyExpBar")
 
 [node name="Background" type="Sprite2D" parent="Slot3"]
 texture = ExtResource("2_1wkuv")
@@ -178,15 +181,11 @@ offset_top = -32.0
 offset_right = -74.0
 offset_bottom = 32.0
 grow_vertical = 2
-texture = ExtResource("3_gisa8")
 flip_h = true
 
 [node name="GenderIcon" type="Sprite2D" parent="Slot3"]
 position = Vector2(119, -1)
 scale = Vector2(2, 2)
-
-[node name="PartyExpBar" parent="Slot3" instance=ExtResource("7_w1st1")]
-position = Vector2(16, -13)
 
 [node name="NameLabel" type="Label" parent="Slot3"]
 anchors_preset = 8
@@ -205,11 +204,16 @@ text = "Name"
 horizontal_alignment = 1
 
 [node name="PartyHpBar" parent="Slot3" instance=ExtResource("9_70rt6")]
-position = Vector2(-64, 0)
+position = Vector2(-65, 2)
 
-[node name="Slot4" type="Node2D" parent="."]
+[node name="PartyExpBar" parent="Slot3" instance=ExtResource("7_w1st1")]
+position = Vector2(15, -13)
+
+[node name="Slot4" type="Node2D" parent="." node_paths=PackedStringArray("party_hp_bar", "party_exp_bar")]
 position = Vector2(480, 178)
 script = ExtResource("3_w1st1")
+party_hp_bar = NodePath("PartyHpBar")
+party_exp_bar = NodePath("PartyExpBar")
 
 [node name="Background" type="Sprite2D" parent="Slot4"]
 texture = ExtResource("2_1wkuv")
@@ -225,15 +229,11 @@ offset_top = -32.0
 offset_right = -74.0
 offset_bottom = 32.0
 grow_vertical = 2
-texture = ExtResource("3_gisa8")
 flip_h = true
 
 [node name="GenderIcon" type="Sprite2D" parent="Slot4"]
 position = Vector2(119, -1)
 scale = Vector2(2, 2)
-
-[node name="PartyExpBar" parent="Slot4" instance=ExtResource("7_w1st1")]
-position = Vector2(16, -13)
 
 [node name="NameLabel" type="Label" parent="Slot4"]
 anchors_preset = 8
@@ -252,11 +252,16 @@ text = "Name"
 horizontal_alignment = 1
 
 [node name="PartyHpBar" parent="Slot4" instance=ExtResource("9_70rt6")]
-position = Vector2(-64, 0)
+position = Vector2(-65, 2)
 
-[node name="Slot5" type="Node2D" parent="."]
+[node name="PartyExpBar" parent="Slot4" instance=ExtResource("7_w1st1")]
+position = Vector2(15, -13)
+
+[node name="Slot5" type="Node2D" parent="." node_paths=PackedStringArray("party_hp_bar", "party_exp_bar")]
 position = Vector2(480, 252)
 script = ExtResource("3_w1st1")
+party_hp_bar = NodePath("PartyHpBar")
+party_exp_bar = NodePath("PartyExpBar")
 
 [node name="Background" type="Sprite2D" parent="Slot5"]
 texture = ExtResource("2_1wkuv")
@@ -272,15 +277,11 @@ offset_top = -32.0
 offset_right = -74.0
 offset_bottom = 32.0
 grow_vertical = 2
-texture = ExtResource("3_gisa8")
 flip_h = true
 
 [node name="GenderIcon" type="Sprite2D" parent="Slot5"]
 position = Vector2(119, -1)
 scale = Vector2(2, 2)
-
-[node name="PartyExpBar" parent="Slot5" instance=ExtResource("7_w1st1")]
-position = Vector2(16, -13)
 
 [node name="NameLabel" type="Label" parent="Slot5"]
 anchors_preset = 8
@@ -299,11 +300,16 @@ text = "Name"
 horizontal_alignment = 1
 
 [node name="PartyHpBar" parent="Slot5" instance=ExtResource("9_70rt6")]
-position = Vector2(-64, 0)
+position = Vector2(-65, 2)
 
-[node name="Slot6" type="Node2D" parent="."]
+[node name="PartyExpBar" parent="Slot5" instance=ExtResource("7_w1st1")]
+position = Vector2(15, -13)
+
+[node name="Slot6" type="Node2D" parent="." node_paths=PackedStringArray("party_hp_bar", "party_exp_bar")]
 position = Vector2(480, 328)
 script = ExtResource("3_w1st1")
+party_hp_bar = NodePath("PartyHpBar")
+party_exp_bar = NodePath("PartyExpBar")
 
 [node name="Background" type="Sprite2D" parent="Slot6"]
 texture = ExtResource("2_1wkuv")
@@ -319,15 +325,11 @@ offset_top = -32.0
 offset_right = -74.0
 offset_bottom = 32.0
 grow_vertical = 2
-texture = ExtResource("3_gisa8")
 flip_h = true
 
 [node name="GenderIcon" type="Sprite2D" parent="Slot6"]
 position = Vector2(119, -1)
 scale = Vector2(2, 2)
-
-[node name="PartyExpBar" parent="Slot6" instance=ExtResource("7_w1st1")]
-position = Vector2(16, -13)
 
 [node name="NameLabel" type="Label" parent="Slot6"]
 anchors_preset = 8
@@ -346,7 +348,10 @@ text = "Name"
 horizontal_alignment = 1
 
 [node name="PartyHpBar" parent="Slot6" instance=ExtResource("9_70rt6")]
-position = Vector2(-64, 0)
+position = Vector2(-65, 2)
+
+[node name="PartyExpBar" parent="Slot6" instance=ExtResource("7_w1st1")]
+position = Vector2(15, -13)
 
 [connection signal="party_options_opened" from="." to="PartyOptions" method="_party_options_opened"]
 [connection signal="swap_completed" from="." to="PartyOptions" method="_on_swap_complete"]
