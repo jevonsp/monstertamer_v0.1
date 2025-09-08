@@ -13,4 +13,5 @@ func update_slot():
 	$NameLabel.text = assigned_monster.species
 	$Image.texture = assigned_monster.image
 	$BattleHpBar.assign_monster(assigned_monster)
-	$BattleExpBar.assign_monster(assigned_monster)
+	var exp_bar = get_node_or_null("BattleExpBar")
+	if exp_bar: $BattleExpBar.assign_monster(assigned_monster)
