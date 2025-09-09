@@ -66,7 +66,6 @@ func _on_battle_manager_turn_completed() -> void:
 
 func _on_full_battle_remake_battle_ready() -> void:
 	_hide_moves1()
-	camera.make_current()
 	
 func _on_battle_manager_battle_completed() -> void:
 	_hide_moves1()

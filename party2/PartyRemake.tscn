@@ -9,10 +9,10 @@
 [ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="8_70rt6"]
 [ext_resource type="PackedScene" uid="uid://bfd8bt75f6tdn" path="res://party2/PartyHPBar.tscn" id="9_70rt6"]
 
-[node name="PartyRemake" type="Node2D" node_paths=PackedStringArray("party_container")]
-visible = false
+[node name="PartyRemake" type="Node2D" node_paths=PackedStringArray("party_container", "camera")]
 script = ExtResource("1_s3i6v")
 party_container = NodePath("PartyContainer")
+camera = NodePath("")
 process_input = true
 
 [node name="ColorRect" type="ColorRect" parent="."]

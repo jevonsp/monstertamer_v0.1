@@ -14,9 +14,13 @@
 [ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="7_tmqx8"]
 [ext_resource type="PackedScene" uid="uid://dgvx2lqngbvy8" path="res://battle2/level_indicator.tscn" id="13_3dqtn"]
 
-[node name="FullBattleRemake" type="Node2D" groups=["battle_ui"]]
+[node name="FullBattleRemake" type="Node2D" node_paths=PackedStringArray("moves1", "options", "pslot1", "eslot1") groups=["battle_ui"]]
 z_index = 1
 script = ExtResource("1_k4baf")
+moves1 = NodePath("UIManager/BattleMoves1")
+options = NodePath("UIManager/BattleOptions")
+pslot1 = NodePath("MonsterUpdater/PlayerSlot1")
+eslot1 = NodePath("MonsterUpdater/EnemySlot1")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -5.0
@@ -95,7 +99,7 @@ script = ExtResource("2_ymdy3")
 battle = NodePath("BattleOptions")
 moves1 = NodePath("BattleMoves1")
 txt_mgr = NodePath("../TextPanel/TextManager")
-camera = NodePath("../Camera2D")
+camera = NodePath("")
 
 [node name="BattleMoves1" parent="UIManager" groups=["battle_ui"] instance=ExtResource("1_80cxr")]
 z_index = 1
@@ -145,25 +149,24 @@ horizontal_alignment = 1
 
 [node name="EnemySlot1" type="Node2D" parent="MonsterUpdater" node_paths=PackedStringArray("lvl_label") groups=["battle_ui"]]
 z_index = 1
-position = Vector2(319, 2)
 script = ExtResource("6_g6li6")
 lvl_label = NodePath("LevelIndicator")
 
 [node name="Image" type="TextureRect" parent="MonsterUpdater/EnemySlot1"]
 custom_minimum_size = Vector2(128, 128)
-offset_left = 100.0
-offset_top = 65.0
-offset_right = 228.0
-offset_bottom = 193.0
+offset_left = 419.0
+offset_top = 67.0
+offset_right = 547.0
+offset_bottom = 195.0
 
 [node name="BattleHpBar" parent="MonsterUpdater/EnemySlot1" groups=["battle_ui"] instance=ExtResource("5_tmqx8")]
-position = Vector2(1, 218)
+position = Vector2(320, 220)
 
 [node name="LevelIndicator" parent="MonsterUpdater/EnemySlot1" instance=ExtResource("13_3dqtn")]
-offset_left = 165.0
-offset_top = 220.0
-offset_right = 199.0
-offset_bottom = 233.0
+offset_left = 484.0
+offset_top = 222.0
+offset_right = 518.0
+offset_bottom = 235.0
 
 [node name="NameLabel" type="Label" parent="MonsterUpdater/EnemySlot1" groups=["battle_ui"]]
 anchors_preset = 8
@@ -171,10 +174,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 239.0
-offset_top = 220.0
-offset_right = 279.0
-offset_bottom = 243.0
+offset_left = 558.0
+offset_top = 222.0
+offset_right = 598.0
+offset_bottom = 245.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("7_tmqx8")
@@ -183,13 +186,12 @@ horizontal_alignment = 1
 
 [node name="EnemyParty" type="Node" parent="MonsterUpdater"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(320, 180)
-
 [connection signal="battle_ready" from="." to="UIManager" method="_on_full_battle_remake_battle_ready"]
 [connection signal="battle_ui_requested" from="." to="UIManager" method="_hide_party"]
+[connection signal="turn_action_swap" from="." to="BattleManager" method="_on_player1_switch"]
 [connection signal="battle_completed" from="BattleManager" to="UIManager" method="_on_battle_manager_battle_completed"]
 [connection signal="pm1_move_used" from="BattleManager" to="BattleManager" method="_on_pm_1_move_used"]
+[connection signal="pm1_switch" from="BattleManager" to="BattleManager" method="_on_pm_1_switched"]
 [connection signal="text_ready" from="BattleManager" to="TextPanel/TextManager" method="_on_battle_manager_text_ready"]
 [connection signal="turn_completed" from="BattleManager" to="UIManager" method="_on_battle_manager_turn_completed"]
 [connection signal="party_requested" from="UIManager" to="." method="_on_party_requested"]

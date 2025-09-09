@@ -2,7 +2,7 @@ extends Node
 
 signal pm1_move_used
 signal em1_move_used
-signal pm1_switch(index_chosen)
+signal pm1_switch(node: MonsterInstance)
 signal monster_damaged(target: MonsterInstance, amount: int)
 signal monster_healed(target: MonsterInstance, amount: int)
 signal text_ready(
@@ -10,8 +10,6 @@ signal text_ready(
 
 signal turn_completed
 signal battle_completed
-
-signal need_party_switch
 
 signal battle_won
 signal battle_lost
@@ -67,9 +65,9 @@ func get_move_from_slot(slot_enum: int) -> Move:
 	if slot_enum >= 0 and slot_enum < pm1.known_moves.size():
 		return pm1.known_moves[slot_enum]
 	return null
-func _on_player1_switch(slot: int) -> void:
-	if is_single: pm1_switch.emit(slot)
-
+func _on_player1_switch(node: MonsterInstance) -> void:
+	if is_single: pm1_switch.emit(node)
+	_on_in_battle_switch(node)
 
 func get_enemy_action():
 	var move_to_use = em1.known_moves[randi() % em1.known_moves.size()]
@@ -91,6 +89,14 @@ func _compare_actions(a: TurnAction, b: TurnAction) -> bool:
 		return a.actor_id in [0,1]
 	return a_speed > b_speed
 
+func _on_in_battle_switch(monster: MonsterInstance):
+	var actor_id = 0
+	var action = TurnAction.new(
+		actor_id, TurnAction.ActionType.SWITCH, monster, [])
+	turn_actions.append(action)
+	get_enemy_action()
+	execute_turn_queue()
+
 func execute_turn_queue():
 	sort_turn_actions()
 	var actions_to_execute = turn_actions.duplicate()
@@ -102,6 +108,8 @@ func execute_turn_queue():
 				print("About to execute action ", i)
 				await _execute_move(action)
 				print("Action ", i, " FULLY completed")
+			TurnAction.ActionType.SWITCH:
+				await _execute_switch(action)
 	print("All actions completed, clearing turn_actions")
 	#if pm1.current_hp <= 0: # make this check if theres any alive first later 
 		#need_party_switch.emit()

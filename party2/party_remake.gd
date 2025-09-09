@@ -3,12 +3,15 @@ extends Node2D
 signal party_options_opened(current_enum)
 signal reorder_requested(from_slot: int, to_slot: int)
 signal reorder_completed
+signal monster_switch_requested(chosen_monster : MonsterInstance)
 signal switch_cancelled
 
 signal party_closed
 signal first_party_memeber(monster : MonsterInstance)
 
 @export var party_container : Node
+@export var camera : Camera2D
+
 @export var process_input : bool
 @export var is_enabled : bool = false
 
@@ -68,6 +71,10 @@ func _input(event: InputEvent) -> void:
 			print(selected_slot)
 		else:
 			reorder_slots(index_move_slot, selected_slot)
+	if event.is_action_pressed("menu"):
+		is_enabled = false
+		_set_ui_state(self, false)
+		party_closed.emit()
 	if event.is_action_pressed("up"):
 		_move(Vector2.UP)
 	elif event.is_action_pressed("down"):
@@ -96,7 +103,6 @@ func _move(direction: Vector2):
 		set_moving_slot()
 	else:
 		set_active_slot()
-
 
 func _v2_to_index(v: Vector2) -> int:
 	if v.x == 0:
@@ -152,6 +158,17 @@ func _on_in_battle() -> void:
 
 func _on_switch_requested(selected_monster_slot) -> void:
 	if in_battle:
+		if selected_monster_slot == 0: 
+			switch_cancelled.emit()
+			set_process_input(false)
+			party_options_opened.emit(v2_to_slot[selected_slot])
+			return
+		switch_to_front(selected_monster_slot)
+		var chosen_monster = party_array[0]
+		monster_switch_requested.emit(chosen_monster)
+		set_process_input(false)
+		_set_ui_state(self, false)
+		party_closed.emit()
 		print("in_battle switch here")
 	else:
 		set_process_input(true)
@@ -159,6 +176,13 @@ func _on_switch_requested(selected_monster_slot) -> void:
 		set_moving_slot()
 		var current_enum = v2_to_slot[selected_slot]
 		index_move_slot = current_enum
+
+func switch_to_front(selected_slot: int) -> void:
+	if selected_slot == 0: return
+	var temp = party_array[0]
+	party_array[0] = party_array[selected_slot]
+	party_array[selected_slot] = temp
+	update_display()
 
 func reorder_slots(moving, selected_slot):
 	var current_enum = v2_to_slot[selected_slot]
@@ -183,6 +207,8 @@ func _on_swap_requested(moving, current_enum):
 	else: print("in_battle test")
 
 func _on_party_requested() -> void:
+	print("recieved party_req")
+
 	_set_ui_state(self, true)
 	update_display()
 
