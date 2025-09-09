@@ -51,9 +51,11 @@ func _on_player1_move_used(slot: int) -> void:
 			actor_id, TurnAction.ActionType.MOVE, move_to_use, target_ids)
 		turn_actions.append(action)
 		print("Action queue:", action)
-		if is_single: pm1_move_used.emit()
-	else: print("no move!")
-		
+
+	get_enemy_action()
+	
+	execute_turn_queue()
+
 func get_move_from_slot(slot_enum: int) -> Move:
 	if slot_enum >= 0 and slot_enum < pm1.known_moves.size():
 		return pm1.known_moves[slot_enum]
@@ -76,7 +78,7 @@ func get_enemy_action():
 		print("Action queue:", action)
 	
 func sort_turn_actions():
-	pass
+	turn_actions.sort_custom(_compare_actions)
 
 func _compare_actions(a: TurnAction, b: TurnAction) -> bool:
 	var a_speed = _get_actor_from_ids(a.actor_id).speed
@@ -86,15 +88,14 @@ func _compare_actions(a: TurnAction, b: TurnAction) -> bool:
 	return a_speed > b_speed
 
 func execute_turn_queue():
-	sort_turn_actions()
-	print("Starting turn with ", turn_actions.size(), " actions")
-	for i in range(turn_actions.size()):
-		var action = turn_actions[i]
-		print("About to execute action ", i, ": ", action)
-		match action.action_type:
-			TurnAction.ActionType.MOVE:
-				await _execute_move(action)
-				print("Completed action ", i)
+	var actions_to_execute = turn_actions.duplicate()
+	actions_to_execute.sort_custom(_compare_actions)
+	print("Starting turn with ", actions_to_execute.size(), " actions")
+	for i in range(actions_to_execute.size()):
+		var action = actions_to_execute[i]
+		print("About to execute action ", i)
+		await _execute_move(action)
+		print("Action ", i, " FULLY completed")
 	print("All actions completed, clearing turn_actions")
 	turn_actions.clear()
 	turn_completed.emit()
@@ -201,4 +202,3 @@ func _get_actor_from_ids(id: int) -> Node:
 		2: return em1
 		3: return em2
 	return null
-	

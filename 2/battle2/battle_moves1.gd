@@ -70,9 +70,13 @@ func _on_fight_pressed() -> void:
 
 func input_move():
 	var current_enum = v2_to_slot[selected_slot]
-	set_process_input(false)
 	pm1_move_used.emit(current_enum)
+	set_process_input(false)
 	print("move_used emitted: %d" % current_enum)
+	
+func reset_moves_menu():
+	set_process_input(true)
+	set_active_slot()
 
 func get_curr_slot():
 	return v2_to_slot[selected_slot]

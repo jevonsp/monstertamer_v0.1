@@ -58,6 +58,4 @@ func _disable_control() -> void:
 
 func _on_battle_manager_turn_completed() -> void:
 	await get_tree().create_timer(0.1).timeout
-	_set_ui_state(battle, true)
-	_set_ui_state(moves1, false)
-	state = State.MAIN
+	_show_moves1()
