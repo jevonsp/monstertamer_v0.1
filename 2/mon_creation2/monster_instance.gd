@@ -12,6 +12,7 @@ signal new_hp_value(new: int)
 
 #region Basic Stats
 var species : String = ""
+var monster_name : String = ""
 var gender : E.Gender
 var gender_icon : Texture2D
 var gender_icons : Dictionary = {}
@@ -52,6 +53,7 @@ func _ready() -> void:
 func set_data(data : MonsterData) -> void:
 	monster_data = data
 	species = monster_data.species
+	monster_name = species
 	gender = pick_random_gender(monster_data.allowed_genders)
 	print("Spawned", species, "with gender", gender)
 	image = monster_data.image

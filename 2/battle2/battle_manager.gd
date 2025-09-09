@@ -7,6 +7,8 @@ signal monster_damaged(target: MonsterInstance, amount: int)
 signal monster_healed(target: MonsterInstance, amount: int)
 signal text_ready(
 	user: MonsterInstance, target: MonsterInstance, move: Move, damage: int, effective: float, weak_point: float)
+signal turn_completed
+@export var txt_mgr : Control
 
 var pm1 : Node
 var pm2 : Node
@@ -85,17 +87,18 @@ func _compare_actions(a: TurnAction, b: TurnAction) -> bool:
 
 func execute_turn_queue():
 	sort_turn_actions()
-	for action in turn_actions:
+	print("Starting turn with ", turn_actions.size(), " actions")
+	for i in range(turn_actions.size()):
+		var action = turn_actions[i]
+		print("About to execute action ", i, ": ", action)
 		match action.action_type:
 			TurnAction.ActionType.MOVE:
 				await _execute_move(action)
-			TurnAction.ActionType.SWITCH:
-				await _execute_move(action)
-			TurnAction.ActionType.ITEM:
-				await _execute_move(action)
-			TurnAction.ActionType.RUN:
-				await _execute_move(action)
+				print("Completed action ", i)
+	print("All actions completed, clearing turn_actions")
 	turn_actions.clear()
+	turn_completed.emit()
+	print("turn_completed emitted")
 	
 func _execute_move(action: TurnAction) -> void:
 	var actor_node = _get_actor_from_ids(action.actor_id)
@@ -116,8 +119,12 @@ func _execute_move(action: TurnAction) -> void:
 	else: monster_healed.emit(target_node, move_power)
 	
 	text_ready.emit(
-		actor_node, target_node, move, move_power, _get_type_efficacy(
-			move, target_node), _get_role_efficacy(move, target_node))
+		actor_node,
+		target_node,
+		move,
+		move_power,
+		_get_type_efficacy(move, target_node),
+		_get_role_efficacy(move, target_node))
 	print( #GPT Print Statement
 	'"%s"' % actor_node.species,
 	'"%s"' % target_node.species,
@@ -125,10 +132,10 @@ func _execute_move(action: TurnAction) -> void:
 	'"%s"' % str(move_power),
 	'"%s"' % str(_get_type_efficacy(move, target_node)),
 	'"%s"' % str(_get_role_efficacy(move, target_node)))
-
 	await get_tree().create_timer(0.5).timeout
-	# Add an await for a signal from txt mgr confirm text read
-
+	await txt_mgr.confirmed
+	print("_execute_move finished for action: ", action) 
+	
 func _get_target_nodes(action: TurnAction) -> Array:
 	var nodes := []
 	if action.target_ids.is_empty():
@@ -154,11 +161,16 @@ func _get_type_efficacy(move, target):
 	var target_type = target.type
 	var type_multi = E.get_type_multi(type, target_type)
 	return type_multi
+	
 func _get_role_efficacy(move, target):
-	var target_role = target.role
-	var target_scalar : float = 1.0
-	if move.role_efficacy == target_role: target_scalar = 1.5
-	return target_scalar
+	print("Move role_efficacy: ", move.role_efficacy, " (type: ", typeof(move.role_efficacy), ")")
+	print("Target role: ", target.role, " (type: ", typeof(target.role), ")")
+	print("Converted move role: ", int(move.role_efficacy))
+	print("Converted target role: ", int(target.role))
+
+	var result = 1.5 if int(move.role_efficacy) == int(target.role) else 1.0
+	print("Result: ", result)
+	return result
 
 func _get_move_damage(actor: MonsterInstance, move: Move) -> int:
 	var base_damage = move.base_damage

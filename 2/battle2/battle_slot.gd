@@ -10,7 +10,7 @@ func assign_monster(monster: MonsterInstance):
 func update_slot():
 	if !assigned_monster:
 		return
-	$NameLabel.text = assigned_monster.species
+	$NameLabel.text = assigned_monster.monster_name
 	$Image.texture = assigned_monster.image
 	$BattleHpBar.assign_monster(assigned_monster)
 	var exp_bar = get_node_or_null("BattleExpBar")

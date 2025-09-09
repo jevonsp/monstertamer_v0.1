@@ -4,8 +4,8 @@ class_name MonsterData extends Resource
 @export_subgroup("Basic Info")
 @export var species : String = ""
 @export var image : Texture2D
-@export var type : E.Type = E.Type.NONE
-@export var role : E.Role = E.Role.MELEE
+@export var type : E.Type
+@export var role : E.Role
 # 1 = Male 2 = Female 4 = None add together for options. Gendered = 3, for example.
 @export var allowed_genders : int = E.Gender.MALE | E.Gender.FEMALE 
 @export_subgroup("Starting Stats")

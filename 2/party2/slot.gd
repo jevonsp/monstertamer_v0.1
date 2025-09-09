@@ -18,7 +18,7 @@ func update_slot():
 		visible = false
 		return
 	self.visible = true
-	$NameLabel.text = assigned_monster.species
+	$NameLabel.text = assigned_monster.monster_name
 	$Icon.texture = assigned_monster.image
 	$GenderIcon.texture = assigned_monster.gender_icon
 	print("Assigned gender icon:", assigned_monster.gender_icon)

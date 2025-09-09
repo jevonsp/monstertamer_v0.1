@@ -6,6 +6,7 @@ signal battle_monster_made(node)
 @export var monster_factory : Node
 @export var monster_data : MonsterData
 @export var monster_data2 : MonsterData
+@export var monster_data3 : MonsterData
 
 func _ready() -> void:
 	for i in range(2):

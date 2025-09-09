@@ -10,4 +10,5 @@ image = ExtResource("1_ruelw")
 type = 0
 base_damage = 1
 default_targets = Array[int]([2])
+role_efficacy = 0
 metadata/_custom_type_script = "uid://bkxxpcma3i3c6"

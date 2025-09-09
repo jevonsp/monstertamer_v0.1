@@ -52,13 +52,21 @@ size_flags_vertical = 3
 custom_minimum_size = Vector2(5, 0)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="TextPanel/TextManager/VBoxContainer/HBoxContainer"]
+[node name="Label" type="RichTextLabel" parent="TextPanel/TextManager/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
-theme_override_fonts/font = ExtResource("7_tmqx8")
-theme_override_font_sizes/font_size = 32
-text = "TEXT"
+theme_override_fonts/normal_font = ExtResource("7_tmqx8")
+theme_override_fonts/mono_font = ExtResource("7_tmqx8")
+theme_override_fonts/italics_font = ExtResource("7_tmqx8")
+theme_override_fonts/bold_italics_font = ExtResource("7_tmqx8")
+theme_override_fonts/bold_font = ExtResource("7_tmqx8")
+theme_override_font_sizes/bold_italics_font_size = 32
+theme_override_font_sizes/italics_font_size = 32
+theme_override_font_sizes/mono_font_size = 32
+theme_override_font_sizes/normal_font_size = 16
+theme_override_font_sizes/bold_font_size = 32
+scroll_active = false
 
 [node name="MarginContainer2" type="MarginContainer" parent="TextPanel/TextManager/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(5, 0)
@@ -68,13 +76,15 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 
-[node name="BattleManager" type="Node" parent="."]
+[node name="BattleManager" type="Node" parent="." node_paths=PackedStringArray("txt_mgr")]
 script = ExtResource("2_4tudq")
+txt_mgr = NodePath("../TextPanel/TextManager")
 
-[node name="UIManager" type="Node" parent="." node_paths=PackedStringArray("battle", "moves1")]
+[node name="UIManager" type="Node" parent="." node_paths=PackedStringArray("battle", "moves1", "txt_mgr")]
 script = ExtResource("2_ymdy3")
 battle = NodePath("BattleOptions")
 moves1 = NodePath("BattleMoves1")
+txt_mgr = NodePath("../TextPanel/TextManager")
 
 [node name="BattleMoves1" parent="UIManager" groups=["battle_ui"] instance=ExtResource("1_80cxr")]
 
@@ -152,6 +162,8 @@ horizontal_alignment = 1
 [connection signal="battle_started" from="." to="UIManager/BattleOptions" method="_on_battle_started"]
 [connection signal="battle_ui_requested" from="." to="UIManager" method="_hide_party"]
 [connection signal="pm1_move_used" from="BattleManager" to="BattleManager" method="_on_pm_1_move_used"]
+[connection signal="text_ready" from="BattleManager" to="TextPanel/TextManager" method="_on_battle_manager_text_ready"]
+[connection signal="turn_completed" from="BattleManager" to="UIManager" method="_on_battle_manager_turn_completed"]
 [connection signal="party_requested" from="UIManager" to="." method="_on_party_requested"]
 [connection signal="pm1_move_used" from="UIManager/BattleMoves1" to="BattleManager" method="_on_player1_move_used"]
 [connection signal="em1_switched" from="MonsterUpdater" to="BattleManager" method="_on_em_1_ready"]

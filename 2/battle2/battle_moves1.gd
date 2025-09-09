@@ -70,6 +70,7 @@ func _on_fight_pressed() -> void:
 
 func input_move():
 	var current_enum = v2_to_slot[selected_slot]
+	set_process_input(false)
 	pm1_move_used.emit(current_enum)
 	print("move_used emitted: %d" % current_enum)
 
