@@ -8,6 +8,7 @@ signal turn_action_swap(monster)
 signal in_battle_true
 
 @export var player : CharacterBody2D
+@export var battle_mgr : Node
 @export var moves1 : Node2D
 @export var options : Node2D
 @export var pslot1 : Node2D
@@ -54,6 +55,10 @@ func _on_battle_monster_recieved(monster: MonsterInstance) -> void:
 	in_battle_true.emit()
 	_show_subscenes()
 	print("encounter ready")
+	
+func _store_party_alive(amount) -> void:
+	battle_mgr._store_party_alive_amount(amount)
+	print("party alive amount signal fired")
 
 func _on_in_battle_switch_request(monster: MonsterInstance) -> void:
 	turn_action_swap.emit(monster)

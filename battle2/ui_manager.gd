@@ -18,6 +18,9 @@ func _ready() -> void:
 	_disable_control()
 
 func _input(event: InputEvent) -> void:
+	pass
+	
+func _unhandled_input(event: InputEvent) -> void:
 	if txt_mgr.is_processing_input(): return
 	if event.is_action_pressed("no"):
 		var transitions = {

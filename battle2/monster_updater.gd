@@ -1,6 +1,7 @@
 extends Node
 
 signal pm1_switched(node: MonsterInstance)
+signal pm1_moves_reordered
 signal em1_switched(node: MonsterInstance)
 
 @export var pm1 : Node

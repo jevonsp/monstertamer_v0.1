@@ -8,9 +8,11 @@ signal switch_cancelled
 
 signal party_closed
 signal first_party_memeber(monster : MonsterInstance)
+signal party_alive(amount: int)
 
 @export var party_container : Node
 @export var camera : Camera2D
+@export var battle : Node2D
 
 @export var process_input : bool
 @export var is_enabled : bool = false
@@ -122,7 +124,7 @@ func _on_party_monster_sent(monster) -> void:
 
 #region Slot Display Code
 
-func update_display(): # call this when swapping too (later)
+func update_display():
 	for i in range(6):
 		var monster = null
 		if i < party_array.size():
@@ -208,7 +210,6 @@ func _on_swap_requested(moving, current_enum):
 
 func _on_party_requested() -> void:
 	print("recieved party_req")
-
 	_set_ui_state(self, true)
 	update_display()
 
@@ -222,7 +223,6 @@ func _set_ui_state(node: Node2D, active: bool) -> void:
 #endregion
 
 #region Testing Buttons
-
 func _on_exp_pressed() -> void:
 	for node in party_array:
 		node.gain_exp(1000)
@@ -245,8 +245,15 @@ func _on_plus_hp_pressed() -> void:
 	for node in party_array:
 		node.gain_life(5)
 	$Control/plusHP.release_focus()
-
 #endregion
+
+func get_party_alive_amount():
+	var alive = 0
+	for monster in party_array:
+		if !monster.is_fainted:
+			alive += 1
+	party_alive.emit(alive)
+	print("alive: ", alive)
 
 func _on_full_battle_remake_party_requested() -> void:
 	update_display()

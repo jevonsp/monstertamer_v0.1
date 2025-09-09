@@ -15,8 +15,11 @@ func _ready() -> void:
 		if !zone.req_player_stop.is_connected(player._pause_player_action):
 			zone.req_player_stop.connect(player._pause_player_action)
 			print("Connected player")
-
-func _process(delta: float) -> void:
+	if battle:
+		battle.battle_mgr.req_party_alive.connect(party.get_party_alive_amount)
+		print("connect battle -> party")
+		
+func _process(_delta: float) -> void:
 	var viewport_size = Vector2(640, 360)
 	if battle.visible: battle.global_position = player.global_position - (viewport_size / 2)
 	if party.visible: party.global_position = player.global_position - (viewport_size / 2)

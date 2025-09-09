@@ -1,5 +1,7 @@
 extends Node
 
+signal req_party_alive
+
 signal pm1_move_used
 signal em1_move_used
 signal pm1_switch(node: MonsterInstance)
@@ -15,11 +17,14 @@ signal battle_won
 signal battle_lost
 
 @export var txt_mgr : Control
+@export var enemy_party : Node
 
 var pm1 : Node
 var pm2 : Node
 var em1 : Node
 var em2 : Node
+
+var party_alive : int = -1
 
 var is_single : bool = true
 var is_wild : bool = true
@@ -37,6 +42,11 @@ func _on_em_1_ready(monster) -> void:
 	print("em1 assigned:", em1)
 	print("em1 known moves:", em1.known_moves)
 	connect_monster_signals()
+	req_party_alive.emit()
+
+func _store_party_alive_amount(amount):
+	party_alive = amount
+	print("party_alive", party_alive)
 
 func connect_monster_signals():
 	var monsters = [pm1, pm2, em1, em2]
@@ -53,7 +63,6 @@ func connect_monster_signals():
 				if !monster.is_connected("monster_died", Callable(self, "_handle_monster_death")):
 					monster.connect("monster_died", Callable(self, "_handle_monster_death"))
 			
-				
 func _on_player1_move_used(slot: int) -> void:
 	var move_to_use = get_move_from_slot(slot)
 	if move_to_use:
@@ -103,7 +112,14 @@ func _on_in_battle_switch(monster: MonsterInstance):
 	execute_turn_queue()
 
 func _handle_monster_death(monster) -> void:
-	print("handle monster death fired")
+	req_party_alive.emit()
+	if monster == pm1:
+		if party_alive == 0: print("you lose")
+		else: print("force party switch here")
+	
+	if monster == em1:
+		if enemy_party.get_child_count() == 0:
+			print("you win")
 
 func execute_turn_queue():
 	sort_turn_actions()
@@ -119,12 +135,6 @@ func execute_turn_queue():
 			TurnAction.ActionType.SWITCH:
 				await _execute_switch(action)
 	print("All actions completed, clearing turn_actions")
-	#if pm1.current_hp <= 0: # make this check if theres any alive first later 
-		#need_party_switch.emit()
-	#if is_wild:
-		#if em1.current_hp <= 0:
-			#battle_completed.emit()
-	#else: 
 	turn_completed.emit()
 	print("turn_completed emitted")
 	

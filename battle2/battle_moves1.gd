@@ -1,6 +1,7 @@
 extends Node2D
 
 signal pm1_move_used(slot : int)
+signal pm1_move_reorder_requested(from_index, to_index)
 
 @export var label1 : Label
 @export var label2 : Label
@@ -43,10 +44,7 @@ func _ready() -> void:
 	
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("yes"):
-		if !is_moving:
-			input_move()
-		#else:
-			#swap_slots(index_move_slot, selected_slot)
+		input_move()
 	if event.is_action_pressed("up"):
 		_move(Vector2.UP)
 	if event.is_action_pressed("down"):
@@ -55,9 +53,15 @@ func _input(event: InputEvent) -> void:
 		_move(Vector2.LEFT)
 	if event.is_action_pressed("right"):
 		_move(Vector2.RIGHT)
-	if event.is_action_pressed("menu"):
-		pass
-		#start_move_swap()
+	if event.is_action_pressed("option"):
+		if !is_moving:
+			start_move_reorder()
+		else:
+			set_active_slot()
+			reorder_slots(index_move_slot, selected_slot)
+	if event.is_action_pressed("no"):
+		is_moving = false
+		set_active_slot()
 		
 func _move(direction: Vector2):
 	unset_active_slot()
@@ -71,7 +75,7 @@ func _move(direction: Vector2):
 
 func input_move():
 	var current_enum = v2_to_slot[selected_slot]
-	if current_enum < pm1.known_moves.size() and pm1.known_moves[current_enum]:
+	if current_enum < pm1.known_moves.size() and pm1.known_moves[current_enum] != null:
 		pm1_move_used.emit(current_enum)
 		set_process_input(false)
 	print("move_used emitted: %d" % current_enum)
@@ -96,23 +100,33 @@ func display_moves(monster):
 	pm1 = monster
 	var labels = [label1, label2, label3, label4]
 	for i in range(labels.size()):
-		if i < monster.known_moves.size():
+		if i < monster.known_moves.size() and monster.known_moves[i] != null:
 			labels[i].text = monster.known_moves[i].move_name
 		else:
 			labels[i].text = ""
 
-#func start_move_swap() -> void:
-	#is_moving = true
-	#set_moving_slot()
-	#var current_enum = v2_to_slot[selected_slot]
-	#index_move_slot = current_enum
-		#
-#func swap_slots(moving, selected):
-	#var current_enum = v2_to_slot[selected_slot]
-	#if moving == current_enum:
-			#return
-	#slot[moving].frame = 0
-	#slot[current_enum].frame = 1
-	#print(moving, selected)
-	#index_move_slot = -1
-	#is_moving = false
+func start_move_reorder() -> void:
+	is_moving = true
+	set_moving_slot()
+	var current_enum = v2_to_slot[selected_slot]
+	index_move_slot = current_enum
+	
+func reorder_slots(moving_slot_enum, selected_pos):
+	var selected_enum = v2_to_slot[selected_pos]
+	if moving_slot_enum == selected_enum: return
+	
+	slot[moving_slot_enum].frame = 0
+	slot[selected_enum].frame = 1
+	
+	var max_index = max(moving_slot_enum, selected_enum)
+	while pm1.known_moves.size() <= max_index:
+		pm1.known_moves.append(null)
+	
+	# Swap the moves directly using the enum indices
+	var temp = pm1.known_moves[moving_slot_enum]
+	pm1.known_moves[moving_slot_enum] = pm1.known_moves[selected_enum]
+	pm1.known_moves[selected_enum] = temp
+	
+	display_moves(pm1)
+	index_move_slot = -1
+	is_moving = false

@@ -15,9 +15,10 @@
 [ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="7_tmqx8"]
 [ext_resource type="PackedScene" uid="uid://dgvx2lqngbvy8" path="res://battle2/level_indicator.tscn" id="13_3dqtn"]
 
-[node name="FullBattleRemake" type="Node2D" node_paths=PackedStringArray("moves1", "options", "pslot1", "eslot1") groups=["battle_ui"]]
+[node name="FullBattleRemake" type="Node2D" node_paths=PackedStringArray("battle_mgr", "moves1", "options", "pslot1", "eslot1") groups=["battle_ui"]]
 z_index = 1
 script = ExtResource("1_k4baf")
+battle_mgr = NodePath("BattleManager")
 moves1 = NodePath("UIManager/BattleMoves1")
 options = NodePath("UIManager/BattleOptions")
 pslot1 = NodePath("MonsterUpdater/PlayerSlot1")
@@ -95,9 +96,10 @@ layout_mode = 2
 [node name="TextBoxArrow" parent="TextPanel/TextManager" instance=ExtResource("5_2ik3i")]
 position = Vector2(302, 101)
 
-[node name="BattleManager" type="Node" parent="." node_paths=PackedStringArray("txt_mgr")]
+[node name="BattleManager" type="Node" parent="." node_paths=PackedStringArray("txt_mgr", "enemy_party")]
 script = ExtResource("2_4tudq")
 txt_mgr = NodePath("../TextPanel/TextManager")
+enemy_party = NodePath("../MonsterUpdater/EnemyParty")
 
 [node name="UIManager" type="Node" parent="." node_paths=PackedStringArray("battle", "moves1", "txt_mgr")]
 script = ExtResource("2_ymdy3")

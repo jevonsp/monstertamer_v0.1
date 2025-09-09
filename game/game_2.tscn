@@ -30,8 +30,9 @@ player = NodePath("Player")
 [node name="FullBattleRemake" parent="." node_paths=PackedStringArray("player") instance=ExtResource("3_5o1xv")]
 player = NodePath("../Player")
 
-[node name="PartyRemake" parent="." instance=ExtResource("2_h2pcr")]
+[node name="PartyRemake" parent="." node_paths=PackedStringArray("battle") instance=ExtResource("2_h2pcr")]
 z_index = 2
+battle = NodePath("../FullBattleRemake")
 process_input = false
 
 [node name="TestSpawner" type="Control" parent="." node_paths=PackedStringArray("monster_factory")]
@@ -88,6 +89,7 @@ shape = SubResource("RectangleShape2D_oaero")
 [connection signal="party_requested" from="FullBattleRemake" to="PartyRemake" method="_on_party_requested"]
 [connection signal="first_party_memeber" from="PartyRemake" to="FullBattleRemake" method="_on_first_party_member_changed"]
 [connection signal="monster_switch_requested" from="PartyRemake" to="FullBattleRemake" method="_on_in_battle_switch_request"]
+[connection signal="party_alive" from="PartyRemake" to="FullBattleRemake" method="_store_party_alive"]
 [connection signal="party_closed" from="PartyRemake" to="FullBattleRemake" method="_on_party_closed"]
 [connection signal="party_closed" from="PartyRemake" to="Player" method="_close_menu"]
 [connection signal="battle_monster_made" from="TestSpawner" to="FullBattleRemake" method="_on_battle_monster_recieved"]
