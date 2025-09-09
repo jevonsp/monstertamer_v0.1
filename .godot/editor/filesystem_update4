@@ -13,3 +13,5 @@ res://battle2/battle_moves1.tscn
 res://levels/TestMap.tscn
 res://encounter/WildEncounterZone.tscn
 res://encounter/Trainer.tscn
+res://encounter/wild_encounter_zone.gd
+res://battle2/full_battle_remake.gd

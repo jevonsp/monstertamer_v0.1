@@ -1,7 +1,6 @@
 extends Node2D
 
 signal battle_ready
-
 signal party_requested
 signal battle_ui_requested
 
