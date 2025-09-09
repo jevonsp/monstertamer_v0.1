@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfd8bt75f6tdn"]
+
+[ext_resource type="Script" uid="uid://csu122r4nyxdk" path="res://party2/party_hp_bar.gd" id="1_d7lea"]
+[ext_resource type="PackedScene" uid="uid://b7m6mbju1hdsh" path="res://battle2/hp_bar.tscn" id="2_lx3qs"]
+
+[node name="PartyHpBar" type="Node2D" node_paths=PackedStringArray("bar")]
+script = ExtResource("1_d7lea")
+bar = NodePath("HPBar")
+
+[node name="HPBar" parent="." instance=ExtResource("2_lx3qs")]

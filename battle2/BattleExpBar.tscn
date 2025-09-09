@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://du534bamov2mp"]
+
+[ext_resource type="Script" uid="uid://b8inaifb8v1ic" path="res://battle2/battle_exp_bar.gd" id="1_ahfwc"]
+[ext_resource type="PackedScene" uid="uid://cj7llarrugoyc" path="res://battle2/exp_bar.tscn" id="1_ph8iy"]
+[ext_resource type="PackedScene" uid="uid://dgvx2lqngbvy8" path="res://battle2/level_indicator.tscn" id="2_ahfwc"]
+
+[node name="BattleExpBar" type="Node2D" node_paths=PackedStringArray("bar", "label")]
+script = ExtResource("1_ahfwc")
+bar = NodePath("ExpBar")
+label = NodePath("LevelIndicator")
+
+[node name="ExpBar" parent="." instance=ExtResource("1_ph8iy")]
+
+[node name="LevelIndicator" parent="." instance=ExtResource("2_ahfwc")]
+offset_left = -78.0
+offset_top = -8.0
+offset_right = -44.0
+offset_bottom = 5.0
+
+[connection signal="tween_finished" from="." to="." method="_on_tween_finished"]

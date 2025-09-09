@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dy80dm6sus3dj"]
+
+[ext_resource type="Script" uid="uid://0xmx7jqux8xk" path="res://mon_creation2/monster_factory_2.gd" id="1_lkpus"]
+
+[node name="MonsterFactory2" type="Node"]
+script = ExtResource("1_lkpus")

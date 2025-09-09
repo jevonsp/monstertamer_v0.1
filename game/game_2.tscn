@@ -1,0 +1,70 @@
+[gd_scene load_steps=15 format=3 uid="uid://8gvmts8i4jwc"]
+
+[ext_resource type="Script" uid="uid://cvp1mhtftwcim" path="res://game/game_2.gd" id="1_30xo2"]
+[ext_resource type="PackedScene" uid="uid://dbqp8dpgx7apb" path="res://party2/PartyRemake.tscn" id="2_h2pcr"]
+[ext_resource type="PackedScene" uid="uid://yy3ftbc0fioi" path="res://battle2/full_battle_remake.tscn" id="3_5o1xv"]
+[ext_resource type="Script" uid="uid://blb72loenhrs1" path="res://test/testing_spawner.gd" id="4_11ueq"]
+[ext_resource type="PackedScene" uid="uid://dy80dm6sus3dj" path="res://mon_creation2/MonsterFactory2.tscn" id="4_jmjtl"]
+[ext_resource type="Resource" uid="uid://giw0g1bc3xr1" path="res://monsters/fox_mcleaf.tres" id="5_hpj43"]
+[ext_resource type="Resource" uid="uid://cobtyijqbr72g" path="res://monsters/pistol_shrimp.tres" id="6_6tl1l"]
+[ext_resource type="Resource" uid="uid://dw4f06vf5rrc3" path="res://monsters/pyro_badger.tres" id="7_o2e6q"]
+[ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="7_qvscl"]
+[ext_resource type="Texture2D" uid="uid://cyrh70xrnlt51" path="res://assets/male_gender_icon.png" id="8_2ci8s"]
+[ext_resource type="Texture2D" uid="uid://b1p0labvagfit" path="res://assets/female_gender_icon.png" id="9_qvscl"]
+[ext_resource type="Texture2D" uid="uid://blyxbnj5vxabq" path="res://assets/none_gender_icon.png" id="10_o2e6q"]
+[ext_resource type="PackedScene" uid="uid://delwhnh5afmo7" path="res://levels/TestMap.tscn" id="13_8yvkq"]
+[ext_resource type="PackedScene" uid="uid://dx2mrg5eghn2j" path="res://player/Player.tscn" id="14_2wh4p"]
+
+[node name="Game2" type="Node2D"]
+script = ExtResource("1_30xo2")
+
+[node name="FullBattleRemake" parent="." instance=ExtResource("3_5o1xv")]
+
+[node name="PartyRemake" parent="." instance=ExtResource("2_h2pcr")]
+visible = false
+z_index = 1
+is_visible = false
+process_input = false
+
+[node name="TestSpawner" type="Control" parent="." node_paths=PackedStringArray("monster_factory")]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 320.0
+offset_top = 245.0
+offset_right = 619.0
+offset_bottom = 341.0
+script = ExtResource("4_11ueq")
+monster_factory = NodePath("../MonsterFactory2")
+monster_data = ExtResource("5_hpj43")
+monster_data2 = ExtResource("6_6tl1l")
+monster_data3 = ExtResource("7_o2e6q")
+
+[node name="StartBattle" type="Button" parent="TestSpawner"]
+visible = false
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 0
+offset_left = 20.0
+offset_top = -16.0
+offset_right = 70.0
+offset_bottom = 34.0
+theme_override_fonts/font = ExtResource("7_qvscl")
+text = "Start
+Battle"
+
+[node name="MonsterFactory2" parent="." instance=ExtResource("4_jmjtl")]
+male_icon = ExtResource("8_2ci8s")
+female_icon = ExtResource("9_qvscl")
+none_icon = ExtResource("10_o2e6q")
+
+[node name="TestMap" parent="." instance=ExtResource("13_8yvkq")]
+
+[node name="Player" parent="." instance=ExtResource("14_2wh4p")]
+position = Vector2(180, 112)
+
+[connection signal="party_requested" from="FullBattleRemake" to="PartyRemake" method="_on_full_battle_remake_party_requested"]
+[connection signal="party_requested" from="FullBattleRemake" to="PartyRemake" method="_on_party_requested"]
+[connection signal="first_party_memeber" from="PartyRemake" to="FullBattleRemake" method="_on_first_party_member_changed"]
+[connection signal="party_closed" from="PartyRemake" to="FullBattleRemake" method="_on_party_closed"]
+[connection signal="battle_monster_made" from="TestSpawner" to="FullBattleRemake" method="_on_battle_monster_recieved"]
+[connection signal="monster_made" from="TestSpawner" to="PartyRemake" method="_on_test_spawner_monster_made"]
+[connection signal="pressed" from="TestSpawner/StartBattle" to="." method="_on_start_battle_pressed"]
