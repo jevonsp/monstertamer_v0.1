@@ -4,6 +4,8 @@ signal battle_ready
 signal battle_finished
 signal party_requested
 signal battle_ui_requested
+signal turn_action_swap
+signal in_battle_true
 
 @export var in_battle : bool = false
 
@@ -33,5 +35,9 @@ func _on_battle_monster_recieved(monster: MonsterInstance) -> void:
 	$MonsterUpdater.update_enemy_monster(monster)
 	in_battle = true
 	battle_ready.emit()
+	in_battle_true.emit()
 	_show_subscenes()
 	print("encounter ready")
+
+func _on_in_battle_switch_request(monster: MonsterInstance) -> void:
+	turn_action_swap.emit()

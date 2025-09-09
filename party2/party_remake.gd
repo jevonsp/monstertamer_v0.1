@@ -1,10 +1,11 @@
 extends Node2D
 
-signal party_options_opened
+signal party_options_opened(current_enum)
+signal reorder_requested(from_slot: int, to_slot: int)
+signal reorder_completed
 signal switch_cancelled
-signal swap_completed
+
 signal party_closed
-signal battle_swap_requested
 signal first_party_memeber(monster : MonsterInstance)
 
 @export var party_container : Node
@@ -61,13 +62,12 @@ func _input(event: InputEvent) -> void:
 			_set_ui_state(self, false)
 			party_closed.emit()
 	if event.is_action_pressed("yes"):
-		if in_battle:
-			pass
 		if !is_moving:
 			set_process_input(false)
-			party_options_opened.emit()
+			party_options_opened.emit(v2_to_slot[selected_slot])
+			print(selected_slot)
 		else:
-			swap_slots(index_move_slot, selected_slot)
+			reorder_slots(index_move_slot, selected_slot)
 	if event.is_action_pressed("up"):
 		_move(Vector2.UP)
 	elif event.is_action_pressed("down"):
@@ -150,34 +150,37 @@ func _on_in_battle() -> void:
 	in_battle = true
 	print("in_battle = true")
 
-func _on_switch_requested() -> void:
-	set_process_input(true)
-	is_moving = true
-	set_moving_slot()
-	var current_enum = v2_to_slot[selected_slot]
-	index_move_slot = current_enum
+func _on_switch_requested(selected_monster_slot) -> void:
 	if in_battle:
-		swap_slots(index_move_slot, party_array[0])
-		update_display()
-		battle_swap_requested.emit(index_move_slot)
-		print("this is where we'd send out a monster")
+		print("in_battle switch here")
+	else:
+		set_process_input(true)
+		is_moving = true
+		set_moving_slot()
+		var current_enum = v2_to_slot[selected_slot]
+		index_move_slot = current_enum
 
-func swap_slots(moving, _selected):
+func reorder_slots(moving, selected_slot):
 	var current_enum = v2_to_slot[selected_slot]
 	if party_array.size() == 0: return
-	if moving == current_enum:
-		return
+	if moving == current_enum: return
+	
 	slot[moving].frame = 0
 	slot[current_enum].frame = 1
-	print(party_array[moving], party_array[current_enum])
-	var temp = party_array[moving]
-	party_array[moving] = party_array[current_enum]
-	party_array[current_enum] = temp
-	print(party_array[moving], party_array[current_enum])
+
+	reorder_requested.emit(moving, current_enum)
+
 	index_move_slot = -1
 	is_moving = false
 	update_display()
-	swap_completed.emit()
+	reorder_completed.emit()
+
+func _on_swap_requested(moving, current_enum):
+	if !in_battle:
+		var temp = party_array[moving]
+		party_array[moving] = party_array[current_enum]
+		party_array[current_enum] = temp
+	else: print("in_battle test")
 
 func _on_party_requested() -> void:
 	_set_ui_state(self, true)

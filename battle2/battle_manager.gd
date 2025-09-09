@@ -97,9 +97,11 @@ func execute_turn_queue():
 	turn_actions.clear()
 	for i in range(actions_to_execute.size()):
 		var action = actions_to_execute[i]
-		print("About to execute action ", i)
-		await _execute_move(action)
-		print("Action ", i, " FULLY completed")
+		match action.action_type:
+			TurnAction.ActionType.MOVE:
+				print("About to execute action ", i)
+				await _execute_move(action)
+				print("Action ", i, " FULLY completed")
 	print("All actions completed, clearing turn_actions")
 	#if pm1.current_hp <= 0: # make this check if theres any alive first later 
 		#need_party_switch.emit()

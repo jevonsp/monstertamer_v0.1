@@ -1,6 +1,7 @@
 extends Node2D
 
 var assigned_monster : MonsterInstance
+@export var lvl_label : Label
 
 func assign_monster(monster: MonsterInstance):
 	assigned_monster = null
@@ -15,3 +16,4 @@ func update_slot():
 	$BattleHpBar.assign_monster(assigned_monster)
 	var exp_bar = get_node_or_null("BattleExpBar")
 	if exp_bar: $BattleExpBar.assign_monster(assigned_monster)
+	if lvl_label: lvl_label.text = "Lvl. %d" % assigned_monster.level

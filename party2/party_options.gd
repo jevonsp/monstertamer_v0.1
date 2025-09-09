@@ -5,6 +5,7 @@ signal switch_requested(selected_slot: int)
 
 enum Slot {SWITCH, SUMMARY, CANCEL}
 var selected_slot = Slot.SWITCH
+var selected_monster_slot : int = -1
 
 @onready var slot : Dictionary = {
 	Slot.SWITCH : $Switch/Background,
@@ -35,7 +36,8 @@ func _input(event: InputEvent) -> void:
 	if selected_slot == Slot.SWITCH:
 		if event.is_action_pressed("yes"):
 			set_process_input(false)
-			switch_requested.emit()
+			switch_requested.emit(selected_monster_slot)
+			selected_monster_slot = -1
 		elif event.is_action_pressed("no"):
 			_set_ui_state(self, false)
 			party_options_closed.emit()
@@ -50,7 +52,9 @@ func unset_active_slot():
 func set_active_slot():
 	slot[selected_slot].frame = 1
 
-func _party_options_opened() -> void:
+func _party_options_opened(current_enum) -> void:
+	selected_monster_slot = current_enum
+	print("selected_monster_slot ", selected_monster_slot)
 	_set_ui_state(self, true)
 
 func _on_swap_complete() -> void:
