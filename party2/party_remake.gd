@@ -8,9 +8,8 @@ signal battle_swap_requested
 signal first_party_memeber(monster : MonsterInstance)
 
 @export var party_container : Node
-@export var is_visible : bool
 @export var process_input : bool
-@export var is_processing : bool = false
+@export var is_enabled : bool = false
 
 enum Slot {SLOT1, SLOT2, SLOT3, SLOT4, SLOT5, SLOT6}
 
@@ -46,14 +45,10 @@ var party_array : Array[Node] = []
 func _ready() -> void:
 	visible = false
 	set_process_input(false)
-	if is_visible:
-		visible = true
-	if process_input:
-		set_process_input(true)
 	set_active_slot()
 	
 func _input(event: InputEvent) -> void:
-	if !is_processing:
+	if !is_enabled:
 		return
 	if event.is_action_pressed("no"):
 		if is_moving:
@@ -62,7 +57,7 @@ func _input(event: InputEvent) -> void:
 			switch_cancelled.emit()
 			set_process_input(false)
 		else:
-			is_processing = false
+			is_enabled = false
 			_set_ui_state(self, false)
 			party_closed.emit()
 	if event.is_action_pressed("yes"):
@@ -167,7 +162,7 @@ func _on_switch_requested() -> void:
 		battle_swap_requested.emit(index_move_slot)
 		print("this is where we'd send out a monster")
 
-func swap_slots(moving, selected):
+func swap_slots(moving, _selected):
 	var current_enum = v2_to_slot[selected_slot]
 	if party_array.size() == 0: return
 	if moving == current_enum:
@@ -192,7 +187,7 @@ func _on_party_options_closed() -> void:
 	_set_ui_state(self, true)
 
 func _set_ui_state(node: Node2D, active: bool) -> void:
-	is_processing = active
+	is_enabled = active
 	node.visible = active
 	node.set_process_input(active)
 #endregion
@@ -223,7 +218,6 @@ func _on_plus_hp_pressed() -> void:
 	$Control/plusHP.release_focus()
 
 #endregion
-
 
 func _on_full_battle_remake_party_requested() -> void:
 	update_display()

@@ -2,7 +2,7 @@ extends Node2D
 
 signal pm1_move_used(slot : int)
 
-@export var is_processing : bool = false
+@export var is_enabled : bool = false
 
 enum Slot {BUTTON1, BUTTON2, BUTTON3, BUTTON4}
 
@@ -33,9 +33,6 @@ var slot_to_v2 : Dictionary = {
 func _ready() -> void:
 	set_active_slot()
 	set_process_input(false)
-	
-func _process(delta: float) -> void:
-	pass
 	
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("yes"):

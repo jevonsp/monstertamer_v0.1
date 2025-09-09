@@ -31,7 +31,6 @@ player = NodePath("Player")
 [node name="PartyRemake" parent="." instance=ExtResource("2_h2pcr")]
 visible = false
 z_index = 1
-is_visible = false
 process_input = false
 
 [node name="TestSpawner" type="Control" parent="." node_paths=PackedStringArray("monster_factory")]

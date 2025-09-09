@@ -28,6 +28,8 @@ func _input(event: InputEvent) -> void:
 func _on_option_pressed(button: int):
 	if button == 0: _show_party()
 	if button == 1: _show_moves1()
+	if button == 2: print("Implement Running")
+	if button == 3: print("Implement Items")
 
 func _set_ui_state(node: Node2D, active: bool) -> void:
 	print("UI manager: set_ui_state called on ", node.name, " with active=", active)

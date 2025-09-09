@@ -13,7 +13,7 @@ signal new_hp_value(new: int)
 #region Basic Stats
 var species : String = ""
 var monster_name : String = ""
-var gender : E.Gender
+var gender : E.Gender = E.Gender.MALE
 var gender_icon : Texture2D
 var gender_icons : Dictionary = {}
 var image : Texture2D
@@ -89,16 +89,16 @@ func set_stats(p_level: int) -> void:
 	dexterity = monster_data.base_dexterity
 	magic = monster_data.base_magic
 	charm = monster_data.base_charm
-	hitpoints += level * monster_data.hitpoints_growth
+	hitpoints += int(level * monster_data.hitpoints_growth)
 	current_hp = hitpoints
 	print("current_hp: %d" % current_hp)
 	print("hitpoints: %d" % hitpoints)
-	speed += level * monster_data.speed_growth
-	attack += level * monster_data.attack_growth
-	defense += level * monster_data.defense_growth
-	dexterity += level * monster_data.defense_growth
-	magic += level * monster_data.magic_growth
-	charm += level * monster_data.charm_growth
+	speed += int(level * monster_data.speed_growth)
+	attack += int(level * monster_data.attack_growth)
+	defense += int(level * monster_data.defense_growth)
+	dexterity += int(level * monster_data.defense_growth)
+	magic += int(level * monster_data.magic_growth)
+	charm += int(level * monster_data.charm_growth)
 	experience = exp_to_level(level)
 	
 func set_moves():

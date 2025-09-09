@@ -22,14 +22,14 @@ func _input(event: InputEvent) -> void:
 	# Movement around the menu
 	if event.is_action_pressed("down"):
 		unset_active_slot()
-		selected_slot = (selected_slot + 1) % 3
+		selected_slot = ((selected_slot + 1) % 3) as Slot
 		set_active_slot()
 	elif event.is_action_pressed("up"):
 		unset_active_slot()
 		if selected_slot == 0:
 			selected_slot = Slot.CANCEL
 		else:
-			selected_slot -= 1
+			selected_slot = (selected_slot - 1) as Slot
 		set_active_slot()
 	# Switching Monsters
 	if selected_slot == Slot.SWITCH:
@@ -43,12 +43,6 @@ func _input(event: InputEvent) -> void:
 	elif selected_slot == Slot.CANCEL and event.is_action_pressed("yes"):
 		_set_ui_state(self, false)
 		party_options_closed.emit()
-		
-
-func _move(direction):
-	unset_active_slot()
-	selected_slot = (selected_slot + 1) % 3
-	set_active_slot()
 
 func unset_active_slot():
 	slot[selected_slot].frame = 0
