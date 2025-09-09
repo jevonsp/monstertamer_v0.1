@@ -1,13 +1,14 @@
 extends Node2D
+
+signal battle_ready
+
 signal party_requested
-signal battle_started
 signal battle_ui_requested
 
 @export var in_battle : bool = false
 
 func _ready() -> void:
-	pass
-	#_hide_subscenes()
+	_hide_subscenes()
 	#if in_battle: _show_subscenes()
 
 func _show_subscenes():
@@ -31,3 +32,4 @@ func _on_first_party_member_changed(monster: MonsterInstance) -> void:
 func _on_battle_monster_recieved(monster: MonsterInstance) -> void:
 	print("updating em1")
 	$MonsterUpdater.update_enemy_monster(monster)
+	battle_ready.emit()

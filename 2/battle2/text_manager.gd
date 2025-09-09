@@ -11,11 +11,10 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	print("Text manager: Input received: ", event)
 	print("Text manager: is_processing_input:", is_processing_input())
-	if event is InputEventKey and event.keycode == KEY_SPACE:
-		print("Text manager: Space key - pressed:", event.pressed, " echo:", event.echo)
-	
+	if !awaiting_confirm: return
 	if event.is_action_pressed("yes"):
 		print("Text manager: YES pressed, emitting confirmed")
+		awaiting_confirm = false
 		confirmed.emit()
 		print("Text manager: _input() calling set_process_input(false)")
 		set_process_input(false)
@@ -23,12 +22,14 @@ func _input(event: InputEvent) -> void:
 
 func _on_battle_manager_text_ready(user: MonsterInstance, target: MonsterInstance, move: Move, damage: int, effective: float, weak_point: float) -> void:
 	print("Text manager: Received text_ready signal")
-	print("Text manager: Current process_input state:", is_processing_input())
-	print("Text manager: _on_battle_manager_text_ready() calling set_process_input(true)")
-	set_process_input(true)
-	print("Text manager: Set process_input to true")
+	# Clear any buffered input events
+	Input.flush_buffered_events()
 	var string = make_text(user, target, move, damage, effective, weak_point)
 	display_text(string)
+	# Small delay to avoid processing leftover events
+	await get_tree().create_timer(0.05).timeout
+	awaiting_confirm = true
+	set_process_input(true)
 
 func make_text(user, target, move, damage, effective, weak_point) -> String:
 	var text = "%s used %s on %s!\n" % [user.species, move.move_name, target.monster_name]

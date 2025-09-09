@@ -62,10 +62,7 @@ func get_move_from_slot(slot_enum: int) -> Move:
 	return null
 func _on_player1_switch(slot: int) -> void:
 	if is_single: pm1_switch.emit(slot)
-	
-func _on_pm_1_move_used() -> void:
-	get_enemy_action()
-	execute_turn_queue()
+
 
 func get_enemy_action():
 	var move_to_use = em1.known_moves[randi() % em1.known_moves.size()]
@@ -88,16 +85,15 @@ func _compare_actions(a: TurnAction, b: TurnAction) -> bool:
 	return a_speed > b_speed
 
 func execute_turn_queue():
+	sort_turn_actions()
 	var actions_to_execute = turn_actions.duplicate()
-	actions_to_execute.sort_custom(_compare_actions)
-	print("Starting turn with ", actions_to_execute.size(), " actions")
+	turn_actions.clear()
 	for i in range(actions_to_execute.size()):
 		var action = actions_to_execute[i]
 		print("About to execute action ", i)
 		await _execute_move(action)
 		print("Action ", i, " FULLY completed")
 	print("All actions completed, clearing turn_actions")
-	turn_actions.clear()
 	turn_completed.emit()
 	print("turn_completed emitted")
 	
