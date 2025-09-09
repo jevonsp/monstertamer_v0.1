@@ -2,6 +2,8 @@ extends Control
 
 signal confirmed
 
+@export var arrow : Node2D
+
 var awaiting_confirm : bool = false
 
 func _ready() -> void:
@@ -15,6 +17,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("yes"):
 		print("Text manager: YES pressed, emitting confirmed")
 		awaiting_confirm = false
+		arrow.still()
 		confirmed.emit()
 		print("Text manager: _input() calling set_process_input(false)")
 		set_process_input(false)
@@ -26,6 +29,7 @@ func _on_battle_manager_text_ready(user: MonsterInstance, target: MonsterInstanc
 	Input.flush_buffered_events()
 	var string = make_text(user, target, move, damage, effective, weak_point)
 	display_text(string)
+	arrow.blinking()
 	# Small delay to avoid processing leftover events
 	await get_tree().create_timer(0.05).timeout
 	awaiting_confirm = true
@@ -33,7 +37,6 @@ func _on_battle_manager_text_ready(user: MonsterInstance, target: MonsterInstanc
 
 func make_text(user, target, move, damage, effective, weak_point) -> String:
 	var text = "%s used %s on %s!\n" % [user.species, move.move_name, target.monster_name]
-	
 	if effective < 1.0:
 		text += "Not very effective...It dealt %d damage.\n" % damage
 	if effective > 1.0:

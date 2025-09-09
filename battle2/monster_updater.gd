@@ -19,7 +19,6 @@ func update_enemy_monster(monster: MonsterInstance):
 	print("em1: ", em1)
 	em1_switched.emit(monster)
 	
-
 func _hide_children() -> void:
 	for node in get_children():
 		node.visible = false

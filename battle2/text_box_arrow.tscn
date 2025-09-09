@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://bk4v1v5112m5"]
+
+[ext_resource type="Texture2D" uid="uid://dal0vn5vyvpe" path="res://assets/text_box_arrow_mockup-Sheet.png" id="1_75u46"]
+[ext_resource type="Script" uid="uid://ev43vxbv6njm" path="res://battle2/text_box_arrow.gd" id="1_ev7nc"]
+[ext_resource type="Texture2D" uid="uid://dsl5m80kwccl0" path="res://assets/text_box_arrow_mockup-blink.png" id="3_43q6f"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_85eph"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_43q6f")
+}, {
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_43q6f")
+}],
+"loop": true,
+"name": &"blink",
+"speed": 5.0
+}]
+
+[node name="TextBoxArrow" type="Node2D"]
+script = ExtResource("1_ev7nc")
+
+[node name="Still" type="Sprite2D" parent="."]
+texture = ExtResource("1_75u46")
+hframes = 2
+
+[node name="Blinking" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = SubResource("SpriteFrames_85eph")
+animation = &"blink"
+frame = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Blinking"]

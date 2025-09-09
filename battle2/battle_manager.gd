@@ -42,13 +42,18 @@ func connect_monster_signals():
 	var monsters = [pm1, pm2, em1, em2]
 	for monster in monsters:
 		if monster:
+			if monster == null: continue
 			if not monster_damaged.is_connected(monster.lose_life):
 				monster_damaged.connect(monster.lose_life)
-				print("signals connected")
+				print("monster_damaged signals connected")
 			if not monster_healed.is_connected(monster.gain_life):
 				monster_healed.connect(monster.gain_life)
-				print("signals connected")
-
+				print("monster_healed signals connected")
+			if monster.has_signal("monster_died"):
+				if !monster.is_connected("monster_died", Callable(self, "_handle_monster_death")):
+					monster.connect("monster_died", Callable(self, "_handle_monster_death"))
+			
+				
 func _on_player1_move_used(slot: int) -> void:
 	var move_to_use = get_move_from_slot(slot)
 	if move_to_use:
@@ -96,6 +101,9 @@ func _on_in_battle_switch(monster: MonsterInstance):
 	turn_actions.append(action)
 	get_enemy_action()
 	execute_turn_queue()
+
+func _handle_monster_death(monster) -> void:
+	print("handle monster death fired")
 
 func execute_turn_queue():
 	sort_turn_actions()
@@ -152,7 +160,6 @@ func _execute_move(action: TurnAction) -> void:
 	'"%s"' % str(move_power),
 	'"%s"' % str(_get_type_efficacy(move, target_node)),
 	'"%s"' % str(_get_role_efficacy(move, target_node)))
-	await get_tree().create_timer(0.5).timeout
 	await txt_mgr.confirmed
 	print("_execute_move finished for action: ", action) 
 	
@@ -212,7 +219,7 @@ func _get_move_damage(actor: MonsterInstance, move: Move) -> int:
 	return base_damage + scaling_damage
 
 func _execute_switch(action: TurnAction) -> void:
-	pass
+	print("put some switch animations here ")
 	
 func _get_actor_from_ids(id: int) -> Node:
 	match id:

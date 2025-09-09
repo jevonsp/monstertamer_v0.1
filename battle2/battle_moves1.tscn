@@ -4,8 +4,12 @@
 [ext_resource type="Texture2D" uid="uid://dvmd0nse7aihq" path="res://assets/button_mockup.png" id="2_rtvq3"]
 [ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="3_rtvq3"]
 
-[node name="BattleMoves1" type="Node2D"]
+[node name="BattleMoves1" type="Node2D" node_paths=PackedStringArray("label1", "label2", "label3", "label4")]
 script = ExtResource("1_503iu")
+label1 = NodePath("Button1/Background/Label")
+label2 = NodePath("Button2/Background/Label")
+label3 = NodePath("Button3/Background/Label")
+label4 = NodePath("Button4/Background/Label")
 
 [node name="Button1" type="Node2D" parent="." groups=["pm1"]]
 position = Vector2(80, 270)

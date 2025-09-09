@@ -17,3 +17,4 @@ func update_slot():
 	var exp_bar = get_node_or_null("BattleExpBar")
 	if exp_bar: $BattleExpBar.assign_monster(assigned_monster)
 	if lvl_label: lvl_label.text = "Lvl. %d" % assigned_monster.level
+	

@@ -13,7 +13,6 @@ signal in_battle_true
 @export var pslot1 : Node2D
 @export var eslot1 : Node2D
 
-
 @export var in_battle : bool = false
 
 func _ready() -> void:
@@ -43,7 +42,6 @@ func _on_party_closed() -> void:
 	if in_battle:
 		battle_ui_requested.emit()
 		
-
 func _on_first_party_member_changed(monster: MonsterInstance) -> void:
 	$MonsterUpdater.update_player_monster(monster)
 

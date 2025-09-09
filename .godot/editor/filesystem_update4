@@ -26,3 +26,6 @@ res://party2/party_options.gd
 res://battle2/battle_moves1.gd
 res://battle2/battle_slot.gd
 res://party2/slot.gd
+res://battle2/text_box_arrow.tscn
+res://battle2/text_box_arrow.gd
+res://battle2/text_manager.gd

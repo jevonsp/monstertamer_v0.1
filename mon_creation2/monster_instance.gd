@@ -7,6 +7,7 @@ signal lvl_gained
 signal bat_exp_gained(new_exp: float, times_to_tween: int)
 # For Both
 signal new_hp_value(new: int) 
+signal monster_died
 
 @export var monster_data : MonsterData
 
@@ -19,6 +20,9 @@ var gender_icons : Dictionary = {}
 var image : Texture2D
 var type : E.Type = E.Type.NONE
 var role : E.Role = E.Role.MELEE 
+#endregion
+#region States
+var is_fainted : bool = false
 #endregion
 #region Levels
 var level : int = 1
@@ -47,6 +51,7 @@ var growth_multi : Dictionary = {
 #region Moves
 var known_moves : Array[Move] = []
 #endregion
+
 func _ready() -> void:
 	pass
 #region Setting Stats
@@ -146,15 +151,18 @@ func level_up():
 #endregion
 
 #region Damage
-
 func lose_life(target: MonsterInstance, amount: int):
 	if target == self:
 		current_hp -= amount
+		current_hp = max(current_hp, 0)
 		new_hp_value.emit(current_hp)
+	if current_hp == 0:
+		is_fainted = true
+		monster_died.emit(self)
 
 func gain_life(target: MonsterInstance, amount: int):
 	if target == self:
 		current_hp += amount
+		current_hp = min(current_hp, hitpoints)
 		new_hp_value.emit(current_hp)
-
 #endregion

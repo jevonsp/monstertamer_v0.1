@@ -2,6 +2,11 @@ extends Node2D
 
 signal pm1_move_used(slot : int)
 
+@export var label1 : Label
+@export var label2 : Label
+@export var label3 : Label
+@export var label4 : Label
+
 @export var is_enabled : bool = false
 
 enum Slot {BUTTON1, BUTTON2, BUTTON3, BUTTON4}
@@ -9,6 +14,8 @@ enum Slot {BUTTON1, BUTTON2, BUTTON3, BUTTON4}
 var selected_slot : Vector2 = Vector2(1,0)
 var is_moving : bool = false
 var index_move_slot : int = -1
+
+var pm1 : Node = null
 
 var v2_to_slot : Dictionary = {
 	Vector2(0,0): Slot.BUTTON1,
@@ -62,13 +69,11 @@ func _move(direction: Vector2):
 	else:
 		set_active_slot()
 
-func _on_fight_pressed() -> void:
-	pass
-
 func input_move():
 	var current_enum = v2_to_slot[selected_slot]
-	pm1_move_used.emit(current_enum)
-	set_process_input(false)
+	if current_enum < pm1.known_moves.size() and pm1.known_moves[current_enum]:
+		pm1_move_used.emit(current_enum)
+		set_process_input(false)
 	print("move_used emitted: %d" % current_enum)
 	
 func reset_moves_menu():
@@ -86,7 +91,16 @@ func set_active_slot():
 
 func set_moving_slot():
 	slot[get_curr_slot()].frame = 2
-	
+
+func display_moves(monster):
+	pm1 = monster
+	var labels = [label1, label2, label3, label4]
+	for i in range(labels.size()):
+		if i < monster.known_moves.size():
+			labels[i].text = monster.known_moves[i].move_name
+		else:
+			labels[i].text = ""
+
 #func start_move_swap() -> void:
 	#is_moving = true
 	#set_moving_slot()

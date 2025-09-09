@@ -2,6 +2,7 @@ extends Node
 
 signal moves1_hidden
 signal party_requested
+signal send_moves1(monster)
 
 @export_subgroup("Nodes")
 @export var battle : Node2D
@@ -35,6 +36,9 @@ func _set_ui_state(node: Node2D, active: bool) -> void:
 	print("UI manager: set_ui_state called on ", node.name, " with active=", active)
 	node.visible = active
 	node.set_process_input(active)
+	
+func _display_moves1(monster):
+	send_moves1.emit(monster)
 	
 func _show_moves1():
 	_set_ui_state(battle, false)
