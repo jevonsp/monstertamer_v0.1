@@ -12,6 +12,7 @@ func update_player_monster(monster: MonsterInstance):
 	pm1.assign_monster(monster)
 	pm1_switched.emit(monster)
 
+# get signal from enemy party and move change monster to this one
 func update_enemy_monster(monster: MonsterInstance):
 	print("assigning em1")
 	em1.assign_monster(monster)

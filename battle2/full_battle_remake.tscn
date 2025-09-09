@@ -160,6 +160,8 @@ theme_override_fonts/font = ExtResource("7_tmqx8")
 text = "Name"
 horizontal_alignment = 1
 
+[node name="EnemyParty" type="Node" parent="MonsterUpdater"]
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(320, 180)
 

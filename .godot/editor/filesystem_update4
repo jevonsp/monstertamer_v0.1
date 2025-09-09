@@ -19,3 +19,4 @@ res://game/game_2.gd
 res://battle2/ui_manager.gd
 res://battle2/battle_manager.gd
 res://test/testing_spawner.gd
+res://battle2/monster_updater.gd
