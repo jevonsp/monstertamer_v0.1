@@ -20,8 +20,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oaero"]
 size = Vector2(90, 90)
 
-[node name="Game2" type="Node2D"]
+[node name="Game2" type="Node2D" node_paths=PackedStringArray("battle", "encounter_zones", "player")]
 script = ExtResource("1_30xo2")
+battle = NodePath("FullBattleRemake")
+encounter_zones = NodePath("EncounterZones")
+player = NodePath("Player")
 
 [node name="FullBattleRemake" parent="." instance=ExtResource("3_5o1xv")]
 
@@ -66,16 +69,19 @@ none_icon = ExtResource("10_o2e6q")
 [node name="Player" parent="." instance=ExtResource("14_2wh4p")]
 position = Vector2(180, 112)
 
-[node name="WildEncounterZone" parent="." node_paths=PackedStringArray("battle") instance=ExtResource("15_2wh4p")]
+[node name="EncounterZones" type="Node" parent="."]
+
+[node name="WildEncounterZone" parent="EncounterZones" node_paths=PackedStringArray("monster_factory") instance=ExtResource("15_2wh4p")]
 position = Vector2(239, 144)
 available_encounters = Array[ExtResource("16_oaero")]([ExtResource("5_hpj43"), ExtResource("6_6tl1l"), ExtResource("7_o2e6q")])
 level_ranges = Array[Vector2i]([Vector2i(1, 2), Vector2i(3, 4), Vector2i(5, 6)])
-battle = NodePath("../FullBattleRemake")
+monster_factory = NodePath("../../MonsterFactory2")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WildEncounterZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EncounterZones/WildEncounterZone"]
 position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_oaero")
 
+[connection signal="battle_finished" from="FullBattleRemake" to="Player" method="_resume_player_action"]
 [connection signal="party_requested" from="FullBattleRemake" to="PartyRemake" method="_on_full_battle_remake_party_requested"]
 [connection signal="party_requested" from="FullBattleRemake" to="PartyRemake" method="_on_party_requested"]
 [connection signal="first_party_memeber" from="PartyRemake" to="FullBattleRemake" method="_on_first_party_member_changed"]

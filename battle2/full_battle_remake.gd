@@ -1,6 +1,7 @@
 extends Node2D
 
 signal battle_ready
+signal battle_finished
 signal party_requested
 signal battle_ui_requested
 
@@ -8,7 +9,6 @@ signal battle_ui_requested
 
 func _ready() -> void:
 	_hide_subscenes()
-	#if in_battle: _show_subscenes()
 
 func _show_subscenes():
 	var nodes = get_tree().get_nodes_in_group("battle_ui")
@@ -28,9 +28,10 @@ func _on_party_closed() -> void:
 func _on_first_party_member_changed(monster: MonsterInstance) -> void:
 	$MonsterUpdater.update_player_monster(monster)
 
-# Make new signal from Encounter Zone
 func _on_battle_monster_recieved(monster: MonsterInstance) -> void:
 	print("updating em1")
 	$MonsterUpdater.update_enemy_monster(monster)
 	in_battle = true
 	battle_ready.emit()
+	_show_subscenes()
+	print("encounter ready")

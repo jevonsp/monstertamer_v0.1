@@ -7,12 +7,14 @@ signal party_requested
 @export var battle : Node2D
 @export var moves1 : Node2D
 @export var txt_mgr : Control
+@export var camera : Camera2D
 
 enum State {MAIN, MOVES1, MOVES2}
 var state = State.MAIN
 
 func _ready() -> void:
 	battle.option_pressed.connect(_on_option_pressed)
+	_disable_control()
 
 func _input(event: InputEvent) -> void:
 	if txt_mgr.is_processing_input(): return
@@ -59,3 +61,11 @@ func _disable_control() -> void:
 func _on_battle_manager_turn_completed() -> void:
 	await get_tree().create_timer(0.1).timeout
 	_show_moves1()
+
+func _on_full_battle_remake_battle_ready() -> void:
+	_hide_moves1()
+	camera.make_current()
+	
+func _on_battle_manager_battle_completed() -> void:
+	_hide_moves1()
+	_disable_control()

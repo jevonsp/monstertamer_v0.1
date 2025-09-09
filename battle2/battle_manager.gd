@@ -7,7 +7,15 @@ signal monster_damaged(target: MonsterInstance, amount: int)
 signal monster_healed(target: MonsterInstance, amount: int)
 signal text_ready(
 	user: MonsterInstance, target: MonsterInstance, move: Move, damage: int, effective: float, weak_point: float)
+
 signal turn_completed
+signal battle_completed
+
+signal need_party_switch
+
+signal battle_won
+signal battle_lost
+
 @export var txt_mgr : Control
 
 var pm1 : Node
@@ -16,6 +24,7 @@ var em1 : Node
 var em2 : Node
 
 var is_single : bool = true
+var is_wild : bool = true
 
 var turn_actions : Array[TurnAction] = []
 
@@ -51,9 +60,7 @@ func _on_player1_move_used(slot: int) -> void:
 			actor_id, TurnAction.ActionType.MOVE, move_to_use, target_ids)
 		turn_actions.append(action)
 		print("Action queue:", action)
-
 	get_enemy_action()
-	
 	execute_turn_queue()
 
 func get_move_from_slot(slot_enum: int) -> Move:
@@ -94,6 +101,12 @@ func execute_turn_queue():
 		await _execute_move(action)
 		print("Action ", i, " FULLY completed")
 	print("All actions completed, clearing turn_actions")
+	#if pm1.current_hp <= 0: # make this check if theres any alive first later 
+		#need_party_switch.emit()
+	#if is_wild:
+		#if em1.current_hp <= 0:
+			#battle_completed.emit()
+	#else: 
 	turn_completed.emit()
 	print("turn_completed emitted")
 	

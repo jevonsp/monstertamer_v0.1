@@ -10,7 +10,7 @@ signal battle_monster_made(node)
 
 func _ready() -> void:
 	for i in range(1):
-		var monster = monster_factory.create_monster(monster_data, 1)
+		var monster = monster_factory.create_monster(monster_data, 5)
 		monster_made.emit(monster)
 		print(monster)
 	for i in range(1):

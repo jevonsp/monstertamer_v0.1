@@ -15,3 +15,7 @@ res://encounter/WildEncounterZone.tscn
 res://encounter/Trainer.tscn
 res://encounter/wild_encounter_zone.gd
 res://battle2/full_battle_remake.gd
+res://game/game_2.gd
+res://battle2/ui_manager.gd
+res://battle2/battle_manager.gd
+res://test/testing_spawner.gd

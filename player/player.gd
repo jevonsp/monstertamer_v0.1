@@ -21,13 +21,13 @@ func _ready() -> void:
 	add_to_group("player")
 	add_to_group("player_elements")
 	_rotate_look_direction(Vector2.DOWN)
+	camera.make_current()
 	
 func _physics_process(_delta: float) -> void:
 	if state != State.IDLE:
 		return
 	if state == State.DISABLED:
 		return
-	
 	if Input.is_action_pressed("up"):
 		_move(Vector2.UP)
 		_rotate_look_direction(Vector2.UP)
@@ -71,8 +71,9 @@ func _execute_tween(direction : Vector2) -> void:
 	var tween = create_tween()
 	tween.tween_property(self, "global_position", target_pos, .2)
 	await tween.finished
-	state = State.IDLE
-	moved_to_tile.emit(global_position)
+	if state == State.MOVING:
+		state = State.IDLE
+		moved_to_tile.emit(global_position)
 	
 func _check_ray2d_collision():
 	if ray2d.is_colliding():
@@ -80,3 +81,9 @@ func _check_ray2d_collision():
 		can_heal = collider != null and collider.is_in_group("healing")
 	else:
 		can_heal = false
+
+func _resume_player_action():
+	state = State.IDLE
+func _pause_player_action():
+	print("recieved disable req")
+	state = State.DISABLED

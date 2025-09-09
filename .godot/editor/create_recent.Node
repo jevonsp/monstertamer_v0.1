@@ -1,8 +1,9 @@
+Camera2D
+Node
 CollisionShape2D
 Area2D
 TileMapLayer
 Line2D
-Camera2D
 Sprite2D
 RayCast2D
 CharacterBody2D
@@ -11,4 +12,3 @@ Label
 MarginContainer
 HBoxContainer
 VBoxContainer
-TextureRect

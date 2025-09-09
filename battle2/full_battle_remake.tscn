@@ -80,11 +80,12 @@ layout_mode = 2
 script = ExtResource("2_4tudq")
 txt_mgr = NodePath("../TextPanel/TextManager")
 
-[node name="UIManager" type="Node" parent="." node_paths=PackedStringArray("battle", "moves1", "txt_mgr")]
+[node name="UIManager" type="Node" parent="." node_paths=PackedStringArray("battle", "moves1", "txt_mgr", "camera")]
 script = ExtResource("2_ymdy3")
 battle = NodePath("BattleOptions")
 moves1 = NodePath("BattleMoves1")
 txt_mgr = NodePath("../TextPanel/TextManager")
+camera = NodePath("../Camera2D")
 
 [node name="BattleMoves1" parent="UIManager" groups=["battle_ui"] instance=ExtResource("1_80cxr")]
 
@@ -159,7 +160,12 @@ theme_override_fonts/font = ExtResource("7_tmqx8")
 text = "Name"
 horizontal_alignment = 1
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(320, 180)
+
+[connection signal="battle_ready" from="." to="UIManager" method="_on_full_battle_remake_battle_ready"]
 [connection signal="battle_ui_requested" from="." to="UIManager" method="_hide_party"]
+[connection signal="battle_completed" from="BattleManager" to="UIManager" method="_on_battle_manager_battle_completed"]
 [connection signal="pm1_move_used" from="BattleManager" to="BattleManager" method="_on_pm_1_move_used"]
 [connection signal="text_ready" from="BattleManager" to="TextPanel/TextManager" method="_on_battle_manager_text_ready"]
 [connection signal="turn_completed" from="BattleManager" to="UIManager" method="_on_battle_manager_turn_completed"]
