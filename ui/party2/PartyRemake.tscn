@@ -1,14 +1,14 @@
 [gd_scene load_steps=10 format=3 uid="uid://dbqp8dpgx7apb"]
 
-[ext_resource type="Script" uid="uid://brx6iesd2swnw" path="res://party2/party_remake.gd" id="1_s3i6v"]
+[ext_resource type="Script" uid="uid://brx6iesd2swnw" path="res://ui/party2/party_remake.gd" id="1_s3i6v"]
 [ext_resource type="Texture2D" uid="uid://ixql1s0yevy4" path="res://assets/highlighted_tile.png" id="2_1wkuv"]
-[ext_resource type="Script" uid="uid://clbcr2fpq7dty" path="res://party2/slot.gd" id="3_w1st1"]
-[ext_resource type="Script" uid="uid://7kb5gwkv3135" path="res://party2/party_container.gd" id="4_jwmpe"]
+[ext_resource type="Script" uid="uid://clbcr2fpq7dty" path="res://ui/party2/slot.gd" id="3_w1st1"]
+[ext_resource type="Script" uid="uid://7kb5gwkv3135" path="res://ui/party2/party_container.gd" id="4_jwmpe"]
 [ext_resource type="Texture2D" uid="uid://b1p0labvagfit" path="res://assets/female_gender_icon.png" id="7_70rt6"]
-[ext_resource type="PackedScene" uid="uid://dtdya0n6sybth" path="res://party2/PartyOptions.tscn" id="7_hjsu6"]
-[ext_resource type="PackedScene" uid="uid://cif4teg0i3gh4" path="res://party2/PartyExpBar.tscn" id="7_w1st1"]
+[ext_resource type="PackedScene" uid="uid://dtdya0n6sybth" path="res://ui/party2/PartyOptions.tscn" id="7_hjsu6"]
+[ext_resource type="PackedScene" uid="uid://cif4teg0i3gh4" path="res://ui/party2/PartyExpBar.tscn" id="7_w1st1"]
 [ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="8_70rt6"]
-[ext_resource type="PackedScene" uid="uid://bfd8bt75f6tdn" path="res://party2/PartyHPBar.tscn" id="9_70rt6"]
+[ext_resource type="PackedScene" uid="uid://bfd8bt75f6tdn" path="res://ui/party2/PartyHPBar.tscn" id="9_70rt6"]
 
 [node name="PartyRemake" type="Node2D" node_paths=PackedStringArray("party_container")]
 script = ExtResource("1_s3i6v")

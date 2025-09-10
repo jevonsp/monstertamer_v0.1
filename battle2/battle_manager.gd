@@ -1,8 +1,6 @@
 extends Node
 
 #region Signals
-signal pm1_move_used
-signal em1_move_used
 signal pm1_switch(node: MonsterInstance)
 signal monster_damaged(target: MonsterInstance, amount: int)
 signal monster_healed(target: MonsterInstance, amount: int)
@@ -14,9 +12,10 @@ signal text_ready(
 	effective: float, 
 	weak_point: float)
 signal turn_completed
-signal battle_completed
+signal battle_complete
 signal battle_won
 signal battle_lost
+signal battle_fled
 #endregion
 
 #region Exports
@@ -106,7 +105,8 @@ func _on_in_battle_switch(monster: MonsterInstance):
 	execute_turn_queue()
 
 func _on_run_attempted() -> void:
-	pass # Replace with function body.
+	var run_chance = .33
+	if randf() >= run_chance: battle_flee()
 #endregion
 
 #region Turn Execution
@@ -241,13 +241,26 @@ func _get_actor_from_ids(id: int) -> Node:
 	return null
 #endregion
 
-#region Win/Loss
-# Make signals for back and forth with txt mgr here also so the player has to page thru the dialoguea
+#region Battle End
+# Make signals for back and forth with txt mgr here also so the player has to page thru the dialogue
 func battle_win(): # can do extra clean up logic or send packets of text to txt mgr
+	battle_cleanup()
 	print("win called")
 	battle_won.emit()
 	
-func battle_loss(): # can do extra clean up logic or send packets of text to txt mgr
+func battle_lose(): # can do extra clean up logic or send packets of text to txt mgr
+	battle_cleanup()
 	print("lost called")
 	battle_lost.emit()
+	
+func battle_flee(): # can do extra clean up logic or send packets of text to txt mgr
+	battle_cleanup()
+	battle_fled.emit()
+	
+func battle_cleanup():
+	battle_complete.emit()
+	pm1 = null
+	pm2 = null
+	em1 = null
+	em2 = null
 #endregion

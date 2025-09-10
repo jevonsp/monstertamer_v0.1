@@ -53,12 +53,13 @@ var growth_multi : Dictionary = {
 var known_moves : Array[Move] = []
 #endregion
 
+#region Setup
 func _ready() -> void:
 	var parent = get_parent()
 	print("parent: ", parent)
 	if parent and parent.has_method("handle_monster_death"):
 		monster_died.connect(parent.handle_monster_death)
-#region Setting Stats
+
 func set_data(data : MonsterData) -> void:
 	monster_data = data
 	species = monster_data.species

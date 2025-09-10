@@ -22,3 +22,8 @@ func end_exp_tracking():
 func give_exp(amount):
 	for monster in in_battle_monsters:
 		monster.gain_exp(amount/in_battle_monsters.size())
+
+func heal_party():
+	for monster in get_children():
+		monster.gain_life(monster, monster.hitpoints)
+		print("healed!")

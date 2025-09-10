@@ -1,7 +1,6 @@
 extends Node2D
 
 signal pm1_move_used(slot : int)
-signal pm1_move_reorder_requested(from_index, to_index)
 
 @export var label1 : Label
 @export var label2 : Label
@@ -104,6 +103,7 @@ func display_moves(monster):
 			labels[i].text = monster.known_moves[i].move_name
 		else:
 			labels[i].text = ""
+
 
 func start_move_reorder() -> void:
 	is_moving = true

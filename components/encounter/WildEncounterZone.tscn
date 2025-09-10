@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bmyri71iu7owg"]
 
-[ext_resource type="Script" uid="uid://bhd8ad6o5hf7u" path="res://encounter/wild_encounter_zone.gd" id="1_pgaei"]
+[ext_resource type="Script" uid="uid://bhd8ad6o5hf7u" path="res://components/encounter/wild_encounter_zone.gd" id="1_pgaei"]
 
 [node name="WildEncounterZone" type="Area2D"]
 z_index = 1

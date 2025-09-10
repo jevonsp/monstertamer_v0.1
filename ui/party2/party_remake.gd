@@ -186,15 +186,15 @@ func _on_switch_requested(selected_monster_slot) -> void:
 		var current_enum = v2_to_slot[selected_slot]
 		index_move_slot = current_enum
 
-func switch_to_front(selected_slot: int) -> void:
-	if selected_slot == 0: return
+func switch_to_front(chosen_slot: int) -> void:
+	if chosen_slot == 0: return
 	var temp = party_array[0]
-	party_array[0] = party_array[selected_slot]
-	party_array[selected_slot] = temp
+	party_array[0] = party_array[chosen_slot]
+	party_array[chosen_slot] = temp
 	update_display()
 
-func reorder_slots(moving, selected_slot):
-	var current_enum = v2_to_slot[selected_slot]
+func reorder_slots(moving, chosen_slot):
+	var current_enum = v2_to_slot[chosen_slot]
 	if party_array.size() == 0: return
 	if moving == current_enum: return
 	

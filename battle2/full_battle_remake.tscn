@@ -26,7 +26,8 @@ eparty = NodePath("MonsterUpdater/EnemyParty")
 pslot1 = NodePath("MonsterUpdater/PlayerSlot1")
 eslot1 = NodePath("MonsterUpdater/EnemySlot1")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." groups=["battle_ui"]]
+visible = false
 offset_left = -5.0
 offset_top = -5.0
 offset_right = 647.0
@@ -34,6 +35,7 @@ offset_bottom = 366.0
 color = Color(0.313726, 0.8, 1, 1)
 
 [node name="TextPanel" type="TextureRect" parent="." groups=["battle_ui"]]
+visible = false
 z_index = 1
 offset_left = 320.0
 offset_top = 240.0
@@ -41,7 +43,7 @@ offset_right = 640.0
 offset_bottom = 360.0
 texture = ExtResource("2_45ofm")
 
-[node name="TextManager" type="Control" parent="TextPanel" node_paths=PackedStringArray("arrow")]
+[node name="TextManager" type="Control" parent="TextPanel" node_paths=PackedStringArray("arrow") groups=["battle_ui"]]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -95,7 +97,8 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 
-[node name="TextBoxArrow" parent="TextPanel/TextManager" instance=ExtResource("5_2ik3i")]
+[node name="TextBoxArrow" parent="TextPanel/TextManager" groups=["battle_ui"] instance=ExtResource("5_2ik3i")]
+visible = false
 position = Vector2(302, 101)
 
 [node name="BattleManager" type="Node" parent="." node_paths=PackedStringArray("txt_mgr", "enemy_party")]
@@ -110,9 +113,11 @@ moves1 = NodePath("BattleMoves1")
 txt_mgr = NodePath("../TextPanel/TextManager")
 
 [node name="BattleMoves1" parent="UIManager" groups=["battle_ui"] instance=ExtResource("1_80cxr")]
+visible = false
 z_index = 1
 
 [node name="BattleOptions" parent="UIManager" groups=["battle_ui"] instance=ExtResource("2_k4baf")]
+visible = false
 z_index = 1
 
 [node name="MonsterUpdater" type="Node" parent="." node_paths=PackedStringArray("pm1", "em1") groups=["monster_updater"]]
@@ -122,6 +127,7 @@ em1 = NodePath("EnemySlot1")
 
 [node name="PlayerSlot1" type="Node2D" parent="MonsterUpdater" groups=["battle_ui"]]
 unique_name_in_owner = true
+visible = false
 z_index = 1
 script = ExtResource("6_g6li6")
 
@@ -156,6 +162,7 @@ text = "Name"
 horizontal_alignment = 1
 
 [node name="EnemySlot1" type="Node2D" parent="MonsterUpdater" node_paths=PackedStringArray("lvl_label") groups=["battle_ui"]]
+visible = false
 z_index = 1
 script = ExtResource("6_g6li6")
 lvl_label = NodePath("LevelIndicator")
@@ -198,10 +205,10 @@ script = ExtResource("15_rtjbi")
 [connection signal="battle_ready" from="." to="UIManager" method="_on_full_battle_remake_battle_ready"]
 [connection signal="battle_ui_requested" from="." to="UIManager" method="_hide_party"]
 [connection signal="turn_action_swap" from="." to="BattleManager" method="_on_player1_switch"]
-[connection signal="battle_completed" from="BattleManager" to="UIManager" method="_on_battle_manager_battle_completed"]
+[connection signal="battle_complete" from="BattleManager" to="UIManager" method="_on_battle_manager_battle_complete"]
+[connection signal="battle_fled" from="BattleManager" to="." method="_on_battle_manager_battle_fled"]
 [connection signal="battle_lost" from="BattleManager" to="." method="_on_battle_manager_battle_lost"]
 [connection signal="battle_won" from="BattleManager" to="." method="_on_battle_manager_battle_won"]
-[connection signal="pm1_move_used" from="BattleManager" to="BattleManager" method="_on_pm_1_move_used"]
 [connection signal="pm1_switch" from="BattleManager" to="BattleManager" method="_on_pm_1_switched"]
 [connection signal="text_ready" from="BattleManager" to="TextPanel/TextManager" method="_on_battle_manager_text_ready"]
 [connection signal="turn_completed" from="BattleManager" to="UIManager" method="_on_battle_manager_turn_completed"]

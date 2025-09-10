@@ -7,12 +7,10 @@ signal confirmed
 var awaiting_confirm : bool = false
 
 func _ready() -> void:
-	process_priority = 100 
+	process_priority = 10 
 	set_process_input(false)
 
 func _input(event: InputEvent) -> void:
-	print("Text manager: Input received: ", event)
-	print("Text manager: is_processing_input:", is_processing_input())
 	if !awaiting_confirm: return
 	if event.is_action_pressed("yes"):
 		print("Text manager: YES pressed, emitting confirmed")

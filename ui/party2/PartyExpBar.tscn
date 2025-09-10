@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cif4teg0i3gh4"]
 
-[ext_resource type="Script" uid="uid://bioli3aexh7y6" path="res://party2/party_exp_bar.gd" id="1_ebcwd"]
+[ext_resource type="Script" uid="uid://bioli3aexh7y6" path="res://ui/party2/party_exp_bar.gd" id="1_ebcwd"]
 [ext_resource type="PackedScene" uid="uid://cj7llarrugoyc" path="res://battle2/exp_bar.tscn" id="2_8hrtl"]
 [ext_resource type="PackedScene" uid="uid://dgvx2lqngbvy8" path="res://battle2/level_indicator.tscn" id="3_uji2e"]
 

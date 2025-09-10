@@ -14,6 +14,8 @@ ray2d = NodePath("RayCast2D")
 shape = SubResource("RectangleShape2D_3c3w1")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
+collision_mask = 2
+collide_with_areas = true
 
 [node name="Line2D" type="Line2D" parent="RayCast2D"]
 

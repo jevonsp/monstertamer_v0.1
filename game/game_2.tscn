@@ -1,39 +1,46 @@
-[gd_scene load_steps=18 format=3 uid="uid://8gvmts8i4jwc"]
+[gd_scene load_steps=20 format=3 uid="uid://8gvmts8i4jwc"]
 
 [ext_resource type="Script" uid="uid://cvp1mhtftwcim" path="res://game/game_2.gd" id="1_30xo2"]
-[ext_resource type="PackedScene" uid="uid://dbqp8dpgx7apb" path="res://party2/PartyRemake.tscn" id="2_h2pcr"]
+[ext_resource type="PackedScene" uid="uid://dbqp8dpgx7apb" path="res://ui/party2/PartyRemake.tscn" id="2_h2pcr"]
 [ext_resource type="PackedScene" uid="uid://yy3ftbc0fioi" path="res://battle2/full_battle_remake.tscn" id="3_5o1xv"]
 [ext_resource type="Script" uid="uid://blb72loenhrs1" path="res://test/testing_spawner.gd" id="4_11ueq"]
 [ext_resource type="PackedScene" uid="uid://dy80dm6sus3dj" path="res://mon_creation2/MonsterFactory2.tscn" id="4_jmjtl"]
-[ext_resource type="Resource" uid="uid://giw0g1bc3xr1" path="res://monsters/fox_mcleaf.tres" id="5_hpj43"]
-[ext_resource type="Resource" uid="uid://cobtyijqbr72g" path="res://monsters/pistol_shrimp.tres" id="6_6tl1l"]
-[ext_resource type="Resource" uid="uid://dw4f06vf5rrc3" path="res://monsters/pyro_badger.tres" id="7_o2e6q"]
+[ext_resource type="Resource" uid="uid://giw0g1bc3xr1" path="res://mon_creation2/monsters/fox_mcleaf.tres" id="5_hpj43"]
+[ext_resource type="Resource" uid="uid://cobtyijqbr72g" path="res://mon_creation2/monsters/pistol_shrimp.tres" id="6_6tl1l"]
+[ext_resource type="Resource" uid="uid://dw4f06vf5rrc3" path="res://mon_creation2/monsters/pyro_badger.tres" id="7_o2e6q"]
 [ext_resource type="FontFile" uid="uid://dy160euuodr0b" path="res://assets/m5x7.ttf" id="7_qvscl"]
 [ext_resource type="Texture2D" uid="uid://cyrh70xrnlt51" path="res://assets/male_gender_icon.png" id="8_2ci8s"]
 [ext_resource type="Texture2D" uid="uid://b1p0labvagfit" path="res://assets/female_gender_icon.png" id="9_qvscl"]
 [ext_resource type="Texture2D" uid="uid://blyxbnj5vxabq" path="res://assets/none_gender_icon.png" id="10_o2e6q"]
 [ext_resource type="PackedScene" uid="uid://delwhnh5afmo7" path="res://levels/TestMap.tscn" id="13_8yvkq"]
 [ext_resource type="PackedScene" uid="uid://dx2mrg5eghn2j" path="res://player/Player.tscn" id="14_2wh4p"]
-[ext_resource type="PackedScene" uid="uid://bmyri71iu7owg" path="res://encounter/WildEncounterZone.tscn" id="15_2wh4p"]
+[ext_resource type="PackedScene" uid="uid://bmyri71iu7owg" path="res://components/encounter/WildEncounterZone.tscn" id="15_2wh4p"]
 [ext_resource type="Script" uid="uid://4crj5t55ynv7" path="res://custom_resources/monster_data.gd" id="16_oaero"]
+[ext_resource type="PackedScene" uid="uid://8ecaedd6ko3f" path="res://components/healing/HealingComponent.tscn" id="17_uir7h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oaero"]
 size = Vector2(90, 90)
 
-[node name="Game2" type="Node2D" node_paths=PackedStringArray("battle", "party", "encounter_zones", "player")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_et1m8"]
+size = Vector2(26, 26)
+
+[node name="Game2" type="Node2D" node_paths=PackedStringArray("player", "battle", "party", "encounter_zones", "healing_zones")]
 script = ExtResource("1_30xo2")
+player = NodePath("Player")
 battle = NodePath("FullBattleRemake")
 party = NodePath("PartyRemake")
 encounter_zones = NodePath("EncounterZones")
-player = NodePath("Player")
+healing_zones = NodePath("HealingZones")
 
 [node name="FullBattleRemake" parent="." node_paths=PackedStringArray("player") instance=ExtResource("3_5o1xv")]
+visible = false
 player = NodePath("../Player")
 
 [node name="BattleManager" parent="FullBattleRemake" index="2" node_paths=PackedStringArray("party_scene")]
 party_scene = NodePath("../../PartyRemake")
 
 [node name="PartyRemake" parent="." node_paths=PackedStringArray("battle") instance=ExtResource("2_h2pcr")]
+visible = false
 z_index = 2
 battle = NodePath("../FullBattleRemake")
 process_input = false
@@ -84,6 +91,15 @@ monster_factory = NodePath("../../MonsterFactory2")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EncounterZones/WildEncounterZone"]
 position = Vector2(1, 0)
 shape = SubResource("RectangleShape2D_oaero")
+
+[node name="HealingZones" type="Node" parent="."]
+
+[node name="HealingComponent" parent="HealingZones" instance=ExtResource("17_uir7h")]
+position = Vector2(176, 21)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HealingZones/HealingComponent"]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_et1m8")
 
 [connection signal="battle_finished" from="FullBattleRemake" to="Player" method="_resume_player_action"]
 [connection signal="in_battle_true" from="FullBattleRemake" to="PartyRemake" method="_on_in_battle"]

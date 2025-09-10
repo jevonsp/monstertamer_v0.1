@@ -76,3 +76,6 @@ func _on_battle_manager_battle_lost() -> void:
 	print("battle lost")
 	_hide_subscenes()
 	battle_finished.emit()
+
+func _on_battle_manager_battle_fled() -> void:
+	_hide_subscenes()

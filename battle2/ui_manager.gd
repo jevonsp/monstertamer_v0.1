@@ -76,5 +76,29 @@ func _on_full_battle_remake_battle_ready() -> void:
 	_hide_moves1()
 	
 func _on_battle_manager_battle_completed() -> void:
-	_hide_moves1()
+	print("got signal fight done")
+
+	# DEBUG: Print current states
+	print("Before cleanup - Battle processing input: ", battle.is_processing_input())
+	print("Before cleanup - Moves1 processing input: ", moves1.is_processing_input())
+
+	_set_ui_state(battle, false)
+	_set_ui_state(moves1, false)
+	set_process_input(false)
+	moves1.set_process_input(false)
 	_disable_control()
+	state = State.MAIN
+
+	# DEBUG: Print after states
+	print("After cleanup - Battle processing input: ", battle.is_processing_input())
+	print("After cleanup - Moves1 processing input: ", moves1.is_processing_input())
+
+func _on_battle_manager_battle_complete() -> void:
+	print("got signal fight done")
+	_set_ui_state(battle, false)
+	_set_ui_state(moves1, false)
+	set_process_input(false)
+	moves1.set_process_input(false)
+	_disable_control()
+	state = State.MAIN
+	

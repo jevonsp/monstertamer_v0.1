@@ -46,6 +46,7 @@ func _move(direction: Vector2):
 func _input_action():
 	var current_enum = v2_to_slot[selected_slot]
 	option_pressed.emit(current_enum)
+	set_process_input(false)
 	print("current enum %d emitted" % current_enum)
 
 func _on_battle_started() -> void:
