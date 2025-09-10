@@ -40,6 +40,13 @@ func _hide_subscenes():
 	for node in nodes:
 		node.visible = false
 
+func _on_battle_manager_ready() -> void:
+	print("battle manager said ready")
+	in_battle = true
+	battle_ready.emit()
+	_show_subscenes()
+	in_battle_true.emit()
+	
 func _on_party_requested() -> void:
 	party_requested.emit()
 
@@ -49,17 +56,6 @@ func _on_party_closed() -> void:
 		
 func _on_first_party_member_changed(monster: MonsterInstance) -> void:
 	$MonsterUpdater.update_player_monster(monster)
-
-func _on_battle_monster_recieved(monster: MonsterInstance) -> void:
-	print("updating em1")
-	eparty.add_child(monster)
-	$MonsterUpdater.update_enemy_monster(monster)
-	in_battle = true
-	print("in_battle: ", in_battle)
-	battle_ready.emit()
-	in_battle_true.emit()
-	_show_subscenes()
-	print("encounter ready")
 	
 func _store_party_alive(amount) -> void:
 	battle_mgr._store_party_alive_amount(amount)

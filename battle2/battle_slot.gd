@@ -4,6 +4,7 @@ var assigned_monster : MonsterInstance
 @export var lvl_label : Label
 
 func assign_monster(monster: MonsterInstance):
+	print("assign_monster called")
 	assigned_monster = null
 	assigned_monster = monster
 	update_slot()

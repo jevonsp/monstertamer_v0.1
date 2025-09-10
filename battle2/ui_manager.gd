@@ -6,6 +6,7 @@ signal send_moves1(monster)
 signal run_attempted
 
 @export_subgroup("Nodes")
+@export var battle_parent : Node2D
 @export var battle : Node2D
 @export var moves1 : Node2D
 @export var txt_mgr : Control
@@ -25,9 +26,8 @@ func _input(event: InputEvent) -> void:
 			"YES fired in", self.name,
 			"visible=", self.visible,
 			"process_input=", is_processing_input(), "state=", get_parent().state)
-
-func _unhandled_input(event: InputEvent) -> void:
 	if txt_mgr.is_processing_input(): return
+	if state == State.HIDDEN: return
 	if event.is_action_pressed("no"):
 		if state == State.MOVES1:
 			_set_state(State.MAIN)
@@ -37,30 +37,29 @@ func _unhandled_input(event: InputEvent) -> void:
 func _set_state(new_state: State) -> void:
 	battle.visible = false
 	battle.set_process_input(false)
-	battle.set_process_unhandled_input(false)
 	moves1.visible = false
 	moves1.set_process_input(false)
-	moves1.set_process_unhandled_input(false)
-	set_process_input(false)
-	set_process_unhandled_input(false)
 	
 	state = new_state
 	match state:
 		State.HIDDEN:
-			pass
+			set_process_input(false)
 		State.MOVES1:
 			moves1.visible = true
 			moves1.set_process_input(true)
-			moves1.set_process_unhandled_input(true)
-			set_process_unhandled_input(true)
 		State.MAIN:
 			battle.visible = true
 			battle.set_process_input(true)
-			battle.set_process_unhandled_input(true)
-			set_process_unhandled_input(true)
 		State.PARTY:
 			party_requested.emit()
-			set_process_unhandled_input(true)
+			set_process_input(false)
+
+func _battle_ready() -> void:
+	
+	_set_state(State.MAIN)
+	
+func party_closed() -> void:
+	set_process_input(true)
 
 func _on_option_pressed(button: int):
 	if button == 0:  # Monsters
@@ -84,9 +83,6 @@ func _on_battle_manager_turn_completed() -> void:
 	await get_tree().create_timer(0.1).timeout
 	_set_state(State.MOVES1)
 
-func _on_full_battle_remake_battle_ready() -> void:
-	_set_state(State.MAIN)
-	
 func _on_battle_manager_battle_complete() -> void:
 	print("got signal fight done")
 	_set_state(State.HIDDEN)

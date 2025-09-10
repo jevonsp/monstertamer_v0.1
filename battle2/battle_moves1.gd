@@ -110,7 +110,6 @@ func display_moves(monster):
 		else:
 			labels[i].text = ""
 
-
 func start_move_reorder() -> void:
 	is_moving = true
 	set_moving_slot()

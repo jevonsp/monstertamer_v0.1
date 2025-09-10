@@ -106,8 +106,9 @@ script = ExtResource("2_4tudq")
 txt_mgr = NodePath("../TextPanel/TextManager")
 enemy_party = NodePath("../MonsterUpdater/EnemyParty")
 
-[node name="UIManager" type="Node" parent="." node_paths=PackedStringArray("battle", "moves1", "txt_mgr")]
+[node name="UIManager" type="Node" parent="." node_paths=PackedStringArray("battle_parent", "battle", "moves1", "txt_mgr")]
 script = ExtResource("2_ymdy3")
+battle_parent = NodePath("..")
 battle = NodePath("BattleOptions")
 moves1 = NodePath("BattleMoves1")
 txt_mgr = NodePath("../TextPanel/TextManager")
@@ -202,12 +203,12 @@ horizontal_alignment = 1
 [node name="EnemyParty" type="Node" parent="MonsterUpdater"]
 script = ExtResource("15_rtjbi")
 
-[connection signal="battle_ready" from="." to="UIManager" method="_on_full_battle_remake_battle_ready"]
-[connection signal="battle_ui_requested" from="." to="UIManager" method="_hide_party"]
+[connection signal="battle_ready" from="." to="UIManager" method="_battle_ready"]
 [connection signal="turn_action_swap" from="." to="BattleManager" method="_on_player1_switch"]
 [connection signal="battle_complete" from="BattleManager" to="UIManager" method="_on_battle_manager_battle_complete"]
 [connection signal="battle_fled" from="BattleManager" to="." method="_on_battle_manager_battle_fled"]
 [connection signal="battle_lost" from="BattleManager" to="." method="_on_battle_manager_battle_lost"]
+[connection signal="battle_ready" from="BattleManager" to="." method="_on_battle_manager_ready"]
 [connection signal="battle_won" from="BattleManager" to="." method="_on_battle_manager_battle_won"]
 [connection signal="pm1_switch" from="BattleManager" to="BattleManager" method="_on_pm_1_switched"]
 [connection signal="text_ready" from="BattleManager" to="TextPanel/TextManager" method="_on_battle_manager_text_ready"]
@@ -216,6 +217,6 @@ script = ExtResource("15_rtjbi")
 [connection signal="run_attempted" from="UIManager" to="BattleManager" method="_on_run_attempted"]
 [connection signal="send_moves1" from="UIManager" to="UIManager/BattleMoves1" method="display_moves"]
 [connection signal="pm1_move_used" from="UIManager/BattleMoves1" to="BattleManager" method="_on_player1_move_used"]
-[connection signal="em1_switched" from="MonsterUpdater" to="BattleManager" method="_on_em_1_ready"]
-[connection signal="pm1_switched" from="MonsterUpdater" to="BattleManager" method="_on_pm_1_switched"]
-[connection signal="pm1_switched" from="MonsterUpdater" to="UIManager" method="_display_moves1"]
+[connection signal="em1_updated" from="MonsterUpdater" to="BattleManager" method="_on_em_1_ready"]
+[connection signal="pm1_updated" from="MonsterUpdater" to="UIManager/BattleMoves1" method="display_moves"]
+[connection signal="enemy_added" from="MonsterUpdater/EnemyParty" to="MonsterUpdater" method="on_enemy_monster_recieved"]

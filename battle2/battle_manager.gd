@@ -12,6 +12,7 @@ signal text_ready(
 	effective: float, 
 	weak_point: float)
 signal turn_completed
+signal battle_ready
 signal battle_complete
 signal battle_won
 signal battle_lost
@@ -35,6 +36,9 @@ var is_wild : bool = true
 var won_battle : bool = false
 
 var turn_actions : Array[TurnAction] = []
+
+enum BattleState {INACTIVE, START, PLAYER_CHOICE, ENEMY_CHOICE, TURN_EXECUTION, TURN_END, WIN, LOSE, FLEE}
+var state : BattleState = BattleState.INACTIVE
 #endregion
 
 #region Setup
@@ -51,6 +55,7 @@ func _on_em_1_ready(monster) -> void:
 	print("em1 assigned:", em1)
 	print("em1 known moves:", em1.known_moves)
 	connect_monster_signals()
+	_start_battle()
 
 func connect_monster_signals():
 	var monsters = [pm1, pm2, em1, em2]
@@ -59,11 +64,41 @@ func connect_monster_signals():
 			if monster == null: continue
 			if not monster_damaged.is_connected(monster.lose_life):
 				monster_damaged.connect(monster.lose_life)
-				print("monster_damaged signals connected")
+				print("monster_damaged signals connected to ", monster)
 			if not monster_healed.is_connected(monster.gain_life):
 				monster_healed.connect(monster.gain_life)
-				print("monster_healed signals connected")
+				print("monster_healed signals connected ", monster)
 #endregion
+
+#region State Machine
+func _set_state(new_state: BattleState) -> void:
+	if state == new_state:
+		return
+	state = new_state
+	match state:
+		BattleState.INACTIVE:
+			pass
+		BattleState.START:
+			_setup_battle()
+		#BattleState.PLAYER_CHOICE:
+		#BattleState.ENEMY_CHOICE:
+		#BattleState.TURN_EXECUTION:
+		#BattleState.TURN_END:
+		#BattleState.WIN:
+		#BattleState.LOSE:
+		#BattleState.FLEE:
+			#pass
+		
+#endregion
+
+func _start_battle() -> void:
+	print("start battle called")
+	_set_state(BattleState.START)
+
+func _setup_battle(): # once this is set to fire then we can remove _on_pm_1_switched/_on_em_1_switched
+	connect_monster_signals()
+	_set_state(BattleState.PLAYER_CHOICE)
+	battle_ready.emit()
 
 #region Turn Actions
 func _on_player1_move_used(slot: int) -> void:
@@ -75,10 +110,12 @@ func _on_player1_move_used(slot: int) -> void:
 			actor_id, TurnAction.ActionType.MOVE, move_to_use, target_ids)
 		turn_actions.append(action)
 		print("Action queue:", action)
+		_set_state(BattleState.ENEMY_CHOICE)
 	get_enemy_action()
 	execute_turn_queue()
 
 func get_move_from_slot(slot_enum: int) -> Move:
+	print("pm1 = ", pm1)
 	if slot_enum >= 0 and slot_enum < pm1.known_moves.size():
 		return pm1.known_moves[slot_enum]
 	return null
@@ -264,8 +301,5 @@ func battle_flee(): # can do extra clean up logic or send packets of text to txt
 func battle_cleanup():
 	battle_complete.emit()
 	print("battle_complete emitted: ", battle_complete)
-	pm1 = null
-	pm2 = null
-	em1 = null
-	em2 = null
+	em1 and em2 == null
 #endregion

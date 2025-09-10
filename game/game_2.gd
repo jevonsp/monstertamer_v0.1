@@ -10,9 +10,9 @@ extends Node2D
 func _ready() -> void:
 	#region Connections
 	for zone in encounter_zones.get_children():
-		if !zone.battle_monster_ready.is_connected(battle._on_battle_monster_recieved):
-			zone.battle_monster_ready.connect(battle._on_battle_monster_recieved)
-			print("Connected ", zone, " to battle")
+		if !zone.battle_monster_ready.is_connected(battle.eparty._on_battle_monster_recieved):
+			zone.battle_monster_ready.connect(battle.eparty._on_battle_monster_recieved)
+			print("Connected ", zone, " to battle eparty")
 	for zone in encounter_zones.get_children():
 		if !zone.req_player_stop.is_connected(player._pause_player_action):
 			zone.req_player_stop.connect(player._pause_player_action)
