@@ -5,6 +5,7 @@ signal exp_gained(new: float)
 signal lvl_gained 
 # For Battle
 signal bat_exp_gained(new_exp: float, times_to_tween: int)
+signal monster_died_with_exp(amount: int)
 # For Both
 signal new_hp_value(new: int) 
 signal monster_died
@@ -53,7 +54,10 @@ var known_moves : Array[Move] = []
 #endregion
 
 func _ready() -> void:
-	pass
+	var parent = get_parent()
+	print("parent: ", parent)
+	if parent and parent.has_method("handle_monster_death"):
+		monster_died.connect(parent.handle_monster_death)
 #region Setting Stats
 func set_data(data : MonsterData) -> void:
 	monster_data = data

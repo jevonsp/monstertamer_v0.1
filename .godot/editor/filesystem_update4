@@ -29,3 +29,6 @@ res://party2/slot.gd
 res://battle2/text_box_arrow.tscn
 res://battle2/text_box_arrow.gd
 res://battle2/text_manager.gd
+res://battle2/enemy_party.gd
+res://party2/party_container.gd
+res://enums/enums.gd

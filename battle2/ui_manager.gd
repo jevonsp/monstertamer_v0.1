@@ -3,6 +3,7 @@ extends Node
 signal moves1_hidden
 signal party_requested
 signal send_moves1(monster)
+signal run_attempted
 
 @export_subgroup("Nodes")
 @export var battle : Node2D
@@ -32,7 +33,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func _on_option_pressed(button: int):
 	if button == 0: _show_party()
 	if button == 1: _show_moves1()
-	if button == 2: print("Implement Running")
+	if button == 2: run_attempted.emit()
 	if button == 3: print("Implement Items")
 
 func _set_ui_state(node: Node2D, active: bool) -> void:

@@ -1,36 +1,46 @@
 extends Node
 
-signal req_party_alive
-
+#region Signals
 signal pm1_move_used
 signal em1_move_used
 signal pm1_switch(node: MonsterInstance)
 signal monster_damaged(target: MonsterInstance, amount: int)
 signal monster_healed(target: MonsterInstance, amount: int)
 signal text_ready(
-	user: MonsterInstance, target: MonsterInstance, move: Move, damage: int, effective: float, weak_point: float)
-
+	user: MonsterInstance, 
+	target: MonsterInstance, 
+	move: Move, 
+	damage: int, 
+	effective: float, 
+	weak_point: float)
 signal turn_completed
 signal battle_completed
-
 signal battle_won
 signal battle_lost
+#endregion
 
+#region Exports
 @export var txt_mgr : Control
 @export var enemy_party : Node
+@export var party_scene : Node
+#endregion
 
+#region Variables
 var pm1 : Node
 var pm2 : Node
 var em1 : Node
 var em2 : Node
 
-var party_alive : int = -1
-
 var is_single : bool = true
 var is_wild : bool = true
+var won_battle : bool = false
 
 var turn_actions : Array[TurnAction] = []
+#endregion
 
+#region Setup
+func _ready() -> void:
+	pass
 func _on_pm_1_switched(monster) -> void:
 	pm1 = monster
 	print("pm1 assigned:", pm1)
@@ -42,11 +52,6 @@ func _on_em_1_ready(monster) -> void:
 	print("em1 assigned:", em1)
 	print("em1 known moves:", em1.known_moves)
 	connect_monster_signals()
-	req_party_alive.emit()
-
-func _store_party_alive_amount(amount):
-	party_alive = amount
-	print("party_alive", party_alive)
 
 func connect_monster_signals():
 	var monsters = [pm1, pm2, em1, em2]
@@ -59,10 +64,9 @@ func connect_monster_signals():
 			if not monster_healed.is_connected(monster.gain_life):
 				monster_healed.connect(monster.gain_life)
 				print("monster_healed signals connected")
-			if monster.has_signal("monster_died"):
-				if !monster.is_connected("monster_died", Callable(self, "_handle_monster_death")):
-					monster.connect("monster_died", Callable(self, "_handle_monster_death"))
-			
+#endregion
+
+#region Turn Actions
 func _on_player1_move_used(slot: int) -> void:
 	var move_to_use = get_move_from_slot(slot)
 	if move_to_use:
@@ -92,16 +96,6 @@ func get_enemy_action():
 			actor_id, TurnAction.ActionType.MOVE, move_to_use, target_ids)
 		turn_actions.append(action)
 		print("Action queue:", action)
-	
-func sort_turn_actions():
-	turn_actions.sort_custom(_compare_actions)
-
-func _compare_actions(a: TurnAction, b: TurnAction) -> bool:
-	var a_speed = _get_actor_from_ids(a.actor_id).speed
-	var b_speed = _get_actor_from_ids(b.actor_id).speed
-	if a_speed == b_speed:
-		return a.actor_id in [0,1]
-	return a_speed > b_speed
 
 func _on_in_battle_switch(monster: MonsterInstance):
 	var actor_id = 0
@@ -111,16 +105,11 @@ func _on_in_battle_switch(monster: MonsterInstance):
 	get_enemy_action()
 	execute_turn_queue()
 
-func _handle_monster_death(monster) -> void:
-	req_party_alive.emit()
-	if monster == pm1:
-		if party_alive == 0: print("you lose")
-		else: print("force party switch here")
-	
-	if monster == em1:
-		if enemy_party.get_child_count() == 0:
-			print("you win")
+func _on_run_attempted() -> void:
+	pass # Replace with function body.
+#endregion
 
+#region Turn Execution
 func execute_turn_queue():
 	sort_turn_actions()
 	var actions_to_execute = turn_actions.duplicate()
@@ -138,6 +127,16 @@ func execute_turn_queue():
 	turn_completed.emit()
 	print("turn_completed emitted")
 	
+func sort_turn_actions():
+	turn_actions.sort_custom(_compare_actions)
+	
+func _compare_actions(a: TurnAction, b: TurnAction) -> bool:
+	var a_speed = _get_actor_from_ids(a.actor_id).speed
+	var b_speed = _get_actor_from_ids(b.actor_id).speed
+	if a_speed == b_speed:
+		return a.actor_id in [0,1]
+	return a_speed > b_speed
+
 func _execute_move(action: TurnAction) -> void:
 	var actor_node = _get_actor_from_ids(action.actor_id)
 	var target_nodes = _get_target_nodes(action)
@@ -172,7 +171,9 @@ func _execute_move(action: TurnAction) -> void:
 	'"%s"' % str(_get_role_efficacy(move, target_node)))
 	await txt_mgr.confirmed
 	print("_execute_move finished for action: ", action) 
-	
+#endregion
+
+#region Move Calculation
 func _get_target_nodes(action: TurnAction) -> Array:
 	var nodes := []
 	if action.target_ids.is_empty():
@@ -238,3 +239,15 @@ func _get_actor_from_ids(id: int) -> Node:
 		2: return em1
 		3: return em2
 	return null
+#endregion
+
+#region Win/Loss
+# Make signals for back and forth with txt mgr here also so the player has to page thru the dialoguea
+func battle_win(): # can do extra clean up logic or send packets of text to txt mgr
+	print("win called")
+	battle_won.emit()
+	
+func battle_loss(): # can do extra clean up logic or send packets of text to txt mgr
+	print("lost called")
+	battle_lost.emit()
+#endregion

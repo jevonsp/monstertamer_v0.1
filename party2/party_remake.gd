@@ -157,6 +157,12 @@ func _on_party_opened(current_enum) -> void:
 func _on_in_battle() -> void:
 	in_battle = true
 	print("in_battle = true")
+	party_container.start_exp_tracking()
+	
+func on_battle_finished() -> void:
+	in_battle = false
+	print("in_battle = false")
+	party_container.end_exp_tracking()
 
 func _on_switch_requested(selected_monster_slot) -> void:
 	if in_battle:
@@ -167,6 +173,7 @@ func _on_switch_requested(selected_monster_slot) -> void:
 			return
 		switch_to_front(selected_monster_slot)
 		var chosen_monster = party_array[0]
+		party_container.mark_for_exp(chosen_monster)
 		monster_switch_requested.emit(chosen_monster)
 		set_process_input(false)
 		_set_ui_state(self, false)

@@ -15,10 +15,18 @@ func _ready() -> void:
 		if !zone.req_player_stop.is_connected(player._pause_player_action):
 			zone.req_player_stop.connect(player._pause_player_action)
 			print("Connected player")
-	if battle:
-		battle.battle_mgr.req_party_alive.connect(party.get_party_alive_amount)
-		print("connect battle -> party")
-		
+	if battle.eparty:
+		if !battle.eparty.no_enemy_monsters_left.is_connected(battle.battle_mgr.battle_win):
+			battle.eparty.no_enemy_monsters_left.connect(battle.battle_mgr.battle_win)
+			print("Connected enemy party to battle manager")
+	if battle.eparty and party.party_container:
+		if !battle.eparty.emit_exp.is_connected(party.party_container.give_exp):
+			battle.eparty.emit_exp.connect(party.party_container.give_exp)
+			print("Connected EXP flow")
+	if party.party_container:
+		if !party.party_container.no_player_monsters_left.is_connected(battle.battle_mgr.battle_loss):
+			party.party_container.no_player_monsters_left.connect(battle.battle_mgr.battle_loss)
+			print("Connected player party to battle manager")
 func _process(_delta: float) -> void:
 	var viewport_size = Vector2(640, 360)
 	if battle.visible: battle.global_position = player.global_position - (viewport_size / 2)

@@ -7,13 +7,16 @@ signal battle_ui_requested
 signal turn_action_swap(monster)
 signal in_battle_true
 
+#region Node Exports
+@export_subgroup("Nodes")
 @export var player : CharacterBody2D
 @export var battle_mgr : Node
 @export var moves1 : Node2D
 @export var options : Node2D
+@export var eparty : Node
 @export var pslot1 : Node2D
 @export var eslot1 : Node2D
-
+#endregion
 @export var in_battle : bool = false
 
 func _ready() -> void:
@@ -48,6 +51,7 @@ func _on_first_party_member_changed(monster: MonsterInstance) -> void:
 
 func _on_battle_monster_recieved(monster: MonsterInstance) -> void:
 	print("updating em1")
+	eparty.add_child(monster)
 	$MonsterUpdater.update_enemy_monster(monster)
 	in_battle = true
 	print("in_battle: ", in_battle)
@@ -62,3 +66,13 @@ func _store_party_alive(amount) -> void:
 
 func _on_in_battle_switch_request(monster: MonsterInstance) -> void:
 	turn_action_swap.emit(monster)
+
+func _on_battle_manager_battle_won() -> void:
+	print("battle won")
+	_hide_subscenes()
+	battle_finished.emit()
+
+func _on_battle_manager_battle_lost() -> void:
+	print("battle lost")
+	_hide_subscenes()
+	battle_finished.emit()
