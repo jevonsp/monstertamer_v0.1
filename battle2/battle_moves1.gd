@@ -1,6 +1,7 @@
 extends Node2D
 
 signal pm1_move_used(slot : int)
+signal moves_menu_cancelled
 
 @export var label1 : Label
 @export var label2 : Label
@@ -11,11 +12,10 @@ signal pm1_move_used(slot : int)
 
 enum Slot {BUTTON1, BUTTON2, BUTTON3, BUTTON4}
 
+var pm1 : Node = null
 var selected_slot : Vector2 = Vector2(1,0)
 var is_moving : bool = false
 var index_move_slot : int = -1
-
-var pm1 : Node = null
 
 var v2_to_slot : Dictionary = {
 	Vector2(0,0): Slot.BUTTON1,
@@ -33,9 +33,10 @@ var slot_to_v2 : Dictionary = {
 	Slot.BUTTON2: $Button2/Background,
 	Slot.BUTTON3: $Button3/Background,
 	Slot.BUTTON4: $Button4/Background }
+@onready var labels = [label1, label2, label3, label4]
 @onready var move_name : Dictionary = {}
-@onready var move_color : Dictionary = {}
-@onready var move_power : Dictionary = {}
+@onready var move_color : Dictionary = {} # Unused for now, can display colors/power
+@onready var move_power : Dictionary = {} # Unused for now, can display colors/power
 
 func _ready() -> void:
 	set_active_slot()
@@ -43,24 +44,31 @@ func _ready() -> void:
 	
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("yes"):
-		input_move()
-	if event.is_action_pressed("up"):
+		print(
+			"YES fired in", self.name,
+			"visible=", self.visible,
+			"process_input=", is_processing_input(), "state=", get_parent().state)
+	if event.is_action_pressed("yes"):
+		emit_move()
+	elif event.is_action_pressed("up"):
 		_move(Vector2.UP)
-	if event.is_action_pressed("down"):
+	elif event.is_action_pressed("down"):
 		_move(Vector2.DOWN)
-	if event.is_action_pressed("left"):
+	elif event.is_action_pressed("left"):
 		_move(Vector2.LEFT)
-	if event.is_action_pressed("right"):
+	elif event.is_action_pressed("right"):
 		_move(Vector2.RIGHT)
-	if event.is_action_pressed("option"):
+	elif event.is_action_pressed("option"):
 		if !is_moving:
 			start_move_reorder()
 		else:
 			set_active_slot()
 			reorder_slots(index_move_slot, selected_slot)
-	if event.is_action_pressed("no"):
-		is_moving = false
-		set_active_slot()
+	elif event.is_action_pressed("no"):
+		if is_moving:
+			is_moving = false
+			set_active_slot()
+		else: moves_menu_cancelled.emit()
 		
 func _move(direction: Vector2):
 	unset_active_slot()
@@ -72,12 +80,11 @@ func _move(direction: Vector2):
 	else:
 		set_active_slot()
 
-func input_move():
+func emit_move():
 	var current_enum = v2_to_slot[selected_slot]
 	if current_enum < pm1.known_moves.size() and pm1.known_moves[current_enum] != null:
 		pm1_move_used.emit(current_enum)
 		set_process_input(false)
-	print("move_used emitted: %d" % current_enum)
 	
 func reset_moves_menu():
 	set_process_input(true)
@@ -97,7 +104,6 @@ func set_moving_slot():
 
 func display_moves(monster):
 	pm1 = monster
-	var labels = [label1, label2, label3, label4]
 	for i in range(labels.size()):
 		if i < monster.known_moves.size() and monster.known_moves[i] != null:
 			labels[i].text = monster.known_moves[i].move_name

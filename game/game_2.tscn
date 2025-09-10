@@ -32,9 +32,10 @@ party = NodePath("PartyRemake")
 encounter_zones = NodePath("EncounterZones")
 healing_zones = NodePath("HealingZones")
 
-[node name="FullBattleRemake" parent="." node_paths=PackedStringArray("player") instance=ExtResource("3_5o1xv")]
+[node name="FullBattleRemake" parent="." node_paths=PackedStringArray("player", "ui_mgr") instance=ExtResource("3_5o1xv")]
 visible = false
 player = NodePath("../Player")
+ui_mgr = NodePath("UIManager")
 
 [node name="BattleManager" parent="FullBattleRemake" index="2" node_paths=PackedStringArray("party_scene")]
 party_scene = NodePath("../../PartyRemake")

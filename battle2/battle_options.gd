@@ -23,8 +23,14 @@ var slot_to_v2 : Dictionary = {
 
 func _ready() -> void:
 	set_active_slot()
+	set_process_input(false)
 	
 func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("yes"):
+		print(
+			"YES fired in", self.name,
+			"visible=", self.visible,
+			"process_input=", is_processing_input(), "state=", get_parent().state)
 	if event.is_action_pressed("yes"):
 		_input_action()
 	if event.is_action_pressed("up"):
@@ -47,10 +53,6 @@ func _input_action():
 	var current_enum = v2_to_slot[selected_slot]
 	option_pressed.emit(current_enum)
 	set_process_input(false)
-	print("current enum %d emitted" % current_enum)
-
-func _on_battle_started() -> void:
-	set_process_input(true)
 
 func get_curr_slot():
 	return v2_to_slot[selected_slot]

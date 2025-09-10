@@ -11,6 +11,7 @@ signal in_battle_true
 @export_subgroup("Nodes")
 @export var player : CharacterBody2D
 @export var battle_mgr : Node
+@export var ui_mgr : Node
 @export var moves1 : Node2D
 @export var options : Node2D
 @export var eparty : Node

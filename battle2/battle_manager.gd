@@ -114,6 +114,7 @@ func execute_turn_queue():
 	sort_turn_actions()
 	var actions_to_execute = turn_actions.duplicate()
 	turn_actions.clear()
+	while actions_to_execute.size() < 1: break
 	for i in range(actions_to_execute.size()):
 		var action = actions_to_execute[i]
 		match action.action_type:
@@ -124,7 +125,8 @@ func execute_turn_queue():
 			TurnAction.ActionType.SWITCH:
 				await _execute_switch(action)
 	print("All actions completed, clearing turn_actions")
-	turn_completed.emit()
+	if pm1 != null or em1 != null:
+		turn_completed.emit()
 	print("turn_completed emitted")
 	
 func sort_turn_actions():
@@ -140,6 +142,7 @@ func _compare_actions(a: TurnAction, b: TurnAction) -> bool:
 func _execute_move(action: TurnAction) -> void:
 	var actor_node = _get_actor_from_ids(action.actor_id)
 	var target_nodes = _get_target_nodes(action)
+	if target_nodes.size() == 0: return
 	var target_node = target_nodes[0]
 	var move = action.move
 	if target_nodes.is_empty():
