@@ -38,3 +38,4 @@ res://ui/party2/PartyRemake.tscn
 res://components/encounter/WildEncounterZone.tscn
 res://ui/party2/party_container.gd
 res://battle2/battle_options.gd
+res://components/encounter/wild_encounter_zone.gd

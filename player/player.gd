@@ -86,6 +86,8 @@ func _check_ray2d_collision():
 		can_heal = false
 
 func _resume_player_action():
+	print("_resume_player_action triggered")
+	set_process_input(true)
 	in_battle = false
 	state = State.IDLE
 func _pause_player_action():

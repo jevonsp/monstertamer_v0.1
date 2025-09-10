@@ -3,18 +3,31 @@ extends Area2D
 signal battle_monster_ready(monster: MonsterInstance)
 signal req_player_stop
 
+@export_range(0, 1) var encounter_chance : float = .5
 @export_subgroup("Encounter Table")
 @export var available_encounters : Array[MonsterData] = []
 @export var level_ranges : Array[Vector2i] = []
 
+
 @export_subgroup("Nodes")
 @export var monster_factory : Node
 
+var player : CharacterBody2D
+
 func _ready() -> void:
 	add_to_group("encounter_zone")
+	player = get_tree().get_first_node_in_group("player")
+	if player: 
+		player.moved_to_tile.connect(_on_player_move_in_area)
+		print("player connected to encounter zone: ", player)
 
-func _on_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player"): _create_encounter()
+func _on_player_move_in_area(position: Vector2):
+	if get_overlapping_bodies().has(player):
+		if calc_encounter(): _create_encounter()
+			
+func calc_encounter() -> bool:
+	if randf() < encounter_chance: return true
+	else: return false
 
 func _create_encounter():
 	print("creating encounter")

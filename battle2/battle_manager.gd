@@ -250,15 +250,17 @@ func battle_win(): # can do extra clean up logic or send packets of text to txt 
 	
 func battle_lose(): # can do extra clean up logic or send packets of text to txt mgr
 	battle_cleanup()
-	print("lost called")
+	print("lose called")
 	battle_lost.emit()
 	
 func battle_flee(): # can do extra clean up logic or send packets of text to txt mgr
+	print("battle_flee called")
 	battle_cleanup()
 	battle_fled.emit()
 	
 func battle_cleanup():
 	battle_complete.emit()
+	print("battle_complete emitted: ", battle_complete)
 	pm1 = null
 	pm2 = null
 	em1 = null

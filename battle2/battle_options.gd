@@ -50,7 +50,7 @@ func _input_action():
 	print("current enum %d emitted" % current_enum)
 
 func _on_battle_started() -> void:
-	_set_ui_state(self, true)
+	set_process_input(true)
 
 func get_curr_slot():
 	return v2_to_slot[selected_slot]
@@ -60,7 +60,3 @@ func unset_active_slot():
 	
 func set_active_slot():
 	slot[get_curr_slot()].frame = 1
-	
-func _set_ui_state(node: Node2D, active: bool) -> void:
-	node.visible = active
-	node.set_process_input(active)

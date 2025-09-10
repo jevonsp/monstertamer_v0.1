@@ -37,6 +37,10 @@ func _ready() -> void:
 		if !party.party_container.no_player_monsters_left.is_connected(battle.battle_mgr.battle_lose):
 			party.party_container.no_player_monsters_left.connect(battle.battle_mgr.battle_lose)
 			print("Connected player party to battle manager")
+	if battle.battle_mgr:
+		if !battle.battle_mgr.battle_complete.is_connected(player._resume_player_action):
+			battle.battle_mgr.battle_complete.connect(player._resume_player_action)
+			print("connected battle mgr to player resume")
 	#endregion
 	
 func _process(_delta: float) -> void:
